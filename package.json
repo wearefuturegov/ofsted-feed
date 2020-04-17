@@ -1,0 +1,16 @@
+{
+  "name": "ofsted-feed",
+  "version": "1.0.0",
+  "description": "Interface to the Ofsted feed.",
+  "main": "index.js",
+  "repository": "https://github.com/wearefuturegov/ofsted-feed.git",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Ofsted",
+    "SOAP"
+  ],
+  "author": "David Carboni",
+  "license": "ISC"
+}
