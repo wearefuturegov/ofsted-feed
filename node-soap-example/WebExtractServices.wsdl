@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- <definitions> must be the root of the WSDL document -->
-<wsdl:definitions targetNamespace="http://tempuri.org/" 
-  xmlns:s="http://www.w3.org/2001/XMLSchema" 
-  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" 
-  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" 
-  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" 
-  xmlns:tns="http://tempuri.org/" 
-  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
-  xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" 
-  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
-  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <!-- WSDL TYPES: definition of the data types that are used in the web service -->
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
