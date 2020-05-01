@@ -24,12 +24,12 @@ function extract_function(args) {
 var serviceObject = {
   WebExtractServices: {
     WebExtractServicesSoap: {
-          GetChildcareExtractForLA: extract_function
-        },
-        WebExtractServicesSoap12: {
-          GetChildcareExtractForLA: extract_function
-        }
+      GetChildcareExtractForLA: extract_function
+    },
+    WebExtractServicesSoap12: {
+      GetChildcareExtractForLA: extract_function
     }
+  }
 };
 
 // load the WSDL file
@@ -43,7 +43,7 @@ app.get('/', function (req, res) {
 })
 
 // Launch the server and listen
-var port = 8000;
+var port = process.env.PORT || "3000";
 app.listen(port, function () {
   console.log('Listening on port ' + port);
   var wsdl_path = "/wsdl";
