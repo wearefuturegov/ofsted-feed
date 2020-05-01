@@ -37,10 +37,10 @@
     <wsdl:operation name="GetChildcareExtractForLA">
       <soap:operation soapAction="MessageSplitter" style="document"/>
       <wsdl:input>
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap:body use="literal"/>
+        <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
@@ -56,11 +56,11 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="MessageSplitterService">
-    <wsdl:port name="MessageSplitterServiceSoapPort" binding="tns:WebExtractServicesSoap">
+  <wsdl:service name="WebExtractServices">
+    <wsdl:port name="WebExtractServicesSoap" binding="tns:WebExtractServicesSoap">
       <soap:address location="http://localhost:8000/wsdl"/>
     </wsdl:port>
-    <wsdl:port name="MessageSplitterServiceSoap12Port" binding="tns:WebExtractServicesSoap12">
+    <wsdl:port name="WebExtractServicesSoap12" binding="tns:WebExtractServicesSoap12">
       <soap12:address location="http://localhost:8000/wsdl"/>
     </wsdl:port>
   </wsdl:service>
