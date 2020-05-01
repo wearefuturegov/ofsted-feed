@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const soap = require('node-soap')
 const fs = require('fs')
 
+const stub = require("./stub")
+
 function splitter_function(args) {
     console.log('splitter_function');
     var splitter = args.splitter;
@@ -34,15 +36,15 @@ var serviceObject = {
   
   // root handler
   app.get('/', function (req, res) {
-    res.send('Node Soap Example!<br /><a href="https://github.com/macogala/node-soap-example#readme">Git README</a>');
+    res.send(stub);
   })
   
-  var port = 8000;
+  var port = process.env.PORT || 8000;
   // Launch the server and listen on *port*
   app.listen(port, function () {
     console.log('Listening on port ' + port);
     var wsdl_path = "/wsdl";
     // create SOAP server that listens on *path*
-    soap.listen(app, wsdl_path, serviceObject, xml);
+    // soap.listen(app, wsdl_path, serviceObject, xml);
     console.log("Check http://localhost:" + port + wsdl_path +"?wsdl to see if the service is working");
   });

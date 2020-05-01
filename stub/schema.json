@@ -1,0 +1,2420 @@
+
+
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+      "OfstedChildcareRegisterLocalAuthorityExtract": {
+        "type": "object",
+        "properties": {
+          "-xmlns": {
+            "type": "string"
+          },
+          "-xmlns:bs7666": {
+            "type": "string"
+          },
+          "-xsi:schemaLocation": {
+            "type": "string"
+          },
+          "-xmlns:xsi": {
+            "type": "string"
+          },
+          "Extract": {
+            "type": "object",
+            "properties": {
+              "ExtractDateTime": {
+                "type": "string"
+              },
+              "LocalAuthority": {
+                "type": "object",
+                "properties": {
+                  "LocalAuthorityCode": {
+                    "type": "string"
+                  },
+                  "LocalAuthorityName": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "LocalAuthorityCode",
+                  "LocalAuthorityName"
+                ]
+              }
+            },
+            "required": [
+              "ExtractDateTime",
+              "LocalAuthority"
+            ]
+          },
+          "Registration": {
+            "type": "array",
+            "items": [
+              {
+                "type": "object",
+                "properties": {
+                  "ReferenceNumber": {
+                    "type": "string"
+                  },
+                  "ProvisionType": {
+                    "type": "string"
+                  },
+                  "SecondaryProvisionType": {
+                    "type": "string"
+                  },
+                  "Provider": {
+                    "type": "object",
+                    "properties": {
+                      "ProviderName": {
+                        "type": "string"
+                      },
+                      "ProviderAddress": {
+                        "type": "object",
+                        "properties": {
+                          "AddressLine1": {
+                            "type": "string"
+                          },
+                          "Town": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "AddressLine1",
+                          "Town"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ProviderName",
+                      "ProviderAddress"
+                    ]
+                  },
+                  "Setting": {
+                    "type": "object",
+                    "properties": {
+                      "SettingName": {
+                        "type": "string"
+                      },
+                      "SettingAddress": {
+                        "type": "object",
+                        "properties": {
+                          "AddressLine1": {
+                            "type": "string"
+                          },
+                          "Town": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "AddressLine1",
+                          "Town"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "SettingName",
+                      "SettingAddress"
+                    ]
+                  },
+                  "SpecialConsiderations": {
+                    "type": "string"
+                  },
+                  "RegistrationStatus": {
+                    "type": "string"
+                  },
+                  "RegistrationDate": {
+                    "type": "string"
+                  },
+                  "ChildServicesRegisterList": {
+                    "type": "object",
+                    "properties": {
+                      "ChildServicesRegister": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ChildServicesRegister"
+                    ]
+                  },
+                  "RegistrationCertificate": {
+                    "type": "object"
+                  },
+                  "ChildcarePeriodList": {
+                    "type": "object",
+                    "properties": {
+                      "ChildcarePeriod": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ChildcarePeriod"
+                    ]
+                  },
+                  "ChildcareAgeList": {
+                    "type": "object",
+                    "properties": {
+                      "ChildcareAge": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ChildcareAge"
+                    ]
+                  },
+                  "InspectionList": {
+                    "type": "object",
+                    "properties": {
+                      "Inspection": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "InspectionType": {
+                                "type": "string"
+                              },
+                              "InspectionDate": {
+                                "type": "string"
+                              },
+                              "InspectionOverallJudgement": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "InspectionType",
+                              "InspectionDate",
+                              "InspectionOverallJudgement"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "InspectionType": {
+                                "type": "string"
+                              },
+                              "InspectionDate": {
+                                "type": "string"
+                              },
+                              "InspectionOverallJudgement": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "InspectionType",
+                              "InspectionDate",
+                              "InspectionOverallJudgement"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "InspectionType": {
+                                "type": "string"
+                              },
+                              "InspectionDate": {
+                                "type": "string"
+                              },
+                              "InspectionOverallJudgement": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "InspectionType",
+                              "InspectionDate",
+                              "InspectionOverallJudgement"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "InspectionType": {
+                                "type": "string"
+                              },
+                              "InspectionDate": {
+                                "type": "string"
+                              },
+                              "InspectionOverallJudgement": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "InspectionType",
+                              "InspectionDate",
+                              "InspectionOverallJudgement"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "Inspection"
+                    ]
+                  },
+                  "NoticeHistoryList": {
+                    "type": "object",
+                    "properties": {
+                      "NoticeHistory": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Type": {
+                                "type": "string"
+                              },
+                              "SubType": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Type",
+                              "SubType",
+                              "Status"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Type": {
+                                "type": "string"
+                              },
+                              "SubType": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Type",
+                              "SubType",
+                              "Status"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Type": {
+                                "type": "string"
+                              },
+                              "SubType": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Type",
+                              "SubType",
+                              "Status"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "NoticeHistory"
+                    ]
+                  },
+                  "WelfareNoticeHistoryList": {
+                    "type": "object",
+                    "properties": {
+                      "WelfareNoticeHistory": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "WelfareCategory": {
+                                "type": "string"
+                              },
+                              "WelfareStartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "WelfareCategory",
+                              "WelfareStartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "WelfareCategory": {
+                                "type": "string"
+                              },
+                              "WelfareStartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "WelfareCategory",
+                              "WelfareStartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "WelfareCategory": {
+                                "type": "string"
+                              },
+                              "WelfareStartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "WelfareCategory",
+                              "WelfareStartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "WelfareCategory": {
+                                "type": "string"
+                              },
+                              "WelfareStartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "WelfareCategory",
+                              "WelfareStartDate"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "WelfareNoticeHistory"
+                    ]
+                  },
+                  "LinkedRegistrationList": {
+                    "type": "object",
+                    "properties": {
+                      "LinkedRegistration": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "ReferenceNumber": {
+                                "type": "string"
+                              },
+                              "LinkedReason": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "ReferenceNumber",
+                              "LinkedReason"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "ReferenceNumber": {
+                                "type": "string"
+                              },
+                              "LinkedReason": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "ReferenceNumber",
+                              "LinkedReason"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "ReferenceNumber": {
+                                "type": "string"
+                              },
+                              "LinkedReason": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "ReferenceNumber",
+                              "LinkedReason"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "LinkedRegistration"
+                    ]
+                  },
+                  "LastChangeDate": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ReferenceNumber",
+                  "ProvisionType",
+                  "SecondaryProvisionType",
+                  "Provider",
+                  "Setting",
+                  "SpecialConsiderations",
+                  "RegistrationStatus",
+                  "RegistrationDate",
+                  "ChildServicesRegisterList",
+                  "RegistrationCertificate",
+                  "ChildcarePeriodList",
+                  "ChildcareAgeList",
+                  "InspectionList",
+                  "NoticeHistoryList",
+                  "WelfareNoticeHistoryList",
+                  "LinkedRegistrationList",
+                  "LastChangeDate"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "ReferenceNumber": {
+                    "type": "string"
+                  },
+                  "ProvisionType": {
+                    "type": "string"
+                  },
+                  "SecondaryProvisionType": {
+                    "type": "string"
+                  },
+                  "Provider": {
+                    "type": "object",
+                    "properties": {
+                      "ProviderName": {
+                        "type": "string"
+                      },
+                      "ProviderAddress": {
+                        "type": "object",
+                        "properties": {
+                          "AddressLine1": {
+                            "type": "string"
+                          },
+                          "Town": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "AddressLine1",
+                          "Town"
+                        ]
+                      },
+                      "ProviderConsentWithheld": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ProviderName",
+                      "ProviderAddress",
+                      "ProviderConsentWithheld"
+                    ]
+                  },
+                  "Setting": {
+                    "type": "object",
+                    "properties": {
+                      "SettingName": {
+                        "type": "string"
+                      },
+                      "SettingAddress": {
+                        "type": "object",
+                        "properties": {
+                          "AddressLine1": {
+                            "type": "string"
+                          },
+                          "Town": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "AddressLine1",
+                          "Town"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "SettingName",
+                      "SettingAddress"
+                    ]
+                  },
+                  "SpecialConsiderations": {
+                    "type": "string"
+                  },
+                  "RegistrationStatus": {
+                    "type": "string"
+                  },
+                  "RegistrationStatusHistoryList": {
+                    "type": "object",
+                    "properties": {
+                      "RegistrationStatusHistory": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "RegistrationStatus": {
+                                "type": "string"
+                              },
+                              "ChangeDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "RegistrationStatus",
+                              "ChangeDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "RegistrationStatus": {
+                                "type": "string"
+                              },
+                              "ChangeDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "RegistrationStatus",
+                              "ChangeDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "RegistrationStatus": {
+                                "type": "string"
+                              },
+                              "ChangeDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "RegistrationStatus",
+                              "ChangeDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "RegistrationStatus": {
+                                "type": "string"
+                              },
+                              "ChangeDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "RegistrationStatus",
+                              "ChangeDate"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "RegistrationStatusHistory"
+                    ]
+                  },
+                  "RegistrationDate": {
+                    "type": "string"
+                  },
+                  "ChildServicesRegisterList": {
+                    "type": "object",
+                    "properties": {
+                      "ChildServicesRegister": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ChildServicesRegister"
+                    ]
+                  },
+                  "RegistrationCertificate": {
+                    "type": "object"
+                  },
+                  "ChildcarePeriodList": {
+                    "type": "object",
+                    "properties": {
+                      "ChildcarePeriod": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "string"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ChildcarePeriod"
+                    ]
+                  },
+                  "ChildcareAgeList": {
+                    "type": "object",
+                    "properties": {
+                      "ChildcareAge": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ChildcareAge"
+                    ]
+                  },
+                  "InspectionList": {
+                    "type": "object",
+                    "properties": {
+                      "Inspection": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "InspectionType": {
+                                "type": "string"
+                              },
+                              "InspectionDate": {
+                                "type": "string"
+                              },
+                              "InspectionOverallJudgement": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "InspectionType",
+                              "InspectionDate",
+                              "InspectionOverallJudgement"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "InspectionType": {
+                                "type": "string"
+                              },
+                              "InspectionDate": {
+                                "type": "string"
+                              },
+                              "InspectionOverallJudgement": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "InspectionType",
+                              "InspectionDate",
+                              "InspectionOverallJudgement"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "Inspection"
+                    ]
+                  },
+                  "NoticeHistoryList": {
+                    "type": "object",
+                    "properties": {
+                      "NoticeHistory": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Type": {
+                                "type": "string"
+                              },
+                              "SubType": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Type",
+                              "SubType",
+                              "Status"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Type": {
+                                "type": "string"
+                              },
+                              "SubType": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Type",
+                              "SubType",
+                              "Status"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Type": {
+                                "type": "string"
+                              },
+                              "SubType": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Type",
+                              "SubType",
+                              "Status"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "NoticeHistory"
+                    ]
+                  },
+                  "WelfareNoticeHistoryList": {
+                    "type": "object",
+                    "properties": {
+                      "WelfareNoticeHistory": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "WelfareCategory": {
+                                "type": "string"
+                              },
+                              "WelfareStartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "WelfareCategory",
+                              "WelfareStartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "WelfareCategory": {
+                                "type": "string"
+                              },
+                              "WelfareStartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "WelfareCategory",
+                              "WelfareStartDate"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "WelfareNoticeHistory"
+                    ]
+                  },
+                  "LinkedRegistrationList": {
+                    "type": "object",
+                    "properties": {
+                      "LinkedRegistration": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "ReferenceNumber": {
+                                "type": "string"
+                              },
+                              "LinkedReason": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "ReferenceNumber",
+                              "LinkedReason"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "ReferenceNumber": {
+                                "type": "string"
+                              },
+                              "LinkedReason": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "ReferenceNumber",
+                              "LinkedReason"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "ReferenceNumber": {
+                                "type": "string"
+                              },
+                              "LinkedReason": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "ReferenceNumber",
+                              "LinkedReason"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "LinkedRegistration"
+                    ]
+                  },
+                  "LastChangeDate": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ReferenceNumber",
+                  "ProvisionType",
+                  "SecondaryProvisionType",
+                  "Provider",
+                  "Setting",
+                  "SpecialConsiderations",
+                  "RegistrationStatus",
+                  "RegistrationStatusHistoryList",
+                  "RegistrationDate",
+                  "ChildServicesRegisterList",
+                  "RegistrationCertificate",
+                  "ChildcarePeriodList",
+                  "ChildcareAgeList",
+                  "InspectionList",
+                  "NoticeHistoryList",
+                  "WelfareNoticeHistoryList",
+                  "LinkedRegistrationList",
+                  "LastChangeDate"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "ReferenceNumber": {
+                    "type": "string"
+                  },
+                  "ProvisionType": {
+                    "type": "string"
+                  },
+                  "SecondaryProvisionType": {
+                    "type": "string"
+                  },
+                  "Provider": {
+                    "type": "object",
+                    "properties": {
+                      "ProviderName": {
+                        "type": "string"
+                      },
+                      "ProviderAddress": {
+                        "type": "object",
+                        "properties": {
+                          "AddressLine1": {
+                            "type": "string"
+                          },
+                          "Town": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "AddressLine1",
+                          "Town"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ProviderName",
+                      "ProviderAddress"
+                    ]
+                  },
+                  "Setting": {
+                    "type": "object",
+                    "properties": {
+                      "SettingName": {
+                        "type": "string"
+                      },
+                      "SettingAddress": {
+                        "type": "object",
+                        "properties": {
+                          "AddressLine1": {
+                            "type": "string"
+                          },
+                          "Town": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "AddressLine1",
+                          "Town"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "SettingName",
+                      "SettingAddress"
+                    ]
+                  },
+                  "SpecialConsiderations": {
+                    "type": "string"
+                  },
+                  "RegistrationStatus": {
+                    "type": "string"
+                  },
+                  "RegistrationDate": {
+                    "type": "string"
+                  },
+                  "ChildcarePeriodList": {
+                    "type": "object",
+                    "properties": {
+                      "ChildcarePeriod": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "string"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ChildcarePeriod"
+                    ]
+                  },
+                  "ChildcareAgeList": {
+                    "type": "object",
+                    "properties": {
+                      "ChildcareAge": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ChildcareAge"
+                    ]
+                  },
+                  "InspectionList": {
+                    "type": "object",
+                    "properties": {
+                      "Inspection": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "InspectionType": {
+                                "type": "string"
+                              },
+                              "InspectionDate": {
+                                "type": "string"
+                              },
+                              "InspectionOverallJudgement": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "InspectionType",
+                              "InspectionDate",
+                              "InspectionOverallJudgement"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "InspectionType": {
+                                "type": "string"
+                              },
+                              "InspectionDate": {
+                                "type": "string"
+                              },
+                              "InspectionOverallJudgement": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "InspectionType",
+                              "InspectionDate",
+                              "InspectionOverallJudgement"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "InspectionType": {
+                                "type": "string"
+                              },
+                              "InspectionDate": {
+                                "type": "string"
+                              },
+                              "InspectionOverallJudgement": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "InspectionType",
+                              "InspectionDate",
+                              "InspectionOverallJudgement"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "Inspection"
+                    ]
+                  },
+                  "NoticeHistoryList": {
+                    "type": "object",
+                    "properties": {
+                      "NoticeHistory": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Type": {
+                                "type": "string"
+                              },
+                              "SubType": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Type",
+                              "SubType",
+                              "Status"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Type": {
+                                "type": "string"
+                              },
+                              "SubType": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Type",
+                              "SubType",
+                              "Status"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "NoticeHistory"
+                    ]
+                  },
+                  "LinkedRegistrationList": {
+                    "type": "object",
+                    "properties": {
+                      "LinkedRegistration": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "ReferenceNumber": {
+                                "type": "string"
+                              },
+                              "LinkedReason": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "ReferenceNumber",
+                              "LinkedReason"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "ReferenceNumber": {
+                                "type": "string"
+                              },
+                              "LinkedReason": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "ReferenceNumber",
+                              "LinkedReason"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "LinkedRegistration"
+                    ]
+                  },
+                  "LastChangeDate": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ReferenceNumber",
+                  "ProvisionType",
+                  "SecondaryProvisionType",
+                  "Provider",
+                  "Setting",
+                  "SpecialConsiderations",
+                  "RegistrationStatus",
+                  "RegistrationDate",
+                  "ChildcarePeriodList",
+                  "ChildcareAgeList",
+                  "InspectionList",
+                  "NoticeHistoryList",
+                  "LinkedRegistrationList",
+                  "LastChangeDate"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "ReferenceNumber": {
+                    "type": "string"
+                  },
+                  "ProvisionType": {
+                    "type": "string"
+                  },
+                  "SecondaryProvisionType": {
+                    "type": "string"
+                  },
+                  "Provider": {
+                    "type": "object",
+                    "properties": {
+                      "ProviderName": {
+                        "type": "string"
+                      },
+                      "ProviderAddress": {
+                        "type": "object",
+                        "properties": {
+                          "AddressLine1": {
+                            "type": "string"
+                          },
+                          "Town": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "AddressLine1",
+                          "Town"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ProviderName",
+                      "ProviderAddress"
+                    ]
+                  },
+                  "Setting": {
+                    "type": "object",
+                    "properties": {
+                      "SettingName": {
+                        "type": "string"
+                      },
+                      "SettingAddress": {
+                        "type": "object",
+                        "properties": {
+                          "AddressLine1": {
+                            "type": "string"
+                          },
+                          "Town": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "AddressLine1",
+                          "Town"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "SettingName",
+                      "SettingAddress"
+                    ]
+                  },
+                  "SpecialConsiderations": {
+                    "type": "string"
+                  },
+                  "RegistrationStatus": {
+                    "type": "string"
+                  },
+                  "RegistrationStatusHistoryList": {
+                    "type": "object",
+                    "properties": {
+                      "RegistrationStatusHistory": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "RegistrationStatus": {
+                                "type": "string"
+                              },
+                              "ChangeDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "RegistrationStatus",
+                              "ChangeDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "RegistrationStatus": {
+                                "type": "string"
+                              },
+                              "ChangeDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "RegistrationStatus",
+                              "ChangeDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "RegistrationStatus": {
+                                "type": "string"
+                              },
+                              "ChangeDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "RegistrationStatus",
+                              "ChangeDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "RegistrationStatus": {
+                                "type": "string"
+                              },
+                              "ChangeDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "RegistrationStatus",
+                              "ChangeDate"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "RegistrationStatusHistory"
+                    ]
+                  },
+                  "RegistrationDate": {
+                    "type": "string"
+                  },
+                  "ChildServicesRegisterList": {
+                    "type": "object",
+                    "properties": {
+                      "ChildServicesRegister": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ChildServicesRegister"
+                    ]
+                  },
+                  "ChildcarePeriodList": {
+                    "type": "object",
+                    "properties": {
+                      "ChildcarePeriod": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "string"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ChildcarePeriod"
+                    ]
+                  },
+                  "ChildcareAgeList": {
+                    "type": "object",
+                    "properties": {
+                      "ChildcareAge": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ChildcareAge"
+                    ]
+                  },
+                  "InspectionList": {
+                    "type": "object",
+                    "properties": {
+                      "Inspection": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "InspectionType": {
+                                "type": "string"
+                              },
+                              "InspectionDate": {
+                                "type": "string"
+                              },
+                              "InspectionOverallJudgement": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "InspectionType",
+                              "InspectionDate",
+                              "InspectionOverallJudgement"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "InspectionType": {
+                                "type": "string"
+                              },
+                              "InspectionDate": {
+                                "type": "string"
+                              },
+                              "InspectionOverallJudgement": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "InspectionType",
+                              "InspectionDate",
+                              "InspectionOverallJudgement"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "InspectionType": {
+                                "type": "string"
+                              },
+                              "InspectionDate": {
+                                "type": "string"
+                              },
+                              "InspectionOverallJudgement": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "InspectionType",
+                              "InspectionDate",
+                              "InspectionOverallJudgement"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "InspectionType": {
+                                "type": "string"
+                              },
+                              "InspectionDate": {
+                                "type": "string"
+                              },
+                              "InspectionOverallJudgement": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "InspectionType",
+                              "InspectionDate",
+                              "InspectionOverallJudgement"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "Inspection"
+                    ]
+                  },
+                  "NoticeHistoryList": {
+                    "type": "object",
+                    "properties": {
+                      "NoticeHistory": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Type": {
+                                "type": "string"
+                              },
+                              "SubType": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Type",
+                              "SubType",
+                              "Status"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Type": {
+                                "type": "string"
+                              },
+                              "SubType": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Type",
+                              "SubType",
+                              "Status"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "NoticeHistory"
+                    ]
+                  },
+                  "WelfareNoticeHistoryList": {
+                    "type": "object",
+                    "properties": {
+                      "WelfareNoticeHistory": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "WelfareCategory": {
+                                "type": "string"
+                              },
+                              "WelfareStartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "WelfareCategory",
+                              "WelfareStartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "WelfareCategory": {
+                                "type": "string"
+                              },
+                              "WelfareStartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "WelfareCategory",
+                              "WelfareStartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "WelfareCategory": {
+                                "type": "string"
+                              },
+                              "WelfareStartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "WelfareCategory",
+                              "WelfareStartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "WelfareCategory": {
+                                "type": "string"
+                              },
+                              "WelfareStartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "WelfareCategory",
+                              "WelfareStartDate"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "WelfareNoticeHistory"
+                    ]
+                  },
+                  "LinkedRegistrationList": {
+                    "type": "object",
+                    "properties": {
+                      "LinkedRegistration": {
+                        "type": "object",
+                        "properties": {
+                          "ReferenceNumber": {
+                            "type": "string"
+                          },
+                          "LinkedReason": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "ReferenceNumber",
+                          "LinkedReason"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "LinkedRegistration"
+                    ]
+                  },
+                  "LastChangeDate": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ReferenceNumber",
+                  "ProvisionType",
+                  "SecondaryProvisionType",
+                  "Provider",
+                  "Setting",
+                  "SpecialConsiderations",
+                  "RegistrationStatus",
+                  "RegistrationStatusHistoryList",
+                  "RegistrationDate",
+                  "ChildServicesRegisterList",
+                  "ChildcarePeriodList",
+                  "ChildcareAgeList",
+                  "InspectionList",
+                  "NoticeHistoryList",
+                  "WelfareNoticeHistoryList",
+                  "LinkedRegistrationList",
+                  "LastChangeDate"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "ReferenceNumber": {
+                    "type": "string"
+                  },
+                  "ProvisionType": {
+                    "type": "string"
+                  },
+                  "SecondaryProvisionType": {
+                    "type": "string"
+                  },
+                  "Provider": {
+                    "type": "object",
+                    "properties": {
+                      "ProviderName": {
+                        "type": "string"
+                      },
+                      "ProviderAddress": {
+                        "type": "object",
+                        "properties": {
+                          "AddressLine1": {
+                            "type": "string"
+                          },
+                          "Town": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "AddressLine1",
+                          "Town"
+                        ]
+                      },
+                      "ProviderConsentWithheld": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "ProviderName",
+                      "ProviderAddress",
+                      "ProviderConsentWithheld"
+                    ]
+                  },
+                  "Setting": {
+                    "type": "object",
+                    "properties": {
+                      "SettingName": {
+                        "type": "string"
+                      },
+                      "SettingAddress": {
+                        "type": "object",
+                        "properties": {
+                          "AddressLine1": {
+                            "type": "string"
+                          },
+                          "Town": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "AddressLine1",
+                          "Town"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "SettingName",
+                      "SettingAddress"
+                    ]
+                  },
+                  "SpecialConsiderations": {
+                    "type": "string"
+                  },
+                  "RegistrationStatus": {
+                    "type": "string"
+                  },
+                  "RegistrationDate": {
+                    "type": "string"
+                  },
+                  "ChildServicesRegisterList": {
+                    "type": "object",
+                    "properties": {
+                      "ChildServicesRegister": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "Register": {
+                                "type": "string"
+                              },
+                              "Status": {
+                                "type": "string"
+                              },
+                              "StartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "Register",
+                              "Status",
+                              "StartDate"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ChildServicesRegister"
+                    ]
+                  },
+                  "ChildcareAgeList": {
+                    "type": "object",
+                    "properties": {
+                      "ChildcareAge": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "AgeFrom": {
+                                "type": "string"
+                              },
+                              "AgeTo": {
+                                "type": "string"
+                              },
+                              "MaximumNumber": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "AgeFrom",
+                              "AgeTo",
+                              "MaximumNumber"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ChildcareAge"
+                    ]
+                  },
+                  "WelfareNoticeHistoryList": {
+                    "type": "object",
+                    "properties": {
+                      "WelfareNoticeHistory": {
+                        "type": "array",
+                        "items": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "WelfareCategory": {
+                                "type": "string"
+                              },
+                              "WelfareStartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "WelfareCategory",
+                              "WelfareStartDate"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "WelfareCategory": {
+                                "type": "string"
+                              },
+                              "WelfareStartDate": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "WelfareCategory",
+                              "WelfareStartDate"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "WelfareNoticeHistory"
+                    ]
+                  },
+                  "LinkedRegistrationList": {
+                    "type": "object",
+                    "properties": {
+                      "LinkedRegistration": {
+                        "type": "object",
+                        "properties": {
+                          "ReferenceNumber": {
+                            "type": "string"
+                          },
+                          "LinkedReason": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "ReferenceNumber",
+                          "LinkedReason"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "LinkedRegistration"
+                    ]
+                  },
+                  "LastChangeDate": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "ReferenceNumber",
+                  "ProvisionType",
+                  "SecondaryProvisionType",
+                  "Provider",
+                  "Setting",
+                  "SpecialConsiderations",
+                  "RegistrationStatus",
+                  "RegistrationDate",
+                  "ChildServicesRegisterList",
+                  "ChildcareAgeList",
+                  "WelfareNoticeHistoryList",
+                  "LinkedRegistrationList",
+                  "LastChangeDate"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "-xmlns",
+          "-xmlns:bs7666",
+          "-xsi:schemaLocation",
+          "-xmlns:xsi",
+          "Extract",
+          "Registration"
+        ]
+      }
+    },
+    "required": [
+      "OfstedChildcareRegisterLocalAuthorityExtract"
+    ]
+  }
+  
+  
