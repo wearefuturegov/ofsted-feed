@@ -6,6 +6,10 @@ var url = 'https://ofsted-feed.herokuapp.com/wsdl?wsdl';
 
 exports.feed = (req, res) => {
 
+  if (!req.query.token || req.query.token != process.env.TOKEN) {
+    res.send(401, 'please provide a ?token= parameter value.')
+  }
+
   // Create client
   soap.createClient(url, function (err, client) {
     if (err){
