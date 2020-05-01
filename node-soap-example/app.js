@@ -7,27 +7,27 @@ var express = require('express');
 var fs = require('fs');
 
 // the splitter function, used by the service
-function splitter_function(args) {
-    console.log('splitter_function');
-    var splitter = args.splitter;
-    var splitted_msg = args.message.split(splitter);
-    var result = [];
-    for(var i=0; i<splitted_msg.length; i++){
-      result.push(splitted_msg[i]);
-    }
+function extract_function(args) {
+    console.log('extract_function');
+    console.log(args)
+    var lACode = args.lACode;
+    var loginName = args.loginName;
+    console.log(`Login ${loginName} from LA ${lACode}`);
+    //... example data ...
     return {
-        result: result
-        }
+      GetChildcareExtractForLAResult: 1,
+      xMLExtract: "testing"
+    }
 }
 
 // the service
 var serviceObject = {
   MessageSplitterService: {
         MessageSplitterServiceSoapPort: {
-            MessageSplitter: splitter_function
+            MessageSplitter: extract_function
         },
         MessageSplitterServiceSoap12Port: {
-            MessageSplitter: splitter_function
+            MessageSplitter: extract_function
         }
     }
 };
