@@ -1,7 +1,7 @@
 {
-  "name": "node-soap-example",
+  "name": "ofsted-feed",
   "version": "1.0.0",
-  "description": "A simple SOAP Server and Client using Node.js, express and node-soap (https://github.com/vpulim/node-soap)",
+  "description": "A client for the Ofsted feed",
   "main": "app.js",
   "scripts": {
     "start": "node .",
@@ -9,27 +9,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/macogala/node-soap-example.git"
+    "url": "git+https://github.com/wearefuturegov/ofsted-feed.git"
   },
   "keywords": [
     "SOAP",
-    "node.js",
-    "express",
-    "SOAP-server",
-    "SOAP-client",
-    "server",
-    "client",
-    "web",
-    "service"
+    "ofsted"
   ],
-  "author": "Marco Galassi",
-  "license": "ISC",
+  "author": "David Carboni",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/macogala/node-soap-example/issues"
+    "url": "https://github.com/wearefuturegov/ofsted-feed/issues"
   },
-  "homepage": "https://github.com/macogala/node-soap-example#readme",
+  "homepage": "https://github.com/wearefuturegov/ofsted-feed",
   "dependencies": {
     "express": "^4.15.2",
-    "soap": "^0.31.0"
+    "xml2js": "^0.4.23"
   }
 }
