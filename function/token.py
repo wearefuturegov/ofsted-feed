@@ -1,13 +1,11 @@
-import os
-from base64 import b64encode
+const crypto = require('crypto');
+const fs = require('fs');
 
-# 256 bits of randomness
-b = os.urandom(32)
+// 256 bits of randomness
+const buf = crypto.randomBytes(256 / 8);
 
-# Convert to base-64
-token = b64encode(b).decode('utf-8')
+// Convert to base-64
+token = buf.toString('hex')
 
-# Write the token file
-with open('token.txt', 'w') as f:
-    f.write(token)
-
+// Write the token file
+fs.writeFileSync('token.txt', token);
