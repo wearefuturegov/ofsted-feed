@@ -2,6 +2,10 @@
 var soap = require('soap');
 var url = 'http://localhost:8000/wsdl?wsdl';
 
+exports.feed = (req, res) => {
+  res.send(`Hello ${escapeHtml(req.query.name || req.body.name || 'World')}!`);
+};
+
 // Create client
 soap.createClient(url, function (err, client) {
   if (err){
