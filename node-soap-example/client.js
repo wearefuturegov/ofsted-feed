@@ -12,8 +12,8 @@ soap.createClient(url, function (err, client) {
   * in the WSDL file
   */
   var args = {
-    message: "id1:12:34:56:out42",
-    splitter: ":"
+    loginName: "council",
+    lACode: "AAA"
   };
   // call the service
   client.MessageSplitter(args, function (err, res) {
@@ -21,5 +21,7 @@ soap.createClient(url, function (err, client) {
       throw err;
       // print the service returned result
     console.log(res); 
+    // GetChildcareExtractForLAResult: 1,
+    // xMLExtract: "testing"
   });
 });
