@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const soap = require('node-soap')
 const fs = require('fs')
 
+require("dotenv").config()
+
 const stub = require("./stub")
 
 function splitter_function(args) {
@@ -35,8 +37,13 @@ var serviceObject = {
   var app = express();
   
   // root handler
-  app.get('/', function (req, res) {
-    res.send(stub);
+  app.get('/', async (req, res) => {
+    if(req.query.api_key === process.env.API_KEY){
+      res.send(await stub())
+    } else {
+      res.status(401)
+      res.send("Unauthorised")
+    }
   })
   
   var port = process.env.PORT || 8000;
