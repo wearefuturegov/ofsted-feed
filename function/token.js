@@ -1,3 +1,5 @@
+// Code to generate a random access token
+
 const crypto = require('crypto');
 const fs = require('fs');
 
