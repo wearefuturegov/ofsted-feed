@@ -27,8 +27,7 @@ exports.feed = (req, res) => {
         if (err)
           throw err;
 
-        res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(result));
+        res.json(result);
       });
       
     });
