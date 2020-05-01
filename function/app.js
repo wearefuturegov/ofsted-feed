@@ -1,31 +1,38 @@
 
-var soap = require('soap');
-var url = 'http://localhost:8000/wsdl?wsdl';
+const soap = require('soap');
+const xml2js = require('xml2js');
+
+var url = 'https://ofsted-feed.herokuapp.com/wsdl?wsdl';
 
 exports.feed = (req, res) => {
-  res.send(`Hello ${escapeHtml(req.query.name || req.body.name || 'World')}!`);
-};
 
-// Create client
-soap.createClient(url, function (err, client) {
-  if (err){
-    throw err;
-  }
-  /* 
-  * Parameters of the service call: they need to be called as specified
-  * in the WSDL file
-  */
-  var args = {
-    loginName: "Acouncil",
-    lACode: "AAA"
-  };
-  // call the service
-  client.GetChildcareExtractForLA(args, function (err, res) {
-    if (err)
+  // Create client
+  soap.createClient(url, function (err, client) {
+    if (err){
       throw err;
-      // print the service returned result
-    console.log(res); 
-    // GetChildcareExtractForLAResult: 1,
-    // xMLExtract: "testing"
+    }
+    
+    var args = {
+      loginName: "Acouncil",
+      lACode: "AAA"
+    };
+
+    // call the service
+    client.GetChildcareExtractForLA(args, function (err, response) {
+      if (err)
+        throw err;
+
+      var parser = new xml2js.Parser();
+      parser.parseString(response, function (err, result) {
+        if (err)
+          throw err;
+
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(result));
+      });
+      
+    });
+
   });
-});
+
+};
