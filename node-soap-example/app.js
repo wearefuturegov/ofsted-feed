@@ -6,7 +6,7 @@ var soap = require('soap');
 var express = require('express');
 var fs = require('fs');
 
-// the splitter function, used by the service
+// the function called by the service
 function extract_function(args) {
     console.log('extract_function');
     console.log(args)
@@ -22,11 +22,11 @@ function extract_function(args) {
 
 // the service
 var serviceObject = {
-  MessageSplitterService: {
-        MessageSplitterServiceSoapPort: {
+  WebExtractServices: {
+    WebExtractServicesSoap: {
           GetChildcareExtractForLA: extract_function
         },
-        MessageSplitterServiceSoap12Port: {
+        WebExtractServicesSoap12: {
           GetChildcareExtractForLA: extract_function
         }
     }
