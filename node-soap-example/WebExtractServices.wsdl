@@ -5,8 +5,8 @@
       <s:element name="GetChildcareExtractForLA">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="loginName" type="s:string"/>
-            <s:element minOccurs="0" maxOccurs="1" name="lACode" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="loginName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lACode" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
@@ -28,14 +28,14 @@
   </wsdl:message>
   <wsdl:portType name="WebExtractServicesSoap">
     <wsdl:operation name="GetChildcareExtractForLA">
-      <wsdl:input message="tns:GetChildcareExtractForLASoapIn"/>
-      <wsdl:output message="tns:GetChildcareExtractForLASoapOut"/>
+      <wsdl:input message="tns:GetChildcareExtractForLASoapIn" />
+      <wsdl:output message="tns:GetChildcareExtractForLASoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WebExtractServicesSoap" type="tns:WebExtractServicesSoap">
-    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetChildcareExtractForLA">
-      <soap:operation soapAction="MessageSplitter" style="document"/>
+      <soap:operation soapAction="MessageSplitter" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -45,14 +45,14 @@
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="WebExtractServicesSoap12" type="tns:WebExtractServicesSoap">
-    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <wsdl:operation name="GetChildcareExtractForLA">
-      <soap12:operation soapAction="MessageSplitter" style="document"/>
+      <soap12:operation soapAction="MessageSplitter" style="document" />
       <wsdl:input>
-        <soap12:body use="literal"/>
+        <soap12:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <soap12:body use="literal"/>
+        <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
