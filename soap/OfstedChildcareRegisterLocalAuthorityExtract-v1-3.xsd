@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Schema for OfstedChildcareRegisterLocalAuthorityExtract -->
+<!-- 
+ Change History
+
+ v0.92		Update Care Period Controlled List to reflect latest values from Ofsted
+
+ v1.0		Updated to controlled version 1.0
+				Define Registration elements as RegistrationStructure
+				Add minoccurs attribute value 0 to Registration within OfstedChildcareRegisterLocalAuthorityExtract type
+				Add optional SecondaryProvisionType to Registration type (regulatory requirement)
+                Restrict Register within ChildcareAgeStructure type to EYR and CCR (regulatory requirement)
+				Modify Start Date within ChildServicesRegisterStructure type from optional to mandatory
+				Modify controlled list value SCHLO (School Holiday Only) to SCHO for ChildcarePeriodType type
+                Remove reference to source system RSA
+				
+ v1.1		Add BS7666 UniquePropertyReferenceNumber to RSAAddressStructure type
+				Remove WelfareDescription from WelfareNoticeHistoryType type
+				Add Status to NoticeHistoryStructure 
+
+ v1.2		Add CA to ProvisionType type
+ 
+ v1.3		Add RPP to ProvisionType type and RPReferenceNumber node - Issued to support SBEE changes 
+                      
+-->
+<xs:schema xmlns="http://www.ofsted.gov.uk/Childcare/Registration/LocalAuthority" targetNamespace="http://www.ofsted.gov.uk/Childcare/Registration/LocalAuthority" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.3" id="OfstedChildcareRegisterLocalAuthorityExtract-v1-3" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:bs7666="http://www.govtalk.gov.uk/people/bs7666">
+	<xs:annotation>
+		<xs:appinfo>
+			<Metadata xmlns="http://www.govtalk.gov.uk/metadata/egms">
+				<Contributor>Alex Thyer, CGI</Contributor>
+				<Creator>Ofsted</Creator>
+				<Created>2008-03-06</Created>
+				<Modified>2016-02-16</Modified>
+				<Description>Defines the Childcare Register interface between Ofsted and Local Authorities</Description>
+				<Review/>
+				<Format Scheme="http://www.iana.org/assignments/media-types/">text/xml</Format>
+				<Identifier Href=""/>
+				<Language codeListID="ISO639-2">eng</Language>
+				<Publisher>Ofsted</Publisher>
+				<ConformsTo>http://www.w3.org/2001/XMLSchema</ConformsTo>
+				<ProvidesDefinitionOf>OfstedChildcareRegisterLocalAuthorityExtract</ProvidesDefinitionOf>
+				<Copyright/>
+				<ProtectiveMarking>Commercial in Confidence</ProtectiveMarking>
+				<Status>Final</Status>
+				<StatusDescription/>
+				<Version>1.3</Version>
+				<Category codeListID="GCL"/>
+				<Project/>
+				<Title>Ofsted Childcare Register Local Authority Extract</Title>
+				<Type>message</Type>
+			</Metadata>
+		</xs:appinfo>
+	</xs:annotation>
+	<xs:import namespace="http://www.govtalk.gov.uk/people/bs7666" schemaLocation="bs7666-v2-0.xsd"/>
+	<xs:simpleType name="AddressLineType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ChildcareAgeListStructure">
+		<xs:sequence>
+			<xs:element name="ChildcareAge" type="ChildcareAgeStructure" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ChildcareAgeStructure">
+		<xs:annotation>
+			<xs:documentation>
+				Registered maximum number of children to be allowed by age range.  Age ranges may overlap for overall maximums.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AgeFrom" type="ChildcareAgeType"/>
+			<xs:element name="AgeTo" type="ChildcareAgeType"/>
+			<xs:element name="MaximumNumber" type="xs:integer"/>
+			<xs:element name="Register" type="ChildServicesRegisterAgeRangeType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ChildcareAgeType">
+		<xs:annotation>
+			<xs:documentation>
+				Age of children covered by the registration
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ChildcarePeriodListStructure">
+		<xs:sequence>
+			<xs:element name="ChildcarePeriod" type="ChildcarePeriodType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ChildcarePeriodType">
+		<xs:annotation>
+			<xs:documentation>
+				Regulatory period childcare known to Ofsted which may not reflect the periods available to the public if the provider reduces their care offering within their registered conditions. 
+				
+				Controlled list of code values:
+				
+					2HPD -> 2 Hours or More Per Day
+					3HPD -> 3 Hours or More Per Day
+					4HPD -> 4 Hours or More Per Day
+					45WY -> 45 Weeks or More Per Year
+					5DWK -> 5 Days or More Per Week
+					ALYR -> All year round
+					OVNT -> Overnight
+					SCHO-> School Holiday Only
+					SCTO -> School Term Only
+					WDAL -> Weekday All Day
+					WDAM -> Weekday AM
+					WDAS -> Weekday After School
+					WDBS -> Weekday Before School
+					WDPM -> Weekday PM
+					WEND -> Weekend
+					
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ChildCareReferenceNumberType">
+		<xs:annotation>
+			<xs:documentation>
+				Ofsted published unique reference number (URN) within the Children's Directorate. For information, historic URNs are numeric only while the newer URNs are 2 digit character prefix followed by 6 numerics.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="6"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ChildServicesRegisterListStructure">
+		<xs:sequence>
+			<xs:element name="ChildServicesRegister" type="ChildServicesRegisterStructure" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ChildServicesRegisterStructure">
+		<xs:sequence>
+			<xs:element name="Register" type="ChildServicesRegisterType"/>
+			<xs:element name="Status" type="ChildServicesRegisterStatusType"/>
+			<xs:element name="StartDate" type="xs:date"/>
+			<xs:element name="EndDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ChildServicesRegisterType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CCR">
+				<xs:annotation>
+					<xs:documentation>Compulsory Childcare Register</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EYR">
+				<xs:annotation>
+					<xs:documentation>Early Years Register</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VCR">
+				<xs:annotation>
+					<xs:documentation>Voluntary Childcare Register</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ChildServicesRegisterAgeRangeType">
+		<xs:annotation>
+			<xs:documentation>
+				Ofsted only publish the registered number of children by age range for Early Years and Compulsory Childcare registers
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="ChildServicesRegisterType">
+			<xs:enumeration value="CCR"/>
+			<xs:enumeration value="EYR"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ChildServicesRegisterStatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="REGD">
+				<xs:annotation>
+					<xs:documentation>Registered</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EXEM">
+				<xs:annotation>
+					<xs:documentation>Exempt</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ContactStructure">
+		<xs:sequence>
+			<xs:element name="TelephoneNumber" type="TelephoneNumberType" minOccurs="0"/>
+			<xs:element name="MobileNumber" type="TelephoneNumberType" minOccurs="0"/>
+			<xs:element name="WorkTelephoneNumber" type="TelephoneNumberType" minOccurs="0"/>
+			<xs:element name="FaxNumber" type="TelephoneNumberType" minOccurs="0"/>
+			<xs:element name="EmailAddress" type="EmailAddressType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="CountyType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="EmailAddressType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="InspectionOverallJudgementType">
+		<xs:annotation>
+			<xs:documentation>
+				Descriptive text for the Ofsted overall inspection judgement
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="InspectionListStructure">
+		<xs:annotation>
+			<xs:documentation>
+				Ofsted inspections performed under the Future of Early Years inspection process i.e. since April / May 2005.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Inspection" type="InspectionStructure" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="InspectionStructure">
+		<xs:sequence>
+			<xs:element name="InspectionType" type="InspectionTypeType"/>
+			<xs:element name="InspectionDate" type="xs:date"/>
+			<xs:element name="InspectionOverallJudgement" type="InspectionOverallJudgementType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="InspectionTypeType">
+		<xs:annotation>
+			<xs:documentation>
+				Descriptive text for the Ofsted inspection visit type
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="LinkedRegistrationListStructure">
+		<xs:sequence>
+			<xs:element name="LinkedRegistration" type="LinkedRegistrationType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="LinkedReasonType">
+		<xs:annotation>
+			<xs:documentation>
+				Descriptive text for relationship between registrations 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="LinkedRegistrationType">
+		<xs:annotation>
+			<xs:documentation>
+				Other Ofsted Childcare Services registrations related to the registration.  Only proposed, active or suspended registrations are included.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ReferenceNumber" type="ChildCareReferenceNumberType"/>
+			<xs:element name="LinkedReason" type="LinkedReasonType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LocalAuthorityExtractStructure">
+		<xs:sequence>
+			<xs:element name="ExtractDateTime" type="xs:dateTime"/>
+			<xs:element name="LocalAuthority" type="LocalAuthorityStructure"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="LocalAuthorityStructure">
+		<xs:sequence>
+			<xs:element name="LocalAuthorityCode" type="LocalEducationAuthorityCodeType"/>
+			<xs:element name="LocalAuthorityName" type="LocalEducationAuthorityNameType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="LocalEducationAuthorityCodeType">
+		<xs:annotation>
+			<xs:documentation>Local Education Authority code</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LocalEducationAuthorityNameType">
+		<xs:annotation>
+			<xs:documentation>Local Education Authority description</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="NoticeHistoryListStructure">
+		<xs:sequence>
+			<xs:element name="NoticeHistory" type="NoticeHistoryStructure" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NoticeHistoryStructure">
+		<xs:annotation>
+			<xs:documentation>
+				Details about the Ofsted notices
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Type" type="NoticeTypeType"/>
+			<xs:element name="SubType" type="NoticeSubTypeType"/>
+			<xs:element name="Status" type="NoticeStatusType"/>
+			<xs:element name="NOIDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="NODDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="NoticeStatusType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NoticeSubTypeType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="NoticeTypeType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PostcodeType">
+		<xs:annotation>
+			<xs:documentation>
+                Postcode captured does not support full pattern restrictions due to historic address pre-Post Office Address File (PAF) validations and manually entered address when no PAF match
+            </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ProviderNameType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ProviderStructure">
+		<xs:sequence>
+			<xs:element name="ProviderName" type="ProviderNameType"/>
+			<xs:element name="ProviderAddress" type="RSAAddressStructure"/>
+			<xs:element name="ProviderContact" type="ContactStructure" minOccurs="0"/>
+			<xs:element name="ProviderConsentWithheld" type="YesNoType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Provider has requested their personal details are not released for public viewing.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ProvisionTypeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CCD">
+				<xs:annotation>
+					<xs:documentation>
+                        Childcare on Domestic Premises - childcare provider on domestic premises (working with three or more other people, including assistants on domestic premises)
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CCN">
+				<xs:annotation>
+					<xs:documentation>
+                        Childcare on non-Domestic Premises - childcare provider on non-domestic premises (working with three or more other people premises which are not domestic)
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CMR">
+				<xs:annotation>
+					<xs:documentation>
+                        Childminder - caring for children on domestic premises which are not the home of one of the children and working with no more than two other childminders or assistants
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HCR">
+				<xs:annotation>
+					<xs:documentation>
+                        Home Childcarer - caring for children wholly or mainly in the home of a child under care, and caring for children from no more than two families in the home of one of the children e.g. nannies, au pairs
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+      <xs:enumeration value="RPP">
+        <xs:annotation>
+          <xs:documentation>
+            Registered Person Provision
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="CA">
+        <xs:annotation>
+          <xs:documentation>
+           			Child Minder Agency
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ProvisionTypeSecondaryType">
+		<xs:restriction base="ProvisionTypeType">
+			<xs:enumeration value="HCR"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="RegistrationCertificateStructure">
+		<xs:sequence>
+			<xs:element name="CertificateConditionList" type="RegistrationCertificateConditionListStructure" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RegistrationCertificateConditionListStructure">
+		<xs:sequence>
+			<xs:element name="CertificateCondition" type="RegistrationCertificateConditionStructure" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RegistrationCertificateConditionStructure">
+		<xs:sequence>
+			<xs:element name="Condition" type="RegistrationCertificateConditionType"/>
+			<xs:element name="Register" type="ChildServicesRegisterType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="RegistrationCertificateConditionType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="400"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RegistrationDateType">
+		<xs:annotation>
+			<xs:documentation>
+				Date of the registration becoming active; not applicable to proposed or exempt registrations
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:date"/>
+	</xs:simpleType>
+	<xs:complexType name="RegistrationStatusHistoryListStructure">
+		<xs:sequence>
+			<xs:element name="RegistrationStatusHistory" type="RegistrationStatusHistoryStructure" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RegistrationStatusHistoryStructure">
+		<xs:annotation>
+			<xs:documentation>
+				History of registration status changes recording the new status and the change date - only changes since 5 December 2001 are recorded and the initial status is excluded.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RegistrationStatus" type="RegistrationStatusType"/>
+			<xs:element name="ChangeDate" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="RegistrationStatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ACTV">
+				<xs:annotation>
+					<xs:documentation>
+                        Active Registration
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="CANC">
+				<xs:annotation>
+					<xs:documentation>
+                        Ofsted Cancelled Registration
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="EXEM">
+				<xs:annotation>
+					<xs:documentation>
+                        Exempt from Registration
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="INAC">
+				<xs:annotation>
+					<xs:documentation>
+                        Inactive registration / application - Open in Error, Application Withdrawn
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PROP">
+				<xs:annotation>
+					<xs:documentation>
+                        Proposed Application
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="REFU">
+				<xs:annotation>
+					<xs:documentation>
+                        Ofsted Refused Registration
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="RESG">
+				<xs:annotation>
+					<xs:documentation>
+                        Provider Resignation
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SUSP">
+				<xs:annotation>
+					<xs:documentation>
+                        Ofsted Suspension
+                    </xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="RegistrationStructure">
+		<xs:sequence>
+			<xs:element name="ReferenceNumber" type="ChildCareReferenceNumberType"/>
+      <xs:element name="RPReferenceNumber" type="ChildCareReferenceNumberType" minOccurs="0"/>
+			<xs:element name="ProvisionType" type="ProvisionTypeType"/>
+			<xs:element name="SecondaryProvisionType" type="ProvisionTypeSecondaryType" minOccurs="0"/>
+			<xs:element name="Provider" type="ProviderStructure"/>
+			<xs:element name="Setting" type="SettingStructure" minOccurs="0"/>
+			<xs:element name="SpecialConsiderations" type="SpecialConsiderationsType" minOccurs="0"/>
+			<xs:element name="RegistrationStatus" type="RegistrationStatusType"/>
+			<xs:element name="RegistrationStatusHistoryList" type="RegistrationStatusHistoryListStructure" minOccurs="0"/>
+			<xs:element name="RegistrationDate" type="RegistrationDateType" minOccurs="0"/>
+			<xs:element name="ChildServicesRegisterList" type="ChildServicesRegisterListStructure" minOccurs="0"/>
+			<xs:element name="RegistrationCertificate" type="RegistrationCertificateStructure" minOccurs="0"/>
+			<xs:element name="ChildcarePeriodList" type="ChildcarePeriodListStructure" minOccurs="0"/>
+			<xs:element name="ChildcareAgeList" type="ChildcareAgeListStructure" minOccurs="0"/>
+			<xs:element name="InspectionList" type="InspectionListStructure" minOccurs="0"/>
+			<xs:element name="NoticeHistoryList" type="NoticeHistoryListStructure" minOccurs="0"/>
+			<xs:element name="WelfareNoticeHistoryList" type="WelfareNoticeHistoryListStructure" minOccurs="0"/>
+			<xs:element name="LinkedRegistrationList" type="LinkedRegistrationListStructure" minOccurs="0"/>
+			<xs:element name="LastChangeDate" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RSAAddressStructure">
+		<xs:annotation>
+			<xs:documentation>
+				Address format of Ofsted held data. By exception the structure could contain manually entered, non-PAF verified or non-UK addresses
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AddressLine1" type="AddressLineType"/>
+			<xs:element name="AddressLine2" type="AddressLineType" minOccurs="0"/>
+			<xs:element name="Town" type="TownType"/>
+			<xs:element name="County" type="CountyType" minOccurs="0"/>
+			<xs:element name="Postcode" type="PostcodeType" minOccurs="0"/>
+			<xs:element name="UniquePropertyReferenceNumber" type="bs7666:UPRNtype" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SettingStructure">
+		<xs:sequence>
+			<xs:element name="SettingName" type="SettingNameType"/>
+			<xs:element name="SettingAddress" type="RSAAddressStructure"/>
+			<xs:element name="SettingContact" type="ContactStructure" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SettingNameType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="150"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SpecialConsiderationsType">
+		<xs:annotation>
+			<xs:documentation>
+				Ofsted has marked the registration as requiring special considerations due to the nature of the provision - these registrations must be treated as extremely sensitive
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ANON">
+				<xs:annotation>
+					<xs:documentation>Anonymity Requested</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MOD">
+				<xs:annotation>
+					<xs:documentation>Military Base</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="WREF">
+				<xs:annotation>
+					<xs:documentation>Womens Refuge</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TelephoneNumberType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TownType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="YesNoType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Y">
+				<xs:annotation>
+					<xs:documentation>Yes</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="N">
+				<xs:annotation>
+					<xs:documentation>No</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="WelfareNoticeHistoryListStructure">
+		<xs:sequence>
+			<xs:element name="WelfareNoticeHistory" type="WelfareNoticeHistoryType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="WelfareNoticeHistoryType">
+		<xs:sequence>
+			<xs:element name="WelfareCategory" type="WelfareCategoryType"/>
+			<xs:element name="WelfareStartDate" type="xs:date"/>
+			<xs:element name="WelfareEndDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="WelfareCategoryType">
+		<xs:annotation>
+			<xs:documentation>Description of the Ofsted Welfare Category</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="WelfareDescriptionType">
+		<xs:annotation>
+			<xs:documentation>Description of the Ofsted Welfare Requirement</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="OfstedChildcareRegisterLocalAuthorityExtract">
+		<xs:annotation>
+			<xs:documentation>
+				Schema for Ofsted's childcare extract for Local Authorities under the requirements of the Childcare Act 2006.
+            </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Extract" type="LocalAuthorityExtractStructure"/>
+				<xs:element name="Registration" type="RegistrationStructure" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
