@@ -24,10 +24,10 @@ function extract_function(args) {
 var serviceObject = {
   MessageSplitterService: {
         MessageSplitterServiceSoapPort: {
-            MessageSplitter: extract_function
+          GetChildcareExtractForLA: extract_function
         },
         MessageSplitterServiceSoap12Port: {
-            MessageSplitter: extract_function
+          GetChildcareExtractForLA: extract_function
         }
     }
 };

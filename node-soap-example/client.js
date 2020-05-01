@@ -12,11 +12,11 @@ soap.createClient(url, function (err, client) {
   * in the WSDL file
   */
   var args = {
-    loginName: "council",
+    loginName: "Acouncil",
     lACode: "AAA"
   };
   // call the service
-  client.MessageSplitter(args, function (err, res) {
+  client.GetChildcareExtractForLA(args, function (err, res) {
     if (err)
       throw err;
       // print the service returned result

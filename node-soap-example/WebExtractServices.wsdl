@@ -20,25 +20,21 @@
       </s:element>
     </s:schema>
   </wsdl:types>
-  <!-- MESSAGES: defines the data being exchanged between the service and client -->
-  <wsdl:message name="MessageSplitterSoapIn">
-    <wsdl:part name="parameters" element="tns:GetChildcareExtractForLA"/>
+  <wsdl:message name="GetChildcareExtractForLASoapIn">
+    <wsdl:part name="parameters" element="tns:GetChildcareExtractForLA" />
   </wsdl:message>
-  <wsdl:message name="MessageSplitterSoapOut">
-    <wsdl:part name="parameters" element="tns:GetChildcareExtractForLAResponse"/>
+  <wsdl:message name="GetChildcareExtractForLASoapOut">
+    <wsdl:part name="parameters" element="tns:GetChildcareExtractForLAResponse" />
   </wsdl:message>
-  <!-- PORT TYPES: defines the complete communication operation (one way/round trip) -->
-  <wsdl:portType name="MessageSplitterSoapPort">
-    <!-- The operation name must be the same as the one specified in the service object -->
-    <wsdl:operation name="MessageSplitter">
-      <wsdl:input message="tns:MessageSplitterSoapIn"/>
-      <wsdl:output message="tns:MessageSplitterSoapOut"/>
+  <wsdl:portType name="WebExtractServicesSoap">
+    <wsdl:operation name="GetChildcareExtractForLA">
+      <wsdl:input message="tns:GetChildcareExtractForLASoapIn"/>
+      <wsdl:output message="tns:GetChildcareExtractForLASoapOut"/>
     </wsdl:operation>
   </wsdl:portType>
-  <!-- BINDING: provides details on how a portType operation will actually be transmitted -->
-  <wsdl:binding name="MessageSplitterServiceSoapBinding" type="tns:MessageSplitterSoapPort">
+  <wsdl:binding name="MessageSplitterServiceSoapBinding" type="tns:WebExtractServicesSoap">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="MessageSplitter">
+    <wsdl:operation name="GetChildcareExtractForLA">
       <soap:operation soapAction="MessageSplitter" style="document"/>
       <wsdl:input>
         <soap:body use="literal"/>
@@ -48,9 +44,9 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:binding name="MessageSplitterServiceSoap12Binding" type="tns:MessageSplitterSoapPort">
+  <wsdl:binding name="MessageSplitterServiceSoap12Binding" type="tns:WebExtractServicesSoap">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="MessageSplitter">
+    <wsdl:operation name="GetChildcareExtractForLA">
       <soap12:operation soapAction="MessageSplitter" style="document"/>
       <wsdl:input>
         <soap12:body use="literal"/>
