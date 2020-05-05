@@ -15,7 +15,7 @@ exports.feed = (req, res) => {
   // Ping the stub to see if our egress IP is the static IP we expect:
   axios.get('https://ofsted-feed.herokuapp.com')
   .then(response => {
-    console.log(response.body);
+    console.log(response.data);
   })
   .catch(error => {
     console.log(error);
