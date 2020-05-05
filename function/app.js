@@ -1,14 +1,26 @@
 
 const soap = require('soap');
 const xml2js = require('xml2js');
+const axios = require('axios');
 
 var url = 'https://ofsted-feed.herokuapp.com/wsdl?wsdl';
+
 
 exports.feed = (req, res) => {
 
   if (!req.query.token || req.query.token != process.env.TOKEN) {
     res.send(401, 'please provide a ?token= parameter value.')
   }
+
+  // Ping the stub to see if our egress IP is the static IP we expect:
+  axios.get('https://ofsted-feed.herokuapp.com')
+  .then(response => {
+    console.log(response.data.url);
+    console.log(response.data.explanation);
+  })
+  .catch(error => {
+    console.log(error);
+  });
 
   // Create client
   soap.createClient(url, function (err, client) {
