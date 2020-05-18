@@ -1,0 +1,9 @@
+
+# Private key
+openssl pkcs12 -in cert.pfx -nocerts -out key.pem
+openssl rsa -in key.pem -out privkey.pem
+
+# Certificate
+openssl pkcs12 -in cert.pfx -clcerts -nokeys -out cert.pem
+openssl x509 -pubkey -noout -in cert.pem  > pubkey.pem
+
