@@ -8,9 +8,11 @@ account=$(cat account.txt)
 # Setup
 gcloud config set account $account
 gcloud config set project $project_id
+project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
 
 # Enable APIs
 gcloud services enable cloudfunctions.googleapis.com
+gcloud services enable secretmanager.googleapis.com
 gcloud services enable vpcaccess.googleapis.com
 
 
@@ -47,7 +49,6 @@ gcloud compute networks vpc-access connectors create ofsted-egress-vpcc \
     --network=ofsted-egress-network \
     --region=europe-west2 \
     --range=10.0.0.16/28
-project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
 gcloud projects add-iam-policy-binding $project_id \
     --member=serviceAccount:service-${project_number}@gcf-admin-robot.iam.gserviceaccount.com \
     --role=roles/viewer
@@ -55,11 +56,21 @@ gcloud projects add-iam-policy-binding $project_id \
     --member=serviceAccount:service-${project_number}@gcf-admin-robot.iam.gserviceaccount.com \
     --role=roles/compute.networkUser
 
+# Ofsted certificate, key and key password
+gcloud secrets describe public_key || \
+gcloud secrets create public_key --data-file ../soap/examples/cert/pubkey.pem --replication-policy automatic
+gcloud secrets describe private_key || \
+gcloud secrets create private_key --data-file ../soap/examples/cert/privkey.pem --replication-policy automatic
+gcloud projects add-iam-policy-binding $project_id \
+    --member=serviceAccount:${project_id}@appspot.gserviceaccount.com \
+    --role=roles/secretmanager.secretAccessor
+
+
 # Ofsted function
 # NB: outbound requests are routed through the VPC so they have a static IP address
 token=$(cat token.txt)
 options="--region=europe-west2 --memory=256MB --trigger-http --allow-unauthenticated"
-gcloud functions deploy feed --runtime=nodejs10 --set-env-vars TOKEN=${token} ${options} \
+gcloud functions deploy feed --runtime=nodejs10 --set-env-vars TOKEN=${token},PROJECT_NUMBER=${project_number} ${options} \
     --vpc-connector ofsted-egress-vpcc \
     --egress-settings all
 
