@@ -58,9 +58,9 @@ gcloud projects add-iam-policy-binding $project_id \
 
 # Ofsted certificate, key and key password
 gcloud secrets describe public_key || \
-gcloud secrets create public_key --data-file ../soap/examples/cert/pubkey.pem --replication-policy automatic
+gcloud secrets create public_key --data-file ../soap/cert/pubkey.pem --replication-policy automatic
 gcloud secrets describe private_key || \
-gcloud secrets create private_key --data-file ../soap/examples/cert/privkey.pem --replication-policy automatic
+gcloud secrets create private_key --data-file ../soap/cert/privkey.pem --replication-policy automatic
 gcloud projects add-iam-policy-binding $project_id \
     --member=serviceAccount:${project_id}@appspot.gserviceaccount.com \
     --role=roles/secretmanager.secretAccessor
