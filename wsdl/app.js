@@ -33,6 +33,8 @@ exports.wsdl = async (req, res) => {
   xml = response.data
   save("wsdl.xml", xml)
 
+  console.log(`The wsdl, xsd0 and xsd1 files have been saved to bucket ${bucketName}/development/`)
+
   // Return the wsdl
   res
     .set("Content-Type", "text/xml; charset=utf8")
