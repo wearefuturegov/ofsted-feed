@@ -57,6 +57,10 @@ gcloud projects add-iam-policy-binding $project_id \
     --role=roles/compute.networkUser
 
 # Ofsted certificate, key and key password
+gcloud secrets describe username || \
+gcloud secrets create username --data-file credentials/cert/username.txt --replication-policy automatic
+gcloud secrets describe password || \
+gcloud secrets create password --data-file credentials/cert/password.txt --replication-policy automatic
 gcloud secrets describe public_key || \
 gcloud secrets create public_key --data-file credentials/cert/pubkey.pem --replication-policy automatic
 gcloud secrets describe private_key || \
