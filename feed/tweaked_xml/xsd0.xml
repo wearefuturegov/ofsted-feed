@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" targetNamespace="http://information.gateway.ofsted.gov.uk/ispp" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://information.gateway.ofsted.gov.uk/ispp">
+    <xs:import schemaLocation="./xsd1.xml" namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+    <xs:element name="GetLocalAuthorityChildcareRegister">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="localAuthorityRequest" nillable="true" type="tns:LocalAuthorityChildcareRegisterRequest"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="LocalAuthorityChildcareRegisterRequest">
+        <xs:sequence>
+            <xs:element name="LocalAuthorityCode" nillable="true" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="LocalAuthorityChildcareRegisterRequest" nillable="true" type="tns:LocalAuthorityChildcareRegisterRequest"/>
+    <xs:element name="GetLocalAuthorityChildcareRegisterResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetLocalAuthorityChildcareRegisterResult" nillable="true" type="tns:LocalAuthorityChildcareRegisterReply"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="LocalAuthorityChildcareRegisterReply">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="RegisterData" nillable="true" type="xs:string"/>
+            <xs:element name="Status" nillable="true" type="tns:Status"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="LocalAuthorityChildcareRegisterReply" nillable="true" type="tns:LocalAuthorityChildcareRegisterReply"/>
+    <xs:complexType name="Status">
+        <xs:sequence>
+            <xs:element name="Code" type="tns:StatusCode"/>
+            <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Status" nillable="true" type="tns:Status"/>
+    <xs:simpleType name="StatusCode">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Success"/>
+            <xs:enumeration value="LocalAuthorityAccessInvalid"/>
+            <xs:enumeration value="ServiceMaintenanceOutage">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+                            997
+                        </EnumerationValue>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="ServiceUnavailablePeriod">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+                            998
+                        </EnumerationValue>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="GeneralSystemFailure">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+                            999
+                        </EnumerationValue>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:element name="StatusCode" nillable="true" type="tns:StatusCode"/>
+    <xs:element name="GetServiceStatus">
+        <xs:complexType>
+            <xs:sequence/>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetServiceStatusResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetServiceStatusResult" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
