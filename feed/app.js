@@ -2,26 +2,13 @@
 const soap = require('soap');
 const xml2js = require('xml2js');
 const axios = require('axios');
+const fs = require('fs')
 const {SecretManagerServiceClient} = require('@google-cloud/secret-manager');
 
-var url = 'https://ofsted-feed.herokuapp.com/wsdl?wsdl';
-// var url = 'http://localhost:8000/wsdl?wsdl';
+var url = process.env.WSDL;
 var client;
 
-async function getSecret(name) {
-  ref = `projects/${process.env.PROJECT_NUMBER}/secrets/${name}/versions/latest`
-  console.log(`Requesting secret ${ref}`)
-  if (!client) client = new SecretManagerServiceClient();
-  try {
-    const [version] = await client.accessSecretVersion({
-      name: ref,
-    });
-    return version.payload.data.toString('utf8');
-  } catch (e) {
-    console.error(`error: could not retrieve secret: ${e}`);
-    return
-  }
-}
+
 
 exports.feed = async (req, res) => {
 
@@ -29,30 +16,25 @@ exports.feed = async (req, res) => {
     res.send(401, 'please provide a ?token= parameter value.')
   }
 
-  // Create client
+  query();
 
-// Create client
-soap.createClient(url, async function (err, client) {
-  if (err) {
-    throw err;
-  }
+}
 
-  var options = {
-    mustUnderstand: true
-  }
-  var wsSecurity = new soap.WSSecurity('username', 'password', options)
-  console.log(wsSecurity.toXML())
-  //client.setSecurity(wsSecurity);
-  var usernamePassword=wsSecurity.toXML()
-  // var parser = new xml2js.Parser();
-  // parser.parseString(usernamePassword, function (err, result) {
-  //     console.log(result);
-  // });
-  client.addSoapHeader(usernamePassword)
 
-  var privateKey = await getSecret("private_key");
-  var publicKey = await getSecret("public_key");
-  var password = '';
+async function usernamePasswordSecurity() {
+
+    var options = {
+      mustUnderstand: true
+    }
+
+    var username = await getSecret("username", "../credentials/cert/username.txt")
+    var password = await getSecret("password", "../credentials/cert/password.txt")
+
+    return new soap.WSSecurity(username, password, options)
+}
+
+
+async function digitalSignatureSecurity() {
   var options = {
     hasTimeStamp: true,
     signatureTransformations: ['http://www.w3.org/2001/10/xml-exc-c14n#'],
@@ -64,44 +46,25 @@ soap.createClient(url, async function (err, client) {
         }
     }
   };
-  var wsSecurityCert = new soap.WSSecurityCert(privateKey, publicKey, password, options);
-  // console.log(wsSecurityCert.toXML())
-  // var cert=wsSecurity.toXML()
-  // parser.parseString(cert, function (err, result) {
-  //     console.log(result);
-  // });
-  client.setSecurity(wsSecurityCert);
 
-  // Add extra security headers for username/password:
-  var options = {
-    mustUnderstand: true
-  }
-  var wsSecurity = new soap.WSSecurity('username', 'password', options)
-  console.log(wsSecurity.toXML())
-  //client.setSecurity(wsSecurity);
-  var usernamePassword=wsSecurity.toXML()
-  var parser = new xml2js.Parser();
-  // parser.parseString(usernamePassword, function (err, result) {
-  //     console.log(result);
-  // });
-  extra_secunity_headers = await parser.parseString(usernamePassword);
+  var privateKey = await getSecret("private_key", "../credentials/cert/privkey.pem");
+  var publicKey = await getSecret("public_key", "../credentials/cert/pubkey.pem");
+  var keypassword = '';
+
+  return new soap.WSSecurityCert(privateKey, publicKey, keypassword, options);
+}
 
 
-  //console.log(client.describe())
+async function injectSecondSecurityHeaders(client, wsSecurity) {
 
-  // client.on('request', function (xml, eid) {
-  //   console.log(`request`)
-  //   console.log(`Exchange ID: ${eid}`)
-  //   console.log(`XML Body: ${xml}`);
-  //   console.log(`-`);
-  // });
+    var usernamePassword=wsSecurity.toXML()
+    console.log(usernamePassword)
+    var parser = new xml2js.Parser();
+    secondSecunityHeaders = parser.parseString(usernamePassword);
+}
 
-  // client.on('message', function (xml, eid) {
-  //   console.log(`message`)
-  //   console.log(`Exchange ID: ${eid}`)
-  //   console.log(`XML Body: ${xml}`);
-  //   console.log(`-`);
-  // });
+
+function addeExtraHeaders(client) {
 
   // Add extra headers
 
@@ -123,29 +86,93 @@ soap.createClient(url, async function (err, client) {
   var builder = new xml2js.Builder();
   var xml = builder.buildObject(action);
   console.log(xml)
+}
 
-  /* 
-  * Parameters of the service call, as specified
-  * in the WSDL file
-  */
-  var args = {
-    localAuthorityRequest: {
-      LocalAuthorityCode: 111
-    }
-  };
 
-  // var args = fs.readFileSync("soap/OfstedChildcareRegisterLocalAuthorityExtract-v1-3-example.xml")
-  // call the service
-  client.GetChildcareExtractForLA(args, function (err, res, rawResponse, soapHeader, rawRequest) {
+async function query() {
+
+  // Create client
+  soap.createClient(url, async function (err, client) {
     if (err) {
-      console.log(err)
       throw err;
-      // print the service returned result
-    } else {
-      console.log(rawRequest)
-      console.log(`Request succeeded`); 
     }
+
+    wsSecurityCert = digitalSignatureSecurity()
+    client.setSecurity(wsSecurityCert);
+
+    // Add extra security headers for username/password:
+    wsSecurity = await usernamePasswordSecurity()
+    console.log(wsSecurity)
+    console.log(wsSecurity.toXML())
+    injectSecondSecurityHeaders(client, wsSecurity)
+    //client.setSecurity(wsSecurity);
+
+    //console.log(client.describe())
+
+    client.on('request', function (xml, eid) {
+      console.log(`request`)
+      // console.log(`Exchange ID: ${eid}`)
+      console.log(`XML Body: ${xml}`);
+      console.log(`-`);
+    });
+
+    // client.on('message', function (xml, eid) {
+    //   console.log(`message`)
+    //   console.log(`Exchange ID: ${eid}`)
+    //   console.log(`XML Body: ${xml}`);
+    //   console.log(`-`);
+    // });
+
+    /* 
+    * Parameters of the service call, as specified
+    * in the WSDL file
+    */
+    var args = {
+      localAuthorityRequest: {
+        LocalAuthorityCode: 825
+      }
+    };
+
+    // var args = fs.readFileSync("soap/OfstedChildcareRegisterLocalAuthorityExtract-v1-3-example.xml")
+    // call the service
+    console.log(client)
+    client.GetLocalAuthorityChildcareRegister(args, function (err, res, rawResponse, soapHeader, rawRequest) {
+      if (err) {
+        console.log(err)
+        throw err;
+        // print the service returned result
+      } else {
+        console.log(rawRequest)
+        console.log(`Request succeeded`); 
+      }
+    });
   });
-});
+}
+
+
+async function getSecret(name, localpath) {
+
+  // Local run
+  if (fs.existsSync(localpath)) {
+    return fs.readFileSync(localpath)
+  }
+
+  // Secrets manager
+  ref = `projects/${process.env.PROJECT_NUMBER}/secrets/${name}/versions/latest`
+  console.log(`Requesting secret ${ref}`)
+  if (!client) client = new SecretManagerServiceClient();
+  try {
+    const [version] = await client.accessSecretVersion({
+      name: ref,
+    });
+    return version.payload.data.toString('utf8');
+  } catch (e) {
+    console.error(`error: could not retrieve secret: ${e}`);
+    throw e;
+  }
 
 }
+
+
+// Local run
+query()
