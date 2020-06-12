@@ -7,6 +7,7 @@ const tmp = require('tmp');
 const {Storage} = require('@google-cloud/storage');
 
 const urlWsdl = 'https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc?wsdl';
+const urlWsdl0= 'https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc?wsdl=wsdl0'
 const urlXsd0 = 'https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc?xsd=xsd0';
 const urlXsd1 = 'https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc?xsd=xsd1';
 
@@ -28,6 +29,10 @@ exports.wsdl = async (req, res) => {
   response = await axios.get(urlXsd1);
   xml = response.data
   save("xsd1.xml", xml)
+
+  response = await axios.get(urlWsdl0);
+  xml = response.data
+  save("wsdl0.xml", xml)
 
   response = await axios.get(urlWsdl);
   xml = response.data
