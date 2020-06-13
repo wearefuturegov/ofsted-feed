@@ -1,0 +1,103 @@
+The followig is the result of running "python -mzeep tweaked_xml/wsdl.xml":
+
+Prefixes:
+     xsd: http://www.w3.org/2001/XMLSchema
+     ns0: http://information.gateway.ofsted.gov.uk/ispp/Imports
+     ns1: http://information.gateway.ofsted.gov.uk/ispp
+     ns2: http://schemas.microsoft.com/2003/10/Serialization/
+
+Global elements:
+     ns1:GetLocalAuthorityChildcareRegister(localAuthorityRequest: ns1:LocalAuthorityChildcareRegisterRequest)
+     ns1:GetLocalAuthorityChildcareRegisterResponse(GetLocalAuthorityChildcareRegisterResult: ns1:LocalAuthorityChildcareRegisterReply)
+     ns1:GetServiceStatus()
+     ns1:GetServiceStatusResponse(GetServiceStatusResult: xsd:string)
+     ns1:LocalAuthorityChildcareRegisterReply(ns1:LocalAuthorityChildcareRegisterReply)
+     ns1:LocalAuthorityChildcareRegisterRequest(ns1:LocalAuthorityChildcareRegisterRequest)
+     ns1:Status(ns1:Status)
+     ns1:StatusCode(ns1:StatusCode)
+     ns2:QName(xsd:QName)
+     ns2:anyType(None)
+     ns2:anyURI(xsd:anyURI)
+     ns2:base64Binary(xsd:base64Binary)
+     ns2:boolean(xsd:boolean)
+     ns2:byte(xsd:byte)
+     ns2:char(ns2:char)
+     ns2:dateTime(xsd:dateTime)
+     ns2:decimal(xsd:decimal)
+     ns2:double(xsd:double)
+     ns2:duration(ns2:duration)
+     ns2:float(xsd:float)
+     ns2:guid(ns2:guid)
+     ns2:int(xsd:int)
+     ns2:long(xsd:long)
+     ns2:short(xsd:short)
+     ns2:string(xsd:string)
+     ns2:unsignedByte(xsd:unsignedByte)
+     ns2:unsignedInt(xsd:unsignedInt)
+     ns2:unsignedLong(xsd:unsignedLong)
+     ns2:unsignedShort(xsd:unsignedShort)
+     
+
+Global types:
+     xsd:anyType
+     ns1:LocalAuthorityChildcareRegisterReply(RegisterData: xsd:string, Status: ns1:Status)
+     ns1:LocalAuthorityChildcareRegisterRequest(LocalAuthorityCode: xsd:string)
+     ns1:Status(Code: ns1:StatusCode, Description: xsd:string)
+     ns1:StatusCode
+     ns2:char
+     ns2:duration
+     ns2:guid
+     xsd:ENTITIES
+     xsd:ENTITY
+     xsd:ID
+     xsd:IDREF
+     xsd:IDREFS
+     xsd:NCName
+     xsd:NMTOKEN
+     xsd:NMTOKENS
+     xsd:NOTATION
+     xsd:Name
+     xsd:QName
+     xsd:anySimpleType
+     xsd:anyURI
+     xsd:base64Binary
+     xsd:boolean
+     xsd:byte
+     xsd:date
+     xsd:dateTime
+     xsd:decimal
+     xsd:double
+     xsd:duration
+     xsd:float
+     xsd:gDay
+     xsd:gMonth
+     xsd:gMonthDay
+     xsd:gYear
+     xsd:gYearMonth
+     xsd:hexBinary
+     xsd:int
+     xsd:integer
+     xsd:language
+     xsd:long
+     xsd:negativeInteger
+     xsd:nonNegativeInteger
+     xsd:nonPositiveInteger
+     xsd:normalizedString
+     xsd:positiveInteger
+     xsd:short
+     xsd:string
+     xsd:time
+     xsd:token
+     xsd:unsignedByte
+     xsd:unsignedInt
+     xsd:unsignedLong
+     xsd:unsignedShort
+
+Bindings:
+
+Service: ISPPGatewayServices
+     Port: CustomMultiFactorBinding_ISPPGatewayServices (Soap12Binding: {http://tempuri.org/}CustomMultiFactorBinding_ISPPGatewayServices)
+         Operations:
+            GetLocalAuthorityChildcareRegister(localAuthorityRequest: ns1:LocalAuthorityChildcareRegisterRequest) -> GetLocalAuthorityChildcareRegisterResult: ns1:LocalAuthorityChildcareRegisterReply
+            GetServiceStatus() -> GetServiceStatusResult: xsd:string
+
