@@ -10,13 +10,24 @@ const fetchAndProcess = async () => {
         rows = rows.slice(0, 100).map(row => {
             return {
                 ...row,
-                childcare_period: row.childcare_period.split("\n")
+                childcare_period: row.childcare_period.split("\n"),
+                childcare_age: row.childcare_age.split("\n").forEach(age => convert(age))
             }
         })
         return rows
     } catch(e) {
         console.log(e)
     }
+}
+
+const convert = source => {
+  let result = {}
+  let sourceArray = source.split(",")
+  sourceArray.forEach(element => {
+      let [key, value] = element.trim().split(": ")
+      result[key] = value
+  })
+  return result
 }
 
 module.exports = fetchAndProcess
