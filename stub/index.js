@@ -11,7 +11,7 @@ const fetchAndProcess = async () => {
             return {
                 ...row,
                 childcare_period: row.childcare_period.split("\n"),
-                childcare_age: row.childcare_age.split("\n").forEach(age => convert(age))
+                childcare_age: row.childcare_age.split("\n").map(element => convert(element))
             }
         })
         return rows
