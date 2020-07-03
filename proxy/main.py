@@ -34,8 +34,11 @@ def proxy(request):
     #response = requests.get(endpoint_wsdl)
 
     # Debug
+    print("Headers:")
+    for k,v in response.headers.iteritems():
+        print(f'{k}: {v}')
     print(response.content)
     print(response.status_code)
 
     # Attempt to return
-    return Response(response.content, mimetype='text/xml'), response.status_code
+    return Response(response.content, mimetype=response.headers.get('content-type')), response.status_code
