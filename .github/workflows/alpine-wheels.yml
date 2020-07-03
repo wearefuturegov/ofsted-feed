@@ -1,0 +1,25 @@
+name: GCP Deploy
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  alpine-with-wheels:
+    
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup gcloud CLI
+        uses: GoogleCloudPlatform/github-actions/@master
+        with:
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          project_id: ${{ secrets.PROJECT_ID }}
+          export_default_credentials: true
+      # This pre-builds wheels for xmlsec and grpcio because they seem to take a long time to bulid.
+      - name: Deploy Ofsted feed container
+        run: |
+          cd alpine-wheels
+          project_id=$(gcloud config get-value project)
+          gcloud builds submit --tag gcr.io/${project_id}/alpine-wheels --timeout 30m
