@@ -16,6 +16,8 @@ endpoint = "https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayService
 
 def proxy(request):
 
+    print(request.method)
+
     # Only temporarily disabling --allow-unauthenticated, so keep it simple.
     token = request.args.get('token')
     if not token or token != 'test':
