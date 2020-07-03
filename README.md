@@ -50,7 +50,7 @@ The password provided to you by Ofsted
 
 #### OFTSED_CERTIFICATE
 
-The public key, in pem format, of the certificate provided to you by Ofsted, e.g.: 
+The certificate, in pem format, provided to you by Ofsted, e.g.: 
 
     Bag Attributes
         localKeyID: 00 00 00 00 
