@@ -149,10 +149,10 @@ jobs:
       # Deploy form function
       - name: Deploy proxy function
         run: |
-          cd feed
+          cd proxy
           project_id=$(gcloud config get-value project)
           project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
-          gcloud functions deploy feed --runtime=python37 --set-env-vars PROJECT_NUMBER=${project_number},WSDL=./wsdl.xml \
+          gcloud functions deploy proxy --runtime=python37 --set-env-vars PROJECT_NUMBER=${project_number},WSDL=./wsdl.xml \
             --region=europe-west2 --memory=256MB --trigger-http --allow-unauthenticated \
             --vpc-connector ofsted-egress-vpcc \
             --egress-settings all
@@ -171,9 +171,8 @@ jobs:
       # Deploy form function
       - name: Deploy soap container
         run: |
-          echo TODO
           project_id=$(gcloud config get-value project)
-          #gcloud builds submit --tag gcr.io/${project_id}
-          #gcloud run deploy soap --image gcr.io/${project_id}/soap --platform managed \
-          #  --region europe-west2 --allow-unauthenticated \
-          #  --update-env-vars=FUNCTION=europe-west2-${project_id}.cloudfunctions.net/proxy
+          gcloud builds submit --tag gcr.io/${project_id}/soap
+          gcloud run deploy soap --image gcr.io/${project_id}/soap \
+            --platform managed --region europe-west2 --allow-unauthenticated \
+            --update-env-vars=FUNCTION=europe-west2-${project_id}.cloudfunctions.net/proxy
