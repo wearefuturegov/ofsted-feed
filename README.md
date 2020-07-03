@@ -18,7 +18,57 @@ Deployment is done automatically from the Github repo whenever code is pushed us
 
  In other words, the development workflow consists of editing and pushing code, followed by monitoring the deployment in this repo's [Actions tab](https://github.com/wearefuturegov/ofsted-feed/actions).
 
+## Secrets
+
+The deployment expects the following [Github secrets](https://github.com/wearefuturegov/ofsted-feed/settings/secrets):
+
+### GOOGLE_APPLICATION_CREDENTIALS
+
+A base-64 encoded representation of a json-format GCP service account key. The service account is used for deployment so will need elevated permissions (NB the account can be disabled when not in use fon added safety).
+
+Once you have created a service account, generated a key and downloaded the json file, the secret value can be generated as follows:
+
+    cat myproject-7fdd5b1966dc.json | base64 > deploy-key.txt
+
+The contents of `deploy-key.txt` can then be copied and pasted into the secret value.
+
+### PROJECT_ID
+
+The GCP project ID that you are deploying to. This is a string value such as `myproject-123456`
+
+### OFTSED_USERNAME
+
+The username provided to you by Ofsted
+
+### OFTSED_PASSWORD
+
+The password provided to you by Ofsted
+
+### OFTSED_PUBLIC_KEY
+
+The public key, in pem format, of the certificate provided to you by Ofsted, e.g.: 
+
+    -----BEGIN PUBLIC KEY-----
+    ...base64...
+    ...base64...
+    -----END PUBLIC KEY-----
+
+### OFTSED_PRIVATE_KEY
+
+The private key, in pem format, of the certificate provided to you by Ofsted, e.g.: 
+
+    -----BEGIN RSA PRIVATE KEY-----
+    ...base64...
+    ...base64...
+    ...base64...
+    ...base64...
+    ...base64...
+    -----END RSA PRIVATE KEY-----
+
 ## Notes
 
- * The cloud functions Python runtime does not contain the `libxmlsec1` system package so it's not possible to sign soap messages in GCF using Python (https://issuetracker.google.com/issues/158846273). For this reason a Cloud Run container is used to generate the xml and a function is then used to send the message to Ofsted via the static IP.
+Both a Cloud Run container and a Cloud Function are used:
+
+ * The cloud functions Python runtime does not contain the `libxmlsec1` system package so it's not possible to sign soap messages in GCF using Python (https://issuetracker.google.com/issues/158846273)
+ * For this reason a Cloud Run container is used to generate the soap xml and this is then passed to a function, which acts as an egress proxy to send the message to Ofsted via the static IP.
  
