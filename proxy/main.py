@@ -30,8 +30,8 @@ def proxy(request):
     # Proxy the request
     xml = request.data
     headers = {'content-type': 'text/xml'}
-    #response = requests.post(endpoint, headers=headers, data=xml)
-    response = requests.get(endpoint_wsdl)
+    response = requests.post(endpoint_service, headers=headers, data=xml)
+    #response = requests.get(endpoint_wsdl)
 
     # Debug
     print(response.content)
