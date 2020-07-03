@@ -38,4 +38,4 @@ def proxy(request):
     print(response.status_code)
 
     # Attempt to return
-    return Response(response.content, mimetype='text/xml'), 200
+    return Response(response.content, mimetype='text/xml'), response.status_code

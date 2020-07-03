@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euf -o pipefail
 
+gcloud config set project $(cat ../secrets/project.txt)
 project_id=$(gcloud config get-value project)
 token=$(cat ../secrets/token.txt)
 
