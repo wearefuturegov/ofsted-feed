@@ -17,13 +17,15 @@ endpoint_wsdl = "https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewaySe
 
 def proxy(request):
 
-    print(request.method)
+    print(f'Received a {request.method} request.')
 
     # Only temporarily disabling --allow-unauthenticated, so keep it simple.
     token = request.args.get('token')
     if not token or token != 'test':
         print("nah...")
         abort(401)
+    else:
+        print("Let's go!")
 
     # Proxy the request
     xml = request.data
@@ -36,4 +38,4 @@ def proxy(request):
     print(response.status_code)
 
     # Attempt to return
-    return Response(response.content, mimetype='text/xml'), response.status_code
+    return Response(response.content, mimetype='text/xml'), 200
