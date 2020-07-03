@@ -14,7 +14,7 @@ Deployment is done automatically from the Github repo whenever code is pushed us
 
  * The deployment workflows are in [.github/workflows](.github/workflows)
  * Secrets, including the deployment service account key, are stored in [Github secrets](https://github.com/wearefuturegov/ofsted-feed/settings/secrets) in the settings area for this repo. The values can be updated, but can't be viewed.
- * NB the service accout key needs to be base-64 encoded as described in the [Actions GCP documentation](https://github.com/marketplace/actions/google-cloud-platform-gcp-cli-gcloud#secrets).
+ * NB the service accout key needs to be base-64 encoded as described in the [Setup-gcloud action documentation](https://github.com/GoogleCloudPlatform/github-actions/blob/master/setup-gcloud/README.md#inputs).
 
  In other words, the development workflow consists of editing and pushing code, followed by monitoring the deployment in this repo's [Actions tab](https://github.com/wearefuturegov/ofsted-feed/actions).
 
@@ -31,6 +31,8 @@ Once you have created a service account, generated a key and downloaded the json
     cat myproject-7fdd5b1966dc.json | base64 > deploy-key.txt
 
 The contents of `deploy-key.txt` can then be copied and pasted into the secret value.
+
+See also the [Setup-gcloud action documentation](https://github.com/GoogleCloudPlatform/github-actions/blob/master/setup-gcloud/README.md#inputs).
 
 ### PROJECT_ID
 
