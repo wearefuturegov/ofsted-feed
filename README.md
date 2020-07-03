@@ -20,7 +20,9 @@ Deployment is done automatically from the Github repo whenever code is pushed us
 
 ### Secrets
 
-The deployment expects the following [Github secrets](https://github.com/wearefuturegov/ofsted-feed/settings/secrets):
+The deployment expects the following [Github secrets](https://github.com/wearefuturegov/ofsted-feed/settings/secrets).
+
+Some example commands are provided in [secrets/cert/pfx-to-pem.txt](secrets/cert/pfx-to-pem.txt) to help with converting PFX-format Ofsted certificates to the PEM format that the Zeep soap library uses.
 
 #### GOOGLE_APPLICATION_CREDENTIALS
 
@@ -46,22 +48,27 @@ The username provided to you by Ofsted
 
 The password provided to you by Ofsted
 
-#### OFTSED_PUBLIC_KEY
+#### OFTSED_CERTIFICATE
 
 The public key, in pem format, of the certificate provided to you by Ofsted, e.g.: 
 
-    -----BEGIN PUBLIC KEY-----
+    Bag Attributes
+        localKeyID: 00 00 00 00 
+    subject=DC = uk, DC = gov, DC = ofsted, DC = ofsteded, OU = Extranet User Accounts, OU = ISPP, CN = xxxx
+
+    issuer=DC = uk, DC = gov, DC = ofsted, DC = ofsteded, CN = Ofsted KSP1 Issuing CA
+
+    -----BEGIN CERTIFICATE-----
     ...base64...
     ...base64...
-    -----END PUBLIC KEY-----
+    ...base64...
+    -----END CERTIFICATE-----
 
 #### OFTSED_PRIVATE_KEY
 
 The private key, in pem format, of the certificate provided to you by Ofsted, e.g.: 
 
     -----BEGIN RSA PRIVATE KEY-----
-    ...base64...
-    ...base64...
     ...base64...
     ...base64...
     ...base64...
