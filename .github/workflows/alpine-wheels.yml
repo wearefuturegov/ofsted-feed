@@ -1,4 +1,4 @@
-name: GCP Deploy
+name: Alpine base image with wheels
 
 on:
   push:
