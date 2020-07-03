@@ -29,7 +29,7 @@ def proxy(request):
 
     # Proxy the request
     xml = request.data
-    headers = {'content-type': 'text/xml'}
+    headers = {'content-type': 'application/soap+xml'}
     response = requests.post(endpoint_service, headers=headers, data=xml)
     #response = requests.get(endpoint_wsdl)
 
