@@ -1,5 +1,4 @@
 secrets
-node_modules
 .gcloudignore
 .venv
 ofsted-stub
