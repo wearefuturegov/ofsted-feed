@@ -1,0 +1,77 @@
+# This is a basic workflow to create, configure and deploy artefacts and resources
+# for the PPE Inventory project in the DEMO environment
+
+name: GCP Deploy
+
+on:
+  push:
+    branches: [ master ]
+
+env:
+  GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+  PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  #FUNCTION: europe-west2-${{ secrets.PROJECT_ID }}.cloudfunctions.net/
+
+jobs:
+
+  gcp-services:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup gcloud CLI
+        uses: GoogleCloudPlatform/github-actions/@master
+        with:
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          project_id: ${{ secrets.PROJECT_ID }}
+          export_default_credentials: true
+      # Enable the APIs for services we need
+      - name: Enable APIs
+        run: |
+          gcloud services enable cloudfunctions.googleapis.com
+          gcloud services enable sheets.googleapis.com
+          gcloud services enable cloudbuild.googleapis.com
+          gcloud services enable run.googleapis.com
+
+  setup-networking:
+    needs: gcp-services
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup gcloud CLI
+        uses: GoogleCloudPlatform/github-actions/@master
+        with:
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          project_id: ${{ secrets.PROJECT_ID }}
+          export_default_credentials: true
+      # Public IP address
+      - name: IP address
+        run: |
+          gcloud compute addresses describe ofsted-egress-ip --region=europe-west2 || \
+          gcloud compute addresses create ofsted-egress-ip --region=europe-west2
+      # Network for egress
+      - name: Network
+        run: |
+          gcloud compute networks describe ofsted-egress-network || \
+          gcloud compute networks create ofsted-egress-network --subnet-mode=custom
+
+  deploy-function:
+    needs: gcp-services
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup gcloud CLI
+        uses: GoogleCloudPlatform/github-actions/@master
+        with:
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          project_id: ${{ secrets.PROJECT_ID }}
+          export_default_credentials: true
+      # Deploy form function
+      - name: Deploy proxy function
+        run: |
+          cd feed
+          project_id=$(gcloud config get-value project)
+          project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
+          gcloud functions deploy feed --runtime=python37 --set-env-vars PROJECT_NUMBER=${project_number},WSDL=./wsdl.xml \
+            --region=europe-west2 --memory=256MB --trigger-http --allow-unauthenticated \
+            --vpc-connector ofsted-egress-vpcc \
+            --egress-settings all
