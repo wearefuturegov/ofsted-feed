@@ -52,12 +52,6 @@ The password provided to you by Ofsted
 
 The certificate, in pem format, provided to you by Ofsted, e.g.: 
 
-    Bag Attributes
-        localKeyID: 00 00 00 00 
-    subject=DC = uk, DC = gov, DC = ofsted, DC = ofsteded, OU = Extranet User Accounts, OU = ISPP, CN = xxxx
-
-    issuer=DC = uk, DC = gov, DC = ofsted, DC = ofsteded, CN = Ofsted KSP1 Issuing CA
-
     -----BEGIN CERTIFICATE-----
     ...base64...
     ...base64...
