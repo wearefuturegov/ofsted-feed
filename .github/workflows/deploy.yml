@@ -181,6 +181,7 @@ jobs:
           gcloud builds submit --tag gcr.io/${project_id}/ofsted-client --timeout 15m
       - name: Deploy feed-client container
         run: |
+          project_id=$(gcloud config get-value project)
           gcloud run deploy ofsted-client --image=gcr.io/${project_id}/ofsted-client \
             --platform=managed --region=europe-west1 --allow-unauthenticated \
             --update-env-vars=FUNCTION=europe-west2-${project_id}.cloudfunctions.net/proxy
