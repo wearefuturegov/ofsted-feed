@@ -11,7 +11,7 @@
 # import tempfile
 
 
-def feed(request):
+def proxy(request):
 
     # user_name_token = username_password()
     # signature = binary_signature_timestamp()
