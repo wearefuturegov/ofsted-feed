@@ -7,11 +7,6 @@ on:
   push:
     branches: [ master ]
 
-env:
-  GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-  PROJECT_ID: ${{ secrets.PROJECT_ID }}
-  #FUNCTION: europe-west2-${{ secrets.PROJECT_ID }}.cloudfunctions.net/
-
 jobs:
 
   # These run in parallel because gcp-services and setup-networking only make changes on the first run.
@@ -108,7 +103,7 @@ jobs:
         env:
           OFTSED_USERNAME: ${{ secrets.OFSTED_USERNAME }}
           OFTSED_PASSWORD: ${{ secrets.OFTSED_PASSWORD }}
-          OFTSED_PUBLIC_KEY: ${{ secrets.OFTSED_PUBLIC_KEY }}
+          OFTSED_CERTIFICATE: ${{ secrets.OFTSED_CERTIFICATE }}
           OFTSED_PRIVATE_KEY: ${{ secrets.OFTSED_PRIVATE_KEY }}
       # Ofsted certificate, key and key password
       # see: https://cloud.google.com/sdk/gcloud/reference/secrets/create
@@ -120,10 +115,10 @@ jobs:
         run: |
           gcloud secrets describe password || \
           echo $OFTSED_PASSWORD | gcloud secrets create password --data-file=- --replication-policy=user-managed --locations=europe-west2
-      - name: public_key
+      - name: certificate
         run: |
-          gcloud secrets describe public_key || \
-          echo $OFTSED_PUBLIC_KEY | gcloud secrets create public_key --data-file=- --replication-policy=user-managed --locations=europe-west2
+          gcloud secrets describe certificate || \
+          echo $OFTSED_CERTIFICATE | gcloud secrets create certificate --data-file=- --replication-policy=user-managed --locations=europe-west2
       - name: private_key
         run: |
           gcloud secrets describe private_key || \
@@ -131,8 +126,9 @@ jobs:
       - name: permissions
         run: |
           project_id=$(gcloud config get-value project)
+          project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
           gcloud projects add-iam-policy-binding $project_id \
-              --member=serviceAccount:${project_id}@appspot.gserviceaccount.com \
+              --member=serviceAccount:${project_number}-compute@developer.gserviceaccount.com \
               --role=roles/secretmanager.secretAccessor
 
   proxy-function:
