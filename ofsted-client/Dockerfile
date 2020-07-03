@@ -6,7 +6,8 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 RUN pip install gunicorn
 
-COPY src/ .
+COPY app.py .
+COPY tweaked_xml/ tweaked_xml/
 
 USER 1000
 ENV PORT 8080
