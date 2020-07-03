@@ -135,7 +135,7 @@ jobs:
               --member=serviceAccount:${project_id}@appspot.gserviceaccount.com \
               --role=roles/secretmanager.secretAccessor
 
-  deploy-function:
+  proxy-function:
 
     runs-on: ubuntu-latest
     steps:
@@ -156,3 +156,24 @@ jobs:
             --region=europe-west2 --memory=256MB --trigger-http --allow-unauthenticated \
             --vpc-connector ofsted-egress-vpcc \
             --egress-settings all
+
+  soap-container:
+    
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup gcloud CLI
+        uses: GoogleCloudPlatform/github-actions/@master
+        with:
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          project_id: ${{ secrets.PROJECT_ID }}
+          export_default_credentials: true
+      # Deploy form function
+      - name: Deploy soap container
+        run: |
+          echo TODO
+          project_id=$(gcloud config get-value project)
+          #gcloud builds submit --tag gcr.io/${project_id}
+          #gcloud run deploy soap --image gcr.io/${project_id}/soap --platform managed \
+          #  --region europe-west2 --allow-unauthenticated \
+          #  --update-env-vars=FUNCTION=europe-west2-${project_id}.cloudfunctions.net/proxy
