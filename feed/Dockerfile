@@ -1,4 +1,4 @@
-FROM python:alpine
+FROM gcr.io/ofsted-feed/alpine-wheels
 
 # Dependencies for building xmlsec (specified in requirements.txt)
 RUN apk update && apk add \
