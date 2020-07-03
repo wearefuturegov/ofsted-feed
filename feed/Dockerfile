@@ -1,5 +1,15 @@
 FROM python:alpine
 
+# Dependencies for building xmlsec (specified in requirements.txt)
+RUN apk update && apk add \
+    gcc \
+    g++ \
+    libc-dev \
+    libxml2-dev \
+    libxslt-dev \
+    python3-dev \
+    xmlsec-dev
+
 WORKDIR /app
 
 COPY requirements.txt .
@@ -8,7 +18,7 @@ RUN pip install gunicorn
 
 COPY src/ .
 
-ENV PORT 8080
 
 USER 1000
+ENV PORT 8080
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 app:app
