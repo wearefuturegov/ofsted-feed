@@ -1,5 +1,5 @@
-# ofsted-feed
-Interface to the Ofsted feed.
+# Ofsted Feed Client
+Client for the Ofsted feed.
 
 ## Setup
 
