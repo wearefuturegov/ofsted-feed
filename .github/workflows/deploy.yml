@@ -14,7 +14,11 @@ env:
 
 jobs:
 
+  # These run in parallel because gcp-services and setup-networking only make changes on the first run.
+  # Running in parallel speeds things up for normal runs (accepting you might get one or two errors for a new deployment)
+
   gcp-services:
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -33,8 +37,11 @@ jobs:
           gcloud services enable cloudbuild.googleapis.com
           gcloud services enable run.googleapis.com
 
-  setup-networking:
-    needs: gcp-services
+  egress-networking:
+
+    # We need traffic to egress through a VPC so that it can have a static IP address
+    # See: https://cloud.google.com/functions/docs/networking/network-settings#route-egress-to-vpc
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -49,14 +56,46 @@ jobs:
         run: |
           gcloud compute addresses describe ofsted-egress-ip --region=europe-west2 || \
           gcloud compute addresses create ofsted-egress-ip --region=europe-west2
-      # Network for egress
+      # Network
       - name: Network
         run: |
           gcloud compute networks describe ofsted-egress-network || \
           gcloud compute networks create ofsted-egress-network --subnet-mode=custom
+      # Router
+      - name: Router
+        run: |
+          gcloud compute routers describe ofsted-egress-router --region=europe-west2 || \
+          gcloud compute routers create ofsted-egress-router \
+              --network ofsted-egress-network \
+              --region=europe-west2
+      # NAT
+      - name: Router
+        run: |
+          gcloud compute routers nats describe ofsted-egress-nat --router=ofsted-egress-router --region=europe-west2 || \
+          gcloud compute routers nats create ofsted-egress-nat \
+              --router=ofsted-egress-router \
+              --router-region=europe-west2 \
+              --nat-primary-subnet-ip-ranges \
+              --nat-external-ip-pool=ofsted-egress-ip
+      # VPC connector for function traffic
+      - name: Router
+        run: |
+          project_id=$(gcloud config get-value project)
+          project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
+          gcloud compute networks vpc-access connectors describe ofsted-egress-vpcc --region europe-west2 || \
+          gcloud compute networks vpc-access connectors create ofsted-egress-vpcc \
+              --network=ofsted-egress-network \
+              --region=europe-west2 \
+              --range=10.0.0.16/28
+          gcloud projects add-iam-policy-binding $project_id \
+              --member=serviceAccount:service-${project_number}@gcf-admin-robot.iam.gserviceaccount.com \
+              --role=roles/viewer
+          gcloud projects add-iam-policy-binding $project_id \
+              --member=serviceAccount:service-${project_number}@gcf-admin-robot.iam.gserviceaccount.com \
+              --role=roles/compute.networkUser
 
   deploy-function:
-    needs: gcp-services
+    
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
