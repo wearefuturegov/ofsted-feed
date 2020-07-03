@@ -172,7 +172,7 @@ jobs:
       # NB Cloud Run is currently available in eurompe-west1 (Belgium) and europe-west2 (Netherlands) but not europe-west2 (London)
       - name: Deploy Ofsted feed container
         run: |
-          cd feed
+          cd ofsted-client
           project_id=$(gcloud config get-value project)
           gcloud builds submit --tag gcr.io/${project_id}/ofsted-feed --timeout 15m
           gcloud run deploy ofsted-feed --image=gcr.io/${project_id}/ofsted-feed \
