@@ -8,7 +8,7 @@ project_id=$(gcloud config get-value project)
 
 # Ofsted wsdl function
 # NB: outbound requests are routed through the VPC so they have a static IP address
-token=$(cat ../credentials/token.txt)
+token=$(cat ../secrets/token.txt)
 options="--region=europe-west2 --memory=256MB --trigger-http --allow-unauthenticated"
 gcloud functions deploy wsdl --runtime=nodejs10 --set-env-vars TOKEN=${token} ${options} \
     --vpc-connector ofsted-egress-vpcc \
