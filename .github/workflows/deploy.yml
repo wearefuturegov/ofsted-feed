@@ -169,12 +169,12 @@ jobs:
           project_id: ${{ secrets.PROJECT_ID }}
           export_default_credentials: true
       # Deploy the container
-      # NB compiling wheels for xmlsec and grpcio take quite a while, so there's an extended timeout on the build
+      # NB Cloud Run is currently available in eurompe-west1 (Belgium) and europe-west2 (Netherlands) but not europe-west2 (London)
       - name: Deploy Ofsted feed container
         run: |
           cd feed
           project_id=$(gcloud config get-value project)
           gcloud builds submit --tag gcr.io/${project_id}/ofsted-feed --timeout 15m
           gcloud run deploy ofsted-feed --image=gcr.io/${project_id}/ofsted-feed \
-            --platform=managed --region=europe-west2 --allow-unauthenticated \
+            --platform=managed --region=europe-west1 --allow-unauthenticated \
             --update-env-vars=FUNCTION=europe-west2-${project_id}.cloudfunctions.net/proxy

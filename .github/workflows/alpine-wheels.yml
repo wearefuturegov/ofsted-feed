@@ -18,7 +18,7 @@ jobs:
           service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           project_id: ${{ secrets.PROJECT_ID }}
           export_default_credentials: true
-      # This pre-builds wheels for xmlsec and grpcio because they seem to take a long time to bulid.
+      # This pre-builds wheels for xmlsec and grpcio into a base image because they seem to take a long time to compile.
       - name: Build xmlsec and grpcio
         run: |
           cd alpine-wheels
