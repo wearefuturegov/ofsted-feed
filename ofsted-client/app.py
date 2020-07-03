@@ -61,15 +61,15 @@ class BinarySignatureTimestamp(BinarySignature):
 
 def username_password():
 
-    username = get_secret('username', '../secrets/cert/username.txt')
-    password = get_secret('username', '../secrets/cert/password.txt')
+    username = get_secret('username', '/secrets/cert/username.txt')
+    password = get_secret('username', '/secrets/cert/password.txt')
     return UsernameToken(username, password)
 
 
 def binary_signature_timestamp():
 
-    private = get_secret('private_key', '../secrets/cert/privkey.pem')
-    public = get_secret('public_key', '../secrets/cert/cert.pem')
+    private = get_secret('private_key', '/secrets/cert/privkey.pem')
+    public = get_secret('certificate', '/secrets/cert/cert.pem')
 
     try:
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as priv:
@@ -90,8 +90,10 @@ def get_secret(name, local_file):
 
     if local_file and os.path.isfile(local_file):
         with open(local_file, 'r') as secret:
+            print(f"Getting local secret for {name}")
             return secret.read()
 
+    print(f"Getting GCP secret for {name}")
     PROJECT_NUMBER = os.environ.get("PROJECT_NUMBER")
     secrets = secretmanager.SecretManagerServiceClient()
     return secrets.access_secret_version(f"projects/{PROJECT_NUMBER}/secrets/{name}/versions/latest").payload.data.decode("utf-8")
