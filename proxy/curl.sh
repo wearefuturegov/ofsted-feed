@@ -10,4 +10,4 @@ url=https://europe-west2-${project_id}.cloudfunctions.net/proxy?token=test
 echo Calling: $url
 #curl -v $url
 
-curl -v -X post -d @"../secrets/example-messages/Fiddler SOAP Request - FIDY.xml" -H "content-type: text/xml" $url
+curl -v -X POST -d @"../secrets/example-messages/Fiddler SOAP Request - FIDY.xml" -H "content-type: text/xml" $url

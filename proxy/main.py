@@ -12,7 +12,8 @@
 from flask import Response, abort
 import requests
 
-endpoint = "https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc"
+endpoint_service = "https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc"
+endpoint_wsdl = "https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc?wsdl"
 
 def proxy(request):
 
@@ -27,7 +28,8 @@ def proxy(request):
     # Proxy the request
     xml = request.data
     headers = {'content-type': 'text/xml'}
-    response = requests.post(endpoint, headers=headers, data=xml)
+    #response = requests.post(endpoint, headers=headers, data=xml)
+    response = requests.get(endpoint_wsdl)
 
     # Debug
     print(response.content)
