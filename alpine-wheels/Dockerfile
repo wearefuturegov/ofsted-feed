@@ -1,6 +1,6 @@
 FROM python:alpine
 
-# Dependencies for building xmlsec and grpcio (from requirements.txt in the ofsted-feed container image)
+# Dependencies for building xmlsec and grpcio (from requirements.txt in the ofsted-client container image)
 RUN apk update && apk add \
     gcc \
     g++ \
