@@ -1,4 +1,4 @@
 flask
 zeep
-xmlsec
+#xmlsec
 google-cloud-secret-manager
