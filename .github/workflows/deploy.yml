@@ -156,7 +156,7 @@ jobs:
             --egress-settings all
       - name: Permission to call the function
         run: |
-          gcloud functions add-iam-policy-binding proxy \
+          gcloud functions add-iam-policy-binding proxy --region europe-west2 \
             --member=serviceAccount:${project_number}-compute@developer.gserviceaccount.com \
             --role=roles/cloudfunctions.invoker
 
