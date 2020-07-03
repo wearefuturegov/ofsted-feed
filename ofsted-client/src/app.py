@@ -19,11 +19,7 @@ app = Flask(__name__)
 function = os.getenv('FUNCTION')
 
 @app.route('/')
-def soap():
-    feed(request)
-    return "TODO"
-
-def feed(request):
+def get_feed():
 
     user_name_token = username_password()
     signature = binary_signature_timestamp()
