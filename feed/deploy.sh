@@ -13,7 +13,7 @@ token=$(cat ../credentials/token.txt)
 options="--region=europe-west2 --memory=256MB --trigger-http --allow-unauthenticated"
 #wsdl="https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc?wsdl"
 wsdl="./wsdl.xml"
-gcloud functions deploy feed --runtime=nodejs10 --set-env-vars TOKEN=${token},PROJECT_NUMBER=${project_number},WSDL=${wsdl} ${options} \
+gcloud functions deploy feed --runtime=python37 --set-env-vars TOKEN=${token},PROJECT_NUMBER=${project_number},WSDL=${wsdl} ${options} \
     --vpc-connector ofsted-egress-vpcc \
     --egress-settings all
 
