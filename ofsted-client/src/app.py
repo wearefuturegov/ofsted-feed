@@ -61,15 +61,15 @@ class BinarySignatureTimestamp(BinarySignature):
 
 def username_password():
 
-    username = get_secret('username', '../credentials/cert/username.txt')
-    password = get_secret('username', '../credentials/cert/password.txt')
+    username = get_secret('username', '../secrets/cert/username.txt')
+    password = get_secret('username', '../secrets/cert/password.txt')
     return UsernameToken(username, password)
 
 
 def binary_signature_timestamp():
 
-    private = get_secret('private_key', '../credentials/cert/privkey.pem')
-    public = get_secret('public_key', '../credentials/cert/cert.pem')
+    private = get_secret('private_key', '../secrets/cert/privkey.pem')
+    public = get_secret('public_key', '../secrets/cert/cert.pem')
 
     try:
         with tempfile.NamedTemporaryFile(mode='w', delete=False) as priv:
@@ -79,7 +79,7 @@ def binary_signature_timestamp():
 
         # https://github.com/mvantellingen/python-zeep/issues/996
         return BinarySignatureTimestamp(priv.name, pub.name)
-        # return Signature("../credentials/cert/privkey.pem", "../credentials/cert/cert.pem")
+        # return Signature("../secrets/cert/privkey.pem", "../secrets/cert/cert.pem")
 
     finally:
         os.remove(priv.name)
