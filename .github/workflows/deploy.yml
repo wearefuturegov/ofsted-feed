@@ -156,6 +156,8 @@ jobs:
             --egress-settings all
       - name: Permission to call the function
         run: |
+          project_id=$(gcloud config get-value project)
+          project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
           gcloud functions add-iam-policy-binding proxy --region europe-west2 \
             --member=serviceAccount:${project_number}-compute@developer.gserviceaccount.com \
             --role=roles/cloudfunctions.invoker
