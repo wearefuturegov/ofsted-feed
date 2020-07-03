@@ -107,22 +107,24 @@ jobs:
           OFTSED_PRIVATE_KEY: ${{ secrets.OFTSED_PRIVATE_KEY }}
       # Ofsted certificate, key and key password
       # see: https://cloud.google.com/sdk/gcloud/reference/secrets/create
+      # see also: gcloud beta secrets locations list
+      # NB Vaild locations are currently eurompe-west1 (Belgium) and europe-west4 (Netherlands) but not europe-west2 (London)
       - name: username
         run: |
           gcloud secrets describe username || \
-          echo $OFTSED_USERNAME | gcloud secrets create username --data-file=- --replication-policy=user-managed --locations=europe-west2
+          echo $OFTSED_USERNAME | gcloud secrets create username --data-file=- --replication-policy=user-managed --locations=europe-west1,europe-west4
       - name: password
         run: |
           gcloud secrets describe password || \
-          echo $OFTSED_PASSWORD | gcloud secrets create password --data-file=- --replication-policy=user-managed --locations=europe-west2
+          echo $OFTSED_PASSWORD | gcloud secrets create password --data-file=- --replication-policy=user-managed --locations=europe-west1,europe-west4
       - name: certificate
         run: |
           gcloud secrets describe certificate || \
-          echo $OFTSED_CERTIFICATE | gcloud secrets create certificate --data-file=- --replication-policy=user-managed --locations=europe-west2
+          echo $OFTSED_CERTIFICATE | gcloud secrets create certificate --data-file=- --replication-policy=user-managed --locations=europe-west1,europe-west4
       - name: private_key
         run: |
           gcloud secrets describe private_key || \
-          echo $OFTSED_PRIVATE_KEY | gcloud secrets create private_key --data-file=- --replication-policy=user-managed --locations=europe-west2
+          echo $OFTSED_PRIVATE_KEY | gcloud secrets create private_key --data-file=- --replication-policy=user-managed --locations=europe-west1,europe-west4
       - name: permissions
         run: |
           project_id=$(gcloud config get-value project)
@@ -170,6 +172,7 @@ jobs:
           project_id: ${{ secrets.PROJECT_ID }}
           export_default_credentials: true
       # Deploy the container
+      # see: https://cloud.google.com/run/docs/locations
       # NB Cloud Run is currently available in eurompe-west1 (Belgium) and europe-west2 (Netherlands) but not europe-west2 (London)
       - name: Build feed-client image
         run: |
