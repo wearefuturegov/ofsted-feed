@@ -7,7 +7,6 @@ RUN apk update && apk add \
     libc-dev \
     libxml2-dev \
     libxslt-dev \
-    python3-dev \
     xmlsec-dev
 
 WORKDIR /app
