@@ -156,6 +156,11 @@ jobs:
             --region=europe-west2 --memory=256MB --trigger-http --allow-unauthenticated \
             --vpc-connector ofsted-egress-vpcc \
             --egress-settings all
+      - name: Permission to call the function
+        run: |
+          gcloud functions add-iam-policy-binding proxy \
+            --member=serviceAccount:${project_number}-compute@developer.gserviceaccount.com \
+            --role=roles/cloudfunctions.invoker
 
   ofsted-client-container:
     
@@ -178,5 +183,5 @@ jobs:
       - name: Deploy feed-client container
         run: |
           gcloud run deploy ofsted-client --image=gcr.io/${project_id}/ofsted-client
-            --platform=managed --region=europe-west1 --service-account=${project_id}@appspot.gserviceaccount.com --allow-unauthenticated \
+            --platform=managed --region=europe-west1 --allow-unauthenticated \
             --update-env-vars=FUNCTION=europe-west2-${project_id}.cloudfunctions.net/proxy
