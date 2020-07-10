@@ -86,7 +86,7 @@ def username_password():
 
 def binary_signature_timestamp():
 
-    private = get_secret('private_key)
+    private = get_secret('private_key')
     public = get_secret('certificate')
 
     try:
