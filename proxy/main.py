@@ -19,6 +19,11 @@ def proxy(request):
 
     print(f'Received a {request.method} request.')
 
+    if request.method == 'GET':
+        return "Invocation success", 200
+    if request.method == 'POST':
+        return "Invocation success", 200
+
     # Only temporarily disabling --allow-unauthenticated, so keep it simple.
     # token = request.args.get('token')
     # if not token or token != 'test':
