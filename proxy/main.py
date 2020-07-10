@@ -20,12 +20,12 @@ def proxy(request):
     print(f'Received a {request.method} request.')
 
     # Only temporarily disabling --allow-unauthenticated, so keep it simple.
-    token = request.args.get('token')
-    if not token or token != 'test':
-        print("nah...")
-        abort(401)
-    else:
-        print("Let's go!")
+    # token = request.args.get('token')
+    # if not token or token != 'test':
+    #     print("nah...")
+    #     abort(401)
+    # else:
+    #     print("Let's go!")
 
     # Proxy the request
     xml = request.data

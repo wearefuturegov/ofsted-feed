@@ -187,4 +187,4 @@ jobs:
           project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
           gcloud run deploy ofsted-client --image=gcr.io/${project_id}/ofsted-client \
             --platform=managed --region=europe-west1 --allow-unauthenticated \
-            --update-env-vars=FUNCTION_URL="https://europe-west2-${project_id}.cloudfunctions.net/proxy",PROJECT_NUMBER=${project_number},WSDL=./wsdl.xml
+            --update-env-vars=FUNCTION_URL="https://europe-west2-${project_id}.cloudfunctions.net/proxy?token=test",PROJECT_NUMBER=${project_number},WSDL=./wsdl.xml
