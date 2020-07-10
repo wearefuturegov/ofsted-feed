@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, make_response, request, redirect, url_for, flash
+from flask import Flask, Response, make_response, request, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 
 import requests
@@ -35,16 +35,15 @@ def get_feed():
     xmlstr = minidom.parseString(ET.tostring(node)).toprettyxml(indent="   ")
     print(xmlstr)
 
-    result = call_proxy(node)
+    response = call_proxy(node)
 
-    soapMessage = ET.tostring(node, encoding='unicode')
+    if response.status_code != 200:
+        print(f"{response.status_code}: {response.text}")
 
-    # Response document
-    result = client.service.GetLocalAuthorityChildcareRegister(localAuthorityRequest=parameters)
-    xml = minidom.parseString(ET.tostring(result)).toprettyxml(indent="   ")
-    print(xml)
+    #return minidom.parseString(response.text)
+    #ET.tostring(feed, encoding='unicode').toprettyxml(indent="   ")
 
-    return xml
+    return Response(response.text, mimetype='text/xml'), response.status_code
 
 
 class BinarySignatureTimestamp(BinarySignature):
@@ -110,13 +109,7 @@ def call_proxy(xml):
     headers = {'Authorization': f'bearer {jwt()}'}
     body = ET.tostring(xml, encoding='unicode')
     response = requests.post(function_url, headers=headers, data=body)
-
-    if response.status_code != 200:
-        print(f"{response.status_code}: {response.text}")
-        return None
-
-    print(response.text)
-    return minidom.parseString(response.text)
+    return response
 
 
 def jwt(): 
