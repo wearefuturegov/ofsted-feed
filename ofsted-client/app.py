@@ -25,13 +25,12 @@ def call():
     print("Anything?")
     
     access_token = get_secret("access_token")
-    if access_token:
+    if access_token.strip():
         print("Got an access token ok")
-        print(access_token)
     else:
         print("Got an empty access token")
 
-    # Nominal barrier to entry
+    # Check the access token
     token = request.args.get('token')
     if not token or token != access_token:
         print("nah...")
