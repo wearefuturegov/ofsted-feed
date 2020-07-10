@@ -8,7 +8,7 @@ keyfile=${parentdir}/secrets/run-key.json
 certfolder=${parentdir}/secrets/cert
 project_id=$(gcloud config get-value project)
 project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
-function=europe-west2-${project_id}.cloudfunctions.net/proxy
+function="https://europe-west2-${project_id}.cloudfunctions.net/proxy"
 
 docker run -it --rm -p 8080:8080 \
   -v "${keyfile}":/secrets/key \

@@ -2,6 +2,7 @@
 from flask import Flask, render_template, make_response, request, redirect, url_for, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 
+import requests
 from zeep import Client
 from zeep.wsse.username import UsernameToken
 from zeep.wsse.signature import Signature
@@ -16,7 +17,7 @@ import tempfile
 
 app = Flask(__name__)
 
-function = os.getenv('FUNCTION')
+function_url = os.getenv('FUNCTION_URL')
 
 @app.route('/')
 def get_feed():
@@ -33,6 +34,10 @@ def get_feed():
     node = client.create_message(client.service, 'GetLocalAuthorityChildcareRegister', localAuthorityRequest=parameters)
     xmlstr = minidom.parseString(ET.tostring(node)).toprettyxml(indent="   ")
     print(xmlstr)
+
+    result = call_proxy(node)
+
+    soapMessage = ET.tostring(node, encoding='unicode')
 
     # Response document
     result = client.service.GetLocalAuthorityChildcareRegister(localAuthorityRequest=parameters)
@@ -97,6 +102,37 @@ def get_secret(name, local_file):
     PROJECT_NUMBER = os.environ.get("PROJECT_NUMBER")
     secrets = secretmanager.SecretManagerServiceClient()
     return secrets.access_secret_version(f"projects/{PROJECT_NUMBER}/secrets/{name}/versions/latest").payload.data.decode("utf-8")
+
+
+def call_proxy(xml):
+
+    # Provide the token in the request to the receiving function
+    headers = {'Authorization': f'bearer {jwt()}'}
+    body = ET.tostring(xml, encoding='unicode')
+    response = requests.post(function_url, headers=headers, data=body)
+
+    if response.status_code != 200:
+        print(f"{response.status_code}: {response.text}")
+        return None
+
+    print(response.text)
+    return minidom.parseString(response.text)
+
+
+def jwt(): 
+    """ See: https://cloud.google.com/functions/docs/securing/authenticating#functions-bearer-token-example-python """
+
+    # Constants for setting up metadata server request
+    # See https://cloud.google.com/compute/docs/instances/verifying-instance-identity#request_signature
+    metadata_server_url = 'http://metadata/computeMetadata/v1/instance/service-accounts/default/identity?audience='
+    token_full_url = metadata_server_url + function_url
+    token_headers = {'Metadata-Flavor': 'Google'}
+
+    # Fetch the token
+    token_response = requests.get(token_full_url, headers=token_headers)
+    jwt = token_response.text
+
+    return jwt
 
 
 if __name__ == '__main__':
