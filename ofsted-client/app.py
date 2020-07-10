@@ -1,5 +1,5 @@
 
-from flask import Flask, Response, make_response, request, redirect, url_for, flash
+from flask import Flask, Response, abort, request
 from werkzeug.security import generate_password_hash, check_password_hash
 
 import requests
@@ -20,6 +20,18 @@ app = Flask(__name__)
 function_url = os.getenv('FUNCTION_URL')
 
 @app.route('/')
+def call():
+
+    # Nominal barrier to entry
+    token = request.args.get('token')
+    if not token or token != 'test':
+        print("nah...")
+        abort(401)
+    else:
+        print("Let's go!")
+        return get_feed()
+
+
 def get_feed():
 
     user_name_token = username_password()
