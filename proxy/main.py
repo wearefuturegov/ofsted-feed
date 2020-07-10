@@ -1,14 +1,3 @@
-# from zeep import Client
-# from zeep.wsse.username import UsernameToken
-# from zeep.wsse.signature import Signature
-# from zeep.wsse.signature import BinarySignature
-# from zeep.wsse import utils
-# from xml.dom import minidom
-# import xml.etree.ElementTree as ET
-# from datetime import datetime, timedelta
-# from google.cloud import secretmanager
-# import os
-# import tempfile
 from flask import Response, abort
 import requests
 

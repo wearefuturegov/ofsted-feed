@@ -150,8 +150,8 @@ jobs:
           cd proxy
           project_id=$(gcloud config get-value project)
           project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
-          gcloud functions deploy proxy --runtime=python37 --set-env-vars PROJECT_NUMBER=${project_number},WSDL=./wsdl.xml \
-            --region=europe-west2 --memory=256MB --trigger-http \
+          gcloud functions deploy proxy \
+            --runtime=python37 --region=europe-west2 --memory=256MB --trigger-http \
             --vpc-connector ofsted-egress-vpcc \
             --egress-settings all
       - name: Permission to call the function

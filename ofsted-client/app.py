@@ -27,6 +27,7 @@ def call():
     access_token = get_secret("access_token")
     if access_token:
         print("Got an access token ok")
+        print(access_token)
     else:
         print("Got an empty access token")
 
