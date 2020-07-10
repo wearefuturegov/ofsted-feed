@@ -14,6 +14,6 @@ docker run -it --rm -p 8080:8080 \
   -v "${keyfile}":/secrets/key \
   --env GOOGLE_APPLICATION_CREDENTIALS="/secrets/key" \
   --env PROJECT_NUMBER="${project_number}" \
-  --env FUNCTION="${function}" \
+  --env FUNCTION_URL="${function}" \
   ofsted-client
 
