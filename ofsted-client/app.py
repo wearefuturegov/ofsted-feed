@@ -63,7 +63,7 @@ def get_feed():
     #return minidom.parseString(response.text)
     #ET.tostring(feed, encoding='unicode').toprettyxml(indent="   ")
 
-    return Response(response.text), 200
+    return Response(f"{response.statuscode} -- {response.text}"), 200
     #return Response(response.text, mimetype='text/xml'), response.status_code
 
 

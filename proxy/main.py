@@ -29,4 +29,4 @@ def proxy(request):
         # Attempt to return
         return Response(response.content, mimetype=response.headers.get('content-type')), response.status_code
     except:
-        traceback.print_stack()
+        traceback.print_exc()
