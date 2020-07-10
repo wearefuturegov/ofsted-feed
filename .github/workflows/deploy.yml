@@ -105,6 +105,7 @@ jobs:
           OFTSED_PASSWORD: ${{ secrets.OFTSED_PASSWORD }}
           OFTSED_CERTIFICATE: ${{ secrets.OFTSED_CERTIFICATE }}
           OFTSED_PRIVATE_KEY: ${{ secrets.OFTSED_PRIVATE_KEY }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       # Ofsted certificate, key and key password
       # see: https://cloud.google.com/sdk/gcloud/reference/secrets/create
       # see also: gcloud beta secrets locations list
@@ -125,6 +126,10 @@ jobs:
         run: |
           gcloud secrets describe private_key || \
           echo $OFTSED_PRIVATE_KEY | gcloud secrets create private_key --data-file=- --replication-policy=user-managed --locations=europe-west1,europe-west4
+      - name: access-token
+        run: |
+          gcloud secrets describe access-token || \
+          echo $ACCESS_TOKEN | gcloud secrets create access-token --data-file=- --replication-policy=user-managed --locations=europe-west1,europe-west4
       - name: permissions
         run: |
           project_id=$(gcloud config get-value project)

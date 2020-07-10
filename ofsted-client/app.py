@@ -21,10 +21,12 @@ function_url = os.getenv('FUNCTION_URL')
 
 @app.route('/')
 def call():
+    
+    access_token = get_secret("ACCESS_TOKEN", None)
 
     # Nominal barrier to entry
     token = request.args.get('token')
-    if not token or token != 'test':
+    if not token or token != access_token:
         print("nah...")
         abort(401)
     else:
