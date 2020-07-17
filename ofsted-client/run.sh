@@ -15,5 +15,6 @@ docker run -it --rm -p 8080:8080 \
   --env GOOGLE_APPLICATION_CREDENTIALS="/secrets/key" \
   --env PROJECT_NUMBER="${project_number}" \
   --env FUNCTION_URL="${function}" \
+  --env FUNCTION_TOKEN=$(gcloud auth print-identity-token) \
   ofsted-client
 

@@ -131,6 +131,12 @@ def call_proxy(xml):
 def jwt(): 
     """ See: https://cloud.google.com/functions/docs/securing/authenticating#functions-bearer-token-example-python """
 
+    # Short-circuit for running locally
+    local_token = os.getenv('FUNCTION_TOKEN')
+    if local_token:
+        print(f"Local token: {local_token}")
+        return local_token
+
     # Constants for setting up metadata server request
     # See https://cloud.google.com/compute/docs/instances/verifying-instance-identity#request_signature
     metadata_server_url = 'http://metadata/computeMetadata/v1/instance/service-accounts/default/identity?audience='
