@@ -9,6 +9,5 @@ RUN pip install gunicorn
 COPY app.py .
 COPY tweaked_xml/ tweaked_xml/
 
-USER 1000
 ENV PORT 8080
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 app:app
