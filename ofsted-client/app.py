@@ -139,17 +139,17 @@ def get_feed():
             f.write(xmlstr)
             print("Saved generated XML message.")
 
-    # response = call_proxy(envelope)
+    response = call_proxy(envelope)
 
-    # if response.status_code != 200:
-    #     print(f"{response.status_code}: {response.text}")
+    if response.status_code != 200:
+        print(f"{response.status_code}: {response.text}")
 
     #return minidom.parseString(response.text)
     #ET.tostring(feed, encoding='unicode').toprettyxml(indent="   ")
 
     #return Response(f"{response.status_code} -- {response.text}"), 200
-    # return Response(response.text, mimetype='text/xml'), response.status_code
-    return Response(str(etree.tostring(envelope, encoding='unicode', pretty_print=True)), mimetype='text/xml'), 200
+    return Response(response.text, mimetype='text/xml'), response.status_code
+    # return Response(str(etree.tostring(envelope, encoding='unicode', pretty_print=True)), mimetype='text/xml'), 200
 
 
 # def tweak(xmlstr):
