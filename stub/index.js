@@ -7,7 +7,7 @@ const fetchAndProcess = async () => {
         const res = await fetch(process.env.STUB_DATASOURCE)
         const text = await res.text()
         let rows = await csv().fromString(text)
-        rows = rows.slice(0, 100).map(row => {
+        rows = rows.slice(0, rows.length).map(row => {
             return {
                 ...row,
                 childcare_period: row.childcare_period.split("\n"),
