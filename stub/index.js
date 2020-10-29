@@ -10,6 +10,7 @@ const fetchAndProcess = async () => {
         rows = rows.slice(0, rows.length).map(row => {
             return {
                 ...row,
+                registration_status_history: row.registration_status_history.split("\n").map(element => convert(element)),
                 childcare_period: row.childcare_period.split("\n"),
                 childcare_age: row.childcare_age.split("\n").map(element => convert(element)),
                 inspection: row.inspection.split("\n").map(element => convert(element)),
