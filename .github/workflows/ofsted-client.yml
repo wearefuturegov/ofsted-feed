@@ -1,7 +1,7 @@
 # This is a basic workflow to create, configure and deploy artefacts and resources
 # for the PPE Inventory project in the DEMO environment
 
-name: GCP Deploy
+name: Ofsted client container
 
 on:
   push:
