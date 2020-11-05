@@ -12,6 +12,7 @@ from zeep.wsa import WsAddressingPlugin
 from xml.dom import minidom
 # import xml.etree.ElementTree as ET
 from lxml import etree
+from signxml import XMLSigner, methods
 from datetime import datetime, timedelta
 from google.cloud import secretmanager
 import os
@@ -31,6 +32,7 @@ def call():
         print("Got an access token ok")
     else:
         print("Got an empty access token")
+    print(access_token.strip())
 
     # Check the access token value
     token = request.args.get('token')
@@ -70,74 +72,142 @@ def get_feed():
     # Request document
     envelope = client.create_message(client.service, 'GetLocalAuthorityChildcareRegister', localAuthorityRequest=parameters, _soapheaders=[header_value])
     
-    # Update a few tricky values
+    # # Update a few tricky values
 
-    header = envelope.find('{http://www.w3.org/2003/05/soap-envelope}Header')
-    security = header.find('{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security')
-    signature = security.find('{http://www.w3.org/2000/09/xmldsig#}Signature')
-    signature_value = signature.find('{http://www.w3.org/2000/09/xmldsig#}SignatureValue')
-    binary_security_token = security.find('{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}BinarySecurityToken')
+    header_tag = envelope.find('{http://www.w3.org/2003/05/soap-envelope}Header')
+    security_tag = header_tag.find('{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security')
 
-    # Reformat base-64 values without line-wrapping 
-    # # (possible the server isn't reading them correctly otherwise)
-    nowrapping(signature_value)
-    nowrapping(binary_security_token)
+    # Mark the Timestamp tag for signing:
+    timestamp_tag = security_tag.find('{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Timestamp')
+    timestamp_tag.attrib['{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id']="_0"
 
-    # Sprinkle in some 'mustUnderstand' just in case
-    mustunderstanders = [
-            '{http://www.w3.org/2005/08/addressing}Action', 
-            '{http://www.w3.org/2005/08/addressing}To', 
-            '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
-            ]
-    for child in header:
-        if child.tag in mustunderstanders:
-            print(f"Adding mustUnderstand to {child.tag}")
-            child.attrib['{http://www.w3.org/2003/05/soap-envelope}mustUnderstand']="1"
+    # De-duplicate and tweak the To tag for signing:
+    for child_tag in header_tag:
+        if child_tag.tag == '{http://www.w3.org/2005/08/addressing}To':
+            to_tag = child_tag
+            insert_index = header_tag.index(child_tag)
+            header_tag.remove(child_tag)
+    header_tag.insert(insert_index, to_tag)
+    to_tag.attrib['{http://www.w3.org/2003/05/soap-envelope}mustUnderstand']="1"
+    to_tag.attrib['{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id']="_1"
+
+    # Remove the standard signature so we can replace it with what's needed for this specific implementation:
+    signature_tag = security_tag.find('{http://www.w3.org/2000/09/xmldsig#}Signature')
+    signature_index = security_tag.index(signature_tag)
+    binary_security_token_tag = security_tag.find('{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}BinarySecurityToken')
+    security_tag.remove(signature_tag)
+    security_tag.remove(binary_security_token_tag)
+
+    # Re-sign in the way that's expected by this service:
+    signer = XMLSigner(
+        method=methods.detached,
+        digest_algorithm='sha1',
+        signature_algorithm='rsa-sha1',
+        c14n_algorithm='http://www.w3.org/2001/10/xml-exc-c14n#'
+        )
+    private = get_secret('private_key')
+    public = get_secret('certificate')
+    signature = signer.sign(envelope, key=private, cert=public, reference_uri=['_0', '_1'])
+    security_tag.insert(signature_index, signature)
+
+    # Add the signature to the document:
+
+    xmlstr = str(etree.tostring(envelope, encoding='unicode', pretty_print=True))
+    print(f" *** Signed:\n {xmlstr}")
+
+    for tag in security_tag:
+        print(tag.tag)
+        for subtag in tag:
+            print(f' - {subtag.tag}')
+
+    # header = envelope.find('{http://www.w3.org/2003/05/soap-envelope}Header')
+    # security = header.find('{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security')
+    # signature = security.find('{http://www.w3.org/2000/09/xmldsig#}Signature')
+    # signature_value = signature.find('{http://www.w3.org/2000/09/xmldsig#}SignatureValue')
+    # binary_security_token = security.find('{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}BinarySecurityToken')
+
+    # # Reformat base-64 values without line-wrapping 
+    # # # (possible the server isn't reading them correctly otherwise)
+    # nowrapping(signature_value)
+    # nowrapping(binary_security_token)
+
+    # # Sprinkle in some 'mustUnderstand' just in case
+    # mustunderstanders = [
+    #         '{http://www.w3.org/2005/08/addressing}Action', 
+    #         '{http://www.w3.org/2005/08/addressing}To', 
+    #         '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Security'
+    #         ]
+    # for child in header:
+    #     if child.tag in mustunderstanders:
+    #         print(f"Adding mustUnderstand to {child.tag}")
+    #         child.attrib['{http://www.w3.org/2003/05/soap-envelope}mustUnderstand']="1"
+
+    # # Temp: c14n test
+    # print("...")
+    # for child in header:
+    #     if child.tag == '{http://www.w3.org/2005/08/addressing}Action':
+    #         print(f"C14nning: {child.tag}")
+    # print("...")
+
     
-    # Pop in a couple of missing ids
-    for child in header:
-        if child.tag == '{http://www.w3.org/2005/08/addressing}To':
-            child.attrib['{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id'] = "_1"
-    for child in security:
-        if child.tag == '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}UsernameToken':
-            child.attrib['{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id'] = "_2"
+    # # Pop in a couple of missing ids
+    # signer = XMLSigner(
+    #     method=methods.detached,
+    #     digest_algorithm='sha1',
+    #     signature_algorithm='rsa-sha1',
+    #     c14n_algorithm='http://www.w3.org/2001/10/xml-exc-c14n#'
+    #     )
+    # ref = 0
+    # for child in header:
+    #     if child.tag == '{http://www.w3.org/2005/08/addressing}To':
+    #         child.attrib['{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id'] = "_1"
+    #         private = get_secret('private_key')
+    #         public = get_secret('certificate')
+    #         signed_root = signer.sign(child, key=private, cert=public, key_info='ouagadougou', reference_uri=f'_{ref}')
+    #         ref = ref + 1
+    #         #signed_root = XMLSigner().sign(child, key=private, cert=public)
+    # xmlstr = str(etree.tostring(signed_root, encoding='unicode', pretty_print=True))
+    # print(f" *** Signed:\n {xmlstr}")
+    # for child in security:
+    #     if child.tag == '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}UsernameToken':
+    #         child.attrib['{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id'] = "_2"
     
-    # Delete duplicated elements
-    duplicates = ['{http://www.w3.org/2005/08/addressing}Action', '{http://www.w3.org/2005/08/addressing}To', '{http://www.w3.org/2005/08/addressing}MessageID']
-    deduped = {}
-    insert_index = 0
-    for child in header:
-        if child.tag in duplicates:
-            deduped[child.tag] = child
-            header.remove(child)
-        if child.tag == '{http://www.w3.org/2005/08/addressing}ReplyTo':
-            insert_index = header.index(child)
+    # # Delete duplicated elements
+    # duplicates = ['{http://www.w3.org/2005/08/addressing}Action', '{http://www.w3.org/2005/08/addressing}To', '{http://www.w3.org/2005/08/addressing}MessageID']
+    # deduped = {}
+    # insert_index = 0
+    # for child in header:
+    #     if child.tag in duplicates:
+    #         deduped[child.tag] = child
+    #         header.remove(child)
+    #     if child.tag == '{http://www.w3.org/2005/08/addressing}ReplyTo':
+    #         insert_index = header.index(child)
 
-    # Re-insert the de-duped elements
-    for child in deduped.values():
-        insert_index = insert_index + 1
-        header.insert(insert_index, child)
+    # # Re-insert the de-duped elements
+    # for child in deduped.values():
+    #     insert_index = insert_index + 1
+    #     header.insert(insert_index, child)
 
-    for child in header:
-        print(f' - {child.tag[child.tag.rindex("}")+1:]}  {child.tag}  -->  {child.attrib}')
-        if child.tag=='{http://www.w3.org/2005/08/addressing}ReplyTo':
-            print(header.index(child))
+    # for child in header:
+    #     print(f' - {child.tag[child.tag.rindex("}")+1:]}  {child.tag}  -->  {child.attrib}')
+    #     if child.tag=='{http://www.w3.org/2005/08/addressing}ReplyTo':
+    #         print(header.index(child))
     
     # xmlstr =  minidom.parseString(ET.tostring(node)).toprettyxml(indent="   ")
-    xmlstr = str(etree.tostring(envelope, encoding='unicode', pretty_print=True))
-    print(type(xmlstr))
+    #xmlstr = str(etree.tostring(signed, encoding='unicode', pretty_print=True))
+    # print(type(xmlstr))
 
     # xmlstr=tweak(xmlstr)
 
     ##print(xmlstr)
-    if os.path.isdir('/output'):
-        with open('/output/actual1.xml', 'w+') as f:
-            f.write(xmlstr)
-            print("Saved generated XML message.")
+    # if os.path.isdir('/output'):
+    #     with open('/output/actual1.xml', 'w+') as f:
+    #         f.write(xmlstr)
+    #         print("Saved generated XML message.")
     if os.path.isdir('../secrets/compare'):
         with open('../secrets/compare/actual1.xml', 'w+') as f:
             f.write(xmlstr)
-            print("Saved generated XML message.")
+            print("Saved generated XML message..............................")
 
     response = call_proxy(envelope)
 
@@ -148,6 +218,7 @@ def get_feed():
     #ET.tostring(feed, encoding='unicode').toprettyxml(indent="   ")
 
     #return Response(f"{response.status_code} -- {response.text}"), 200
+    #return "Fin." 
     return Response(response.text, mimetype='text/xml'), response.status_code
     # return Response(str(etree.tostring(envelope, encoding='unicode', pretty_print=True)), mimetype='text/xml'), 200
 
