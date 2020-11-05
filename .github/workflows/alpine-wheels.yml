@@ -6,6 +6,10 @@ on:
   schedule:
     # At 12:00 on Monday (https://crontab.guru/#0_12_*_*_1)
     - cron: '0 12 * * 1'
+  push:
+    branches: [ master ]
+    paths: 
+    - '.github/workflows/alpine-wheels.yml'
 
 jobs:
 
