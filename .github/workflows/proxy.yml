@@ -1,0 +1,41 @@
+# This is a basic workflow to create, configure and deploy artefacts and resources
+# for the PPE Inventory project in the DEMO environment
+
+name: GCP Deploy
+
+on:
+  push:
+    branches: [ master ]
+    paths: 
+    - 'proxy/**'
+
+jobs:
+
+  proxy:
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup gcloud CLI
+        uses: GoogleCloudPlatform/github-actions/@master
+        with:
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          project_id: ${{ secrets.PROJECT_ID }}
+          export_default_credentials: true
+      # Deploy form function
+      - name: Deploy proxy function
+        run: |
+          cd proxy
+          project_id=$(gcloud config get-value project)
+          project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
+          gcloud functions deploy proxy \
+            --runtime=python37 --region=europe-west2 --memory=256MB --trigger-http \
+            --vpc-connector ofsted-egress-vpcc \
+            --egress-settings all
+      - name: Permission to call the function
+        run: |
+          project_id=$(gcloud config get-value project)
+          project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
+          gcloud functions add-iam-policy-binding proxy --region europe-west2 \
+            --member=serviceAccount:${project_number}-compute@developer.gserviceaccount.com \
+            --role=roles/cloudfunctions.invoker

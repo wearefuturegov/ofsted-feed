@@ -6,6 +6,8 @@ name: GCP Deploy
 on:
   push:
     branches: [ master ]
+    paths: 
+    - '.github/workflows/setup.yml'
 
 jobs:
 
@@ -132,60 +134,3 @@ jobs:
           gcloud projects add-iam-policy-binding $project_id \
               --member=serviceAccount:${project_number}-compute@developer.gserviceaccount.com \
               --role=roles/secretmanager.secretAccessor
-
-  proxy-function:
-
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup gcloud CLI
-        uses: GoogleCloudPlatform/github-actions/@master
-        with:
-          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          project_id: ${{ secrets.PROJECT_ID }}
-          export_default_credentials: true
-      # Deploy form function
-      - name: Deploy proxy function
-        run: |
-          cd proxy
-          project_id=$(gcloud config get-value project)
-          project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
-          gcloud functions deploy proxy \
-            --runtime=python37 --region=europe-west2 --memory=256MB --trigger-http \
-            --vpc-connector ofsted-egress-vpcc \
-            --egress-settings all
-      - name: Permission to call the function
-        run: |
-          project_id=$(gcloud config get-value project)
-          project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
-          gcloud functions add-iam-policy-binding proxy --region europe-west2 \
-            --member=serviceAccount:${project_number}-compute@developer.gserviceaccount.com \
-            --role=roles/cloudfunctions.invoker
-
-  ofsted-client-container:
-    
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup gcloud CLI
-        uses: GoogleCloudPlatform/github-actions/@master
-        with:
-          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          project_id: ${{ secrets.PROJECT_ID }}
-          export_default_credentials: true
-      # Deploy the container
-      # see: https://cloud.google.com/run/docs/locations
-      # NB Cloud Run is currently available in eurompe-west1 (Belgium) and europe-west2 (Netherlands) but not europe-west2 (London)
-      - name: Build feed-client image
-        run: |
-          cd ofsted-client
-          project_id=$(gcloud config get-value project)
-          gcloud builds submit --tag gcr.io/${project_id}/ofsted-client --timeout 15m
-      - name: Deploy feed-client container
-        run: |
-          project_id=$(gcloud config get-value project)
-          project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
-          function_url=https://europe-west2-${project_id}.cloudfunctions.net/proxy
-          gcloud run deploy ofsted-client --image=gcr.io/${project_id}/ofsted-client \
-            --platform=managed --region=europe-west1 --allow-unauthenticated \
-            --update-env-vars=FUNCTION_URL=${function_url},PROJECT_NUMBER=${project_number},WSDL=./wsdl.xml
