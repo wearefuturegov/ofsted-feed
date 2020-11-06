@@ -8,7 +8,8 @@ RUN apk update && apk add \
     libxml2-dev \
     libxslt-dev \
     xmlsec-dev \
-    libffi-dev
+    libffi-dev \
+    openssl-dev
 
 RUN pip install xmlsec
 RUN pip install grpcio
