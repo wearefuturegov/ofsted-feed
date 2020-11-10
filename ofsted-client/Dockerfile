@@ -5,8 +5,6 @@ RUN apk update && apk add \
     libffi-dev \
     openssl-dev
 
-# Bump a build...
-
 WORKDIR /app
 
 COPY requirements.txt .
