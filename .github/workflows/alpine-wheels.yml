@@ -5,7 +5,7 @@ name: Alpine base image with wheels
 on:
   push:
     branches: [ main ]
-    paths:
+    paths: 
     - 'alpine-wheels/**'
   # schedule:
   #   # At 12:00 on Monday (https://crontab.guru/#0_12_*_*_1)
