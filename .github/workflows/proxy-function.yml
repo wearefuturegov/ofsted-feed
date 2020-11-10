@@ -7,7 +7,7 @@ on:
   push:
     branches: [ main ]
     paths: 
-    - 'proxy/**'
+    - 'proxy-function/**'
 
 jobs:
 
