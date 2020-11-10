@@ -5,7 +5,7 @@ name: GCP Setup
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths: 
     - '.github/workflows/setup.yml'
 

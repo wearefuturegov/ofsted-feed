@@ -5,7 +5,7 @@ name: Static IP address proxy function
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
     paths: 
     - 'proxy/**'
 
