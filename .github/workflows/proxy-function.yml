@@ -25,7 +25,7 @@ jobs:
       # Deploy form function
       - name: Deploy proxy function
         run: |
-          cd proxy
+          cd proxy-function
           project_id=$(gcloud config get-value project)
           project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
           gcloud functions deploy proxy \
