@@ -7,7 +7,7 @@ on:
   push:
     branches: [ main ]
     paths: 
-    - "alpine-wheels/*"
+    - 'alpine-wheels/**'
   schedule:
     # At 12:00 on Monday (https://crontab.guru/#0_12_*_*_1)
     - cron: '0 12 * * 1'
