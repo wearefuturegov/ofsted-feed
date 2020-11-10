@@ -74,4 +74,5 @@ Both a Cloud Run container and a Cloud Function are used:
 
  * The cloud functions Python runtime does not contain the `libxmlsec1` system package so it's not possible to sign soap messages in GCF using Python (https://issuetracker.google.com/issues/158846273)
  * For this reason a Cloud Run container is used to generate the soap xml and this is then passed to a function, which acts as an egress proxy to send the message to Ofsted via the static IP.
+ * Github disables the scheduled build of the base image after 60 days of no activity in the repo. You may need to navigate to the workflow and click to re-enable it: https://github.com/wearefuturegov/ofsted-feed/actions?query=workflow%3A%22Alpine+base+image+with+wheels%22
  
