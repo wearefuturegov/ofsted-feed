@@ -26,4 +26,7 @@ export PROJECT_NUMBER=${project_number}
 export FUNCTION_URL="${function}"
 export FLASK_ENV=development
 export FUNCTION_TOKEN=$(gcloud auth print-identity-token)
+
+echo "Access token is $(cat ${parentdir}/secrets/token.txt)" 
+
 flask run
