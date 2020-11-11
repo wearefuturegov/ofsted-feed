@@ -13,7 +13,7 @@ const fetchAndProcess = async () => {
                 registration_status_history: row.registration_status_history.split("\n").map(element => convert(element)),
                 childcare_period: row.childcare_period.split("\n"),
                 childcare_age: row.childcare_age.split("\n").map(element => convert(element)),
-                childcare_services_register: row.childcare_services_register.split("\n").map(element => convert(element)),
+                child_services_register: row.child_services_register.split("\n").map(element => convert(element)),
                 inspection: row.inspection.split("\n").map(element => convert(element)),
                 notice_history: row.notice_history.split("\n").map(element => convert(element)),
                 welfare_notice_history: row.welfare_notice_history.split("\n").map(element => convert(element))
