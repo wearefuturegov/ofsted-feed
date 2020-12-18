@@ -14,16 +14,21 @@ def proxy(request):
             return "Invocation success", 200
 
         # Proxy the request
+        print("Getting request data")
         xml = request.data
+        print("Setting up headers")
         headers = {'content-type': 'application/soap+xml'}
+        print(f"Forwarding SOAP request to {endpoint_service}")
         response = requests.post(endpoint_service, headers=headers, data=xml)
         #response = requests.get(endpoint_wsdl)
 
         # Debug
-        print("Headers:")
-        # for k,v in response.headers.iteritems():
-        #     print(f'{k}: {v}')
+        print("Response headers:")
+        for k,v in response.headers.iteritems():
+            print(f'{k}: {v}')
+        print("Response content:")
         print(response.content)
+        print("Response status code:")
         print(response.status_code)
 
         # Attempt to return
