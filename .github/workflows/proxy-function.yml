@@ -8,10 +8,11 @@ on:
     branches: [ main ]
     paths: 
     - 'proxy-function/**'
+    - '.github/workflows/proxy-function.yml'
 
 jobs:
 
-  proxy:
+  proxy-function:
 
     runs-on: ubuntu-latest
     steps:

@@ -32,7 +32,6 @@ def call():
         print("Got an access token ok")
     else:
         print("Got an empty access token")
-    print(access_token.strip())
 
     # Check the access token value
     token = request.args.get('token')

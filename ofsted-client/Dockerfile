@@ -1,10 +1,5 @@
 FROM gcr.io/ofsted-feed/alpine-wheels
 
-# Temporary until the next base image build
-RUN apk update && apk add \
-    libffi-dev \
-    openssl-dev
-
 WORKDIR /app
 
 COPY requirements.txt .
