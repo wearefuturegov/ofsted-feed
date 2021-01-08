@@ -1,5 +1,5 @@
 # Ofsted Feed Client
-Client for the Ofsted feed.
+Client for the [Ofsted feed](https://docs.google.com/drawings/d/1H2PbfclwaD_IyS6-6kGQPtuJ2xxGeuLtD_rHhqxdkEY).
 
 ## Setup
 
