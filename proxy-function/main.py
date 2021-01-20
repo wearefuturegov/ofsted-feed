@@ -15,7 +15,7 @@ def proxy(request):
 
         # Temporarily request for service page to see if we have access
         print("Temp request for service page")
-        res = request.get('https://testinfogateway.ofsted.gov.uk')
+        res = requests.get('https://testinfogateway.ofsted.gov.uk')
         print("Temp Response headers:")
         for k,v in res.headers.iteritems():
             print(f'{k}: {v}')
