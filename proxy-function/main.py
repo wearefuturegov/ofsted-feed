@@ -1,5 +1,6 @@
 from flask import Response, abort
-from requests import Request, Session
+import requests
+# from requests import Request, Session
 import traceback
 
 endpoint_service = "https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc"
