@@ -4,3 +4,4 @@ xmlsec
 signxml
 google-cloud-secret-manager
 requests
+xmltodict

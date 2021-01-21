@@ -1,7 +1,9 @@
 
-from flask import Flask, Response, abort, request, current_app
+from flask import Flask, Response, jsonify, abort, request, current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 
+import json
+import xmltodict
 import requests
 from zeep import Client, xsd
 from zeep.wsse.username import UsernameToken
@@ -25,7 +27,18 @@ function_url = os.getenv('FUNCTION_URL')
 
 @app.route('/')
 def call():
-    
+    if verify():
+        print("Requesting feed")
+        get_feed()
+
+@app.route('/mock')
+def mock():
+    if verify():
+        print("Requesting mock json")
+        json_data = convert_xml_to_json()
+        return json_data, 200
+
+def verify():
     # Get the access token secret
     access_token = get_secret("access_token")
     if access_token.strip():
@@ -39,8 +52,41 @@ def call():
         print("Token not matched")
         abort(401)
     else:
-        print("Requesting feed")
-        return get_feed()
+        print("Request call")
+        return True
+
+def convert_xml_to_json():
+#     tree = etree.parse("mock_data/feedoutputformatted.xml")
+#     xslt_root = etree.parse("xml2json/xml2json.xsl")
+#     transform = etree.XSLT(xslt_root)
+#
+#     result = transform(tree)
+#     json_load = json.loads(str(result))
+#
+#     json_dump = json.dumps(json_load, indent=2)
+#     return json_dump
+
+    # open the input xml file and read
+    # data in form of python dictionary
+    # using xmltodict module
+    with open("mock_data/feedoutputformatted.xml") as xml_file:
+
+        data_dict = xmltodict.parse(xml_file.read())
+        xml_file.close()
+
+        # generate the object using json.dumps()
+        # corresponding to json data
+
+        json_data = json.dumps(data_dict)
+
+        return json_data
+        # Write the json data to output
+        # json file
+#         with open("data.json", "w") as json_file:
+#             json_file.write(json_data)
+#             json_file.close()
+
+
 
 
 def get_feed():
@@ -90,10 +136,19 @@ def get_feed():
     to_tag.attrib['{http://www.w3.org/2003/05/soap-envelope}mustUnderstand']="1"
     to_tag.attrib['{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id']="_1"
 
+    # Add mustUnderstand attributes
+    action_tag = header_tag.find('{http://www.w3.org/2005/08/addressing}Action')
+    action_tag.attrib['{http://www.w3.org/2003/05/soap-envelope}mustUnderstand']="1"
+
+    security_tag.attrib['{http://www.w3.org/2003/05/soap-envelope}mustUnderstand']="1"
+
     # Remove the standard signature so we can replace it with what's needed for this specific implementation:
     signature_tag = security_tag.find('{http://www.w3.org/2000/09/xmldsig#}Signature')
     signature_index = security_tag.index(signature_tag)
     binary_security_token_tag = security_tag.find('{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}BinarySecurityToken')
+#
+#     print('TEST')
+#     print(str(etree.tostring(binary_security_token_tag, encoding='unicode', pretty_print=True)))
     security_tag.remove(signature_tag)
     security_tag.remove(binary_security_token_tag)
 
@@ -301,7 +356,8 @@ def get_secret(name):
         print(f"Getting GCP secret for {name}")
         PROJECT_NUMBER = os.environ.get("PROJECT_NUMBER")
         secrets = secretmanager.SecretManagerServiceClient()
-        current_app.config[name] = secrets.access_secret_version(f"projects/{PROJECT_NUMBER}/secrets/{name}/versions/latest").payload.data.decode("utf-8")
+        tempname = f"projects/{PROJECT_NUMBER}/secrets/{name}/versions/latest"
+        current_app.config[name] = secrets.access_secret_version(request={"name": tempname}).payload.data.decode("utf-8")
 
     return current_app.config[name]
 
