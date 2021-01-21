@@ -20,28 +20,29 @@ def proxy(request):
         headers = {'content-type': 'application/soap+xml'}
         print(f"Forwarding SOAP request to {endpoint_service}")
 
-        s = Session()
-        req = Request('POST', endpoint_service, headers=headers, data=xml)
-        prepared = req.prepare()
-
-        def pretty_print_POST(req):
-            """
-            At this point it is completely built and ready
-            to be fired; it is "prepared".
-
-            However pay attention at the formatting used in
-            this function because it is programmed to be pretty
-            printed and may differ from the actual request.
-            """
-            print('{}\n{}\r\n{}\r\n\r\n{}'.format(
-                '-----------START-----------',
-                req.method + ' ' + req.url,
-                '\r\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
-                req.body,
-            ))
-
-        pretty_print_POST(prepared)
-        response = s.send(prepared, timeout=540)
+#         s = Session()
+#         req = Request('POST', endpoint_service, headers=headers, data=xml)
+#         prepared = req.prepare()
+#
+#         def pretty_print_POST(req):
+#             """
+#             At this point it is completely built and ready
+#             to be fired; it is "prepared".
+#
+#             However pay attention at the formatting used in
+#             this function because it is programmed to be pretty
+#             printed and may differ from the actual request.
+#             """
+#             print('{}\n{}\r\n{}\r\n\r\n{}'.format(
+#                 '-----------START-----------',
+#                 req.method + ' ' + req.url,
+#                 '\r\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
+#                 req.body,
+#             ))
+#
+#         pretty_print_POST(prepared)
+#         response = s.send(prepared, timeout=540)
+        response = requests.post(endpoint_service, headers=headers, data=xml)
         #response = requests.get(endpoint_wsdl)
 
         # Debug
