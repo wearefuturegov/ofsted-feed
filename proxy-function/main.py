@@ -1,5 +1,5 @@
 from flask import Response, abort
-import requests
+from requests import Request, Session
 import traceback
 
 endpoint_service = "https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc"
@@ -19,7 +19,28 @@ def proxy(request):
         print("Setting up headers")
         headers = {'content-type': 'application/soap+xml'}
         print(f"Forwarding SOAP request to {endpoint_service}")
-        response = requests.post(endpoint_service, headers=headers, data=xml)
+        s = Session()
+        req = Request('POST', endpoint_service, headers=headers, data=xml, timeout=540)
+        prepared = req.prepare()
+
+        def pretty_print_POST(req):
+            """
+            At this point it is completely built and ready
+            to be fired; it is "prepared".
+
+            However pay attention at the formatting used in
+            this function because it is programmed to be pretty
+            printed and may differ from the actual request.
+            """
+            print('{}\n{}\r\n{}\r\n\r\n{}'.format(
+                '-----------START-----------',
+                req.method + ' ' + req.url,
+                '\r\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
+                req.body,
+            ))
+
+        pretty_print_POST(prepared)
+        response = s.send(prepared)
         #response = requests.get(endpoint_wsdl)
 
         # Debug
