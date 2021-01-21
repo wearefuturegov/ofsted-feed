@@ -19,8 +19,9 @@ def proxy(request):
         print("Setting up headers")
         headers = {'content-type': 'application/soap+xml'}
         print(f"Forwarding SOAP request to {endpoint_service}")
+
         s = Session()
-        req = Request('POST', endpoint_service, headers=headers, data=xml, timeout=540)
+        req = Request('POST', endpoint_service, headers=headers, data=xml)
         prepared = req.prepare()
 
         def pretty_print_POST(req):
@@ -40,7 +41,7 @@ def proxy(request):
             ))
 
         pretty_print_POST(prepared)
-        response = s.send(prepared)
+        response = s.send(prepared, timeout=540)
         #response = requests.get(endpoint_wsdl)
 
         # Debug
