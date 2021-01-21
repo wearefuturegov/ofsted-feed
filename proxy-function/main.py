@@ -13,17 +13,6 @@ def proxy(request):
         if request.method == 'GET':
             return "Invocation success", 200
 
-        # Temporarily request for service page to see if we have access
-        print("Temp request for service page")
-        res = requests.get('https://testinfogateway.ofsted.gov.uk')
-        print("Temp Response headers:")
-        for k,v in res.headers.iteritems():
-            print(f'{k}: {v}')
-        print("Temp Response content:")
-        print(res.content)
-        print("Temp Response status code:")
-        print(res.status_code)
-
         # Proxy the request
         print("Getting request data")
         xml = request.data
