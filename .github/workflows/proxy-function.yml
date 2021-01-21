@@ -32,7 +32,7 @@ jobs:
           gcloud functions deploy proxy \
             --runtime=python37 --region=europe-west2 --memory=256MB --trigger-http \
             --vpc-connector ofsted-egress-vpcc \
-            --egress-settings all
+            --egress-settings all \
             --timeout=540
       - name: Permission to call the function
         run: |
