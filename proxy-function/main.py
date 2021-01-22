@@ -18,7 +18,7 @@ def proxy(request):
         print("Getting request data")
         xml = request.data.encode('utf-8')
         print("Setting up headers")
-        headers = {'content-type': 'application/soap+xml': 'charset=utf-8'}
+        headers = {'content-type': 'application/soap+xml; charset=utf-8'}
         print(f"Forwarding SOAP request to {endpoint_service}")
 
 #         s = Session()
@@ -46,6 +46,9 @@ def proxy(request):
         print("XML Soap Request body:")
         print(xml)
         response = requests.post(endpoint_service, headers=headers, data=xml)
+        req = requests.Request('POST', endpoint_service, headers=headers, data=xml)
+
+        req_prep = req.prepare()
         #response = requests.get(endpoint_wsdl)
 
         # Debug
