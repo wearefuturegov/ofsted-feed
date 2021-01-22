@@ -1,3 +1,5 @@
 secrets
 .gcloudignore
 .venv
+/.idea/
+/.python-version

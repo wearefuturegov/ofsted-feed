@@ -29,7 +29,7 @@ function_url = os.getenv('FUNCTION_URL')
 def call():
     if verify():
         print("Requesting feed")
-        get_feed()
+        return get_feed()
 
 @app.route('/mock')
 def mock():
