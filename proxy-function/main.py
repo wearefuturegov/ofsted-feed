@@ -16,10 +16,9 @@ def proxy(request):
 
         # Proxy the request
         print("Getting request data")
-        xml = request.data
+        xml = request.data.encode('utf-8')
         print("Setting up headers")
-#         headers = {'content-type': 'application/soap+xml'}
-        headers = {'content-type': 'text/xml'}
+        headers = {'content-type': 'application/soap+xml': 'charset=utf-8'}
         print(f"Forwarding SOAP request to {endpoint_service}")
 
 #         s = Session()
