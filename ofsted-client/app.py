@@ -82,7 +82,7 @@ def get_feed():
 
     client = Client('tweaked_xml/wsdl.xml', wsse=[user_name_token, signature], plugins=[WsAddressingPlugin()])
     # client.set_ns_prefix('', 'http://information.gateway.ofsted.gov.uk/ispp')
-    # client.set_ns_prefix('s', 'http://www.w3.org/2003/05/soap-envelope')
+    client.set_ns_prefix('s', 'http://www.w3.org/2003/05/soap-envelope')
     client.set_ns_prefix('a', 'http://www.w3.org/2005/08/addressing')
     client.set_ns_prefix('u', 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd')
     parameters = {
@@ -132,9 +132,7 @@ def get_feed():
     signature_tag = security_tag.find('{http://www.w3.org/2000/09/xmldsig#}Signature')
     signature_index = security_tag.index(signature_tag)
     binary_security_token_tag = security_tag.find('{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}BinarySecurityToken')
-#
-#     print('TEST')
-#     print(str(etree.tostring(binary_security_token_tag, encoding='unicode', pretty_print=True)))
+
     security_tag.remove(signature_tag)
     security_tag.remove(binary_security_token_tag)
 
