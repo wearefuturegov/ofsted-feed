@@ -51,8 +51,9 @@ def proxy(request):
 
         # Debug
         print("Response headers:")
-        for k,v in response.headers.iteritems():
-            print(f'{k}: {v}')
+        print(response.headers)
+#         for k,v in response.headers.iteritems():
+#             print(f'{k}: {v}')
         print("Response content:")
         print(response.content)
         print("Response status code:")
