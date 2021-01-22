@@ -60,10 +60,5 @@ def proxy(request):
 
         # Attempt to return
         return Response(response.content, mimetype=response.headers.get('content-type')), response.status_code
-    except OSError as err:
-        print("OS error: {0}".format(err))
-    except ValueError:
-        print("Could not convert data to an integer.")
-    except:
-        print("Unexpected error:", sys.exc_info()[0])
-        raise
+    except BaseException as error:
+        print('An exception occurred: {}'.format(error))
