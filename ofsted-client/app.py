@@ -1,5 +1,5 @@
 
-from flask import Flask, Response, jsonify, abort, request, current_app
+from flask import Flask, Response, abort, request, current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 
 import json
@@ -56,19 +56,10 @@ def verify():
         return True
 
 def convert_xml_to_json():
-#     tree = etree.parse("mock_data/feedoutputformatted.xml")
-#     xslt_root = etree.parse("xml2json/xml2json.xsl")
-#     transform = etree.XSLT(xslt_root)
-#
-#     result = transform(tree)
-#     json_load = json.loads(str(result))
-#
-#     json_dump = json.dumps(json_load, indent=2)
-#     return json_dump
-
     # open the input xml file and read
     # data in form of python dictionary
     # using xmltodict module
+    # Todo: pass in the XML response from Ofsted feed
     with open("mock_data/feedoutputformatted.xml") as xml_file:
 
         data_dict = xmltodict.parse(xml_file.read())
@@ -80,11 +71,6 @@ def convert_xml_to_json():
         json_data = json.dumps(data_dict)
 
         return json_data
-        # Write the json data to output
-        # json file
-#         with open("data.json", "w") as json_file:
-#             json_file.write(json_data)
-#             json_file.close()
 
 
 

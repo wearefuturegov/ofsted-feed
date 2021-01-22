@@ -18,7 +18,8 @@ def proxy(request):
         print("Getting request data")
         xml = request.data
         print("Setting up headers")
-        headers = {'content-type': 'application/soap+xml'}
+#         headers = {'content-type': 'application/soap+xml'}
+        headers = {'content-type': 'text/xml'}
         print(f"Forwarding SOAP request to {endpoint_service}")
 
 #         s = Session()
@@ -43,6 +44,8 @@ def proxy(request):
 #
 #         pretty_print_POST(prepared)
 #         response = s.send(prepared, timeout=540)
+        print("XML Soap Request body:")
+        print(xml)
         response = requests.post(endpoint_service, headers=headers, data=xml)
         #response = requests.get(endpoint_wsdl)
 
@@ -57,5 +60,10 @@ def proxy(request):
 
         # Attempt to return
         return Response(response.content, mimetype=response.headers.get('content-type')), response.status_code
+    except OSError as err:
+        print("OS error: {0}".format(err))
+    except ValueError:
+        print("Could not convert data to an integer.")
     except:
-        traceback.print_exc()
+        print("Unexpected error:", sys.exc_info()[0])
+        raise
