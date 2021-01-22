@@ -49,6 +49,13 @@ def proxy(request):
         req = requests.Request('POST', endpoint_service, headers=headers, data=xml)
 
         req_prep = req.prepare()
+        print("Prep request:")
+        print(req_prep)
+        s = requests.Session()
+        print("Session request:")
+        print(s)
+        http_response = s.send(req_prep)
+        print(http_response)
         #response = requests.get(endpoint_wsdl)
 
         # Debug
