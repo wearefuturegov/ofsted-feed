@@ -60,9 +60,11 @@ def convert_xml_to_json():
     # data in form of python dictionary
     # using xmltodict module
     # Todo: pass in the XML response from Ofsted feed
+    # feed_xml = get_feed()
     with open("mock_data/feedoutputformatted.xml") as xml_file:
 
-        data_dict = xmltodict.parse(xml_file.read())
+        feed_xml = xml_file.read()
+        data_dict = xmltodict.parse(feed_xml)
         xml_file.close()
 
         # generate the object using json.dumps()
@@ -82,7 +84,7 @@ def get_feed():
 
     client = Client('tweaked_xml/wsdl.xml', wsse=[user_name_token, signature], plugins=[WsAddressingPlugin()])
     # client.set_ns_prefix('', 'http://information.gateway.ofsted.gov.uk/ispp')
-    client.set_ns_prefix('s', 'http://www.w3.org/2003/05/soap-envelope')
+    # client.set_ns_prefix('s', 'http://www.w3.org/2003/05/soap-envelope')
     client.set_ns_prefix('a', 'http://www.w3.org/2005/08/addressing')
     client.set_ns_prefix('u', 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd')
     parameters = {
@@ -121,6 +123,30 @@ def get_feed():
     header_tag.insert(insert_index, to_tag)
     to_tag.attrib['{http://www.w3.org/2003/05/soap-envelope}mustUnderstand']="1"
     to_tag.attrib['{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id']="_1"
+
+    # De-duplicate and tweak the Action tag:
+    for child_tag in header_tag:
+        if child_tag.tag == '{http://www.w3.org/2005/08/addressing}Action':
+            to_tag = child_tag
+            insert_index = header_tag.index(child_tag)
+            header_tag.remove(child_tag)
+    header_tag.insert(insert_index, to_tag)
+
+    # De-duplicate and tweak the Action tag:
+    for child_tag in header_tag:
+        if child_tag.tag == '{http://www.w3.org/2005/08/addressing}Action':
+            action_tag = child_tag
+            insert_index = header_tag.index(child_tag)
+            header_tag.remove(child_tag)
+    header_tag.insert(insert_index, action_tag)
+
+    # De-duplicate and tweak the MessageID tag:
+    for child_tag in header_tag:
+        if child_tag.tag == '{http://www.w3.org/2005/08/addressing}MessageID':
+            message_id_tag = child_tag
+            insert_index = header_tag.index(child_tag)
+            header_tag.remove(child_tag)
+    header_tag.insert(insert_index, message_id_tag)
 
     # Add mustUnderstand attributes
     action_tag = header_tag.find('{http://www.w3.org/2005/08/addressing}Action')
