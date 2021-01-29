@@ -14,7 +14,7 @@ from zeep.wsa import WsAddressingPlugin
 from xml.dom import minidom
 # import xml.etree.ElementTree as ET
 from lxml import etree
-from signxml import XMLSigner, methods
+from signxml import XMLSigner, methods, XMLVerifier
 from datetime import datetime, timedelta
 from google.cloud import secretmanager
 import os
@@ -35,7 +35,11 @@ def call():
 def mock():
     if verify():
         print("Requesting mock json")
-        json_data = convert_xml_to_json()
+        with open("mock_data/feedoutputformatted.xml") as xml_file:
+            feed_xml = xml_file.read()
+            xml_file.close()
+
+        json_data = convert_xml_to_json(feed_xml)
         return json_data, 200
 
 def verify():
@@ -55,24 +59,10 @@ def verify():
         print("Request call")
         return True
 
-def convert_xml_to_json():
-    # open the input xml file and read
-    # data in form of python dictionary
-    # using xmltodict module
-    # Todo: pass in the XML response from Ofsted feed
-    # feed_xml = get_feed()
-    with open("mock_data/feedoutputformatted.xml") as xml_file:
-
-        feed_xml = xml_file.read()
-        data_dict = xmltodict.parse(feed_xml)
-        xml_file.close()
-
-        # generate the object using json.dumps()
-        # corresponding to json data
-
-        json_data = json.dumps(data_dict)
-
-        return json_data
+def convert_xml_to_json(feed_xml):
+    data_dict = xmltodict.parse(feed_xml)
+    json_data = json.dumps(data_dict)
+    return json_data
 
 
 
@@ -90,7 +80,7 @@ def get_feed():
     parameters = {
         'LocalAuthorityCode': 825
       }
-    
+
     # Add a "ReplyTo/Address"
     header = xsd.Element(
         '{http://www.w3.org/2005/08/addressing}ReplyTo',
@@ -101,10 +91,10 @@ def get_feed():
         ])
     )
     header_value = header(Address='http://www.w3.org/2005/08/addressing/anonymous')
-    
+
     # Request document
     envelope = client.create_message(client.service, 'GetLocalAuthorityChildcareRegister', localAuthorityRequest=parameters, _soapheaders=[header_value])
-    
+
     # # Update a few tricky values
 
     header_tag = envelope.find('{http://www.w3.org/2003/05/soap-envelope}Header')
@@ -154,6 +144,7 @@ def get_feed():
 
     security_tag.attrib['{http://www.w3.org/2003/05/soap-envelope}mustUnderstand']="1"
 
+    # Todo: might have to add namespace on Password tag Type attribute
     # Remove the standard signature so we can replace it with what's needed for this specific implementation:
     signature_tag = security_tag.find('{http://www.w3.org/2000/09/xmldsig#}Signature')
     signature_index = security_tag.index(signature_tag)
@@ -172,7 +163,50 @@ def get_feed():
     private = get_secret('private_key')
     public = get_secret('certificate')
     signature = signer.sign(envelope, key=private, cert=public, reference_uri=['_0', '_1'])
-    security_tag.insert(signature_index, signature)
+
+    # Custom KeyInfo with SecurityTokenReference
+    custom_key_info = etree.Element('{http://www.w3.org/2000/09/xmldsig#}KeyInfo')
+    security_token_reference = etree.SubElement(custom_key_info, '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}SecurityTokenReference')
+    security_token_reference_reference = etree.SubElement(security_token_reference, '{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}Reference')
+    security_token_reference_reference.set('ValueType', 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3')
+    security_token_reference_reference.set('URI', '#uuid-81dc9cd5-7f3d-4eb8-91f4-cfcf01b0203f-169')
+
+    # Store X509 Certificate generated to be used on BinarySecurityToken
+    # Todo: Might have to base64 encode certificate ?
+    original_key_info = signature.find('{http://www.w3.org/2000/09/xmldsig#}KeyInfo')
+    original_x509data = original_key_info.find('{http://www.w3.org/2000/09/xmldsig#}X509Data')
+    original_certificate = original_x509data.find('{http://www.w3.org/2000/09/xmldsig#}X509Certificate')
+    original_certificate_text = original_certificate.text
+
+#     print('original_certificate_text')
+#     print(original_certificate.text)
+#     print('base64 encoding certificate')
+#     message_bytes = original_certificate.text.encode('ascii')
+#     base64_bytes = base64.b64encode(message_bytes)
+#     base64_message = base64_bytes.decode('ascii')
+#     original_certificate_text = base64_bytes
+#     print(original_certificate_text)
+
+    # Replace new signature KeyInfo with our custom KeyInfo
+    new_key_info_tag = signature.find('{http://www.w3.org/2000/09/xmldsig#}KeyInfo')
+    new_key_info_index = signature.index(new_key_info_tag)
+    signature.remove(original_key_info)
+    signature.insert(new_key_info_index, custom_key_info)
+
+    # Create & Insert custom BinarySecurityToken tag
+    custom_binary_security_token = etree.Element('{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd}BinarySecurityToken')
+    custom_binary_security_token.set('ValueType', 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-x509-token-profile-1.0#X509v3')
+    custom_binary_security_token.set('EncodingType', 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary')
+    custom_binary_security_token.set('{http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd}Id', 'uuid-81dc9cd5-7f3d-4eb8-91f4-cfcf01b0203f-169')
+    custom_binary_security_token.text = original_certificate_text
+
+    # Add new signature, BinarySecurityToken & Manage ordering of tags
+    security_tag.insert(0, timestamp_tag)
+    security_tag.append(custom_binary_security_token)
+    security_tag.append(signature)
+
+    print('After adding new security tag')
+    print(str(etree.tostring(envelope, encoding='unicode', pretty_print=True)))
 
     # Add the signature to the document:
 
@@ -331,12 +365,12 @@ class BinarySignatureTimestamp(BinarySignature):
         super().apply(envelope, headers)
         return envelope, headers
 
-
+# Todo: remove newline from the username & password in secret
 def username_password():
 
     username = get_secret('username')
     password = get_secret('password')
-    return UsernameToken(username, password)
+    return UsernameToken(username.strip(), password.strip())
 
 
 def binary_signature_timestamp():
