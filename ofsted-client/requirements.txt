@@ -5,3 +5,4 @@ signxml
 google-cloud-secret-manager
 requests
 xmltodict
+cryptography==3.3.1
