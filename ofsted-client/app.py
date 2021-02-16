@@ -64,8 +64,14 @@ def convert_xml_to_json(feed_xml):
     json_data = json.dumps(data_dict)
     return json_data
 
-
-
+def extract_registration_from_xml_result(response):
+    result_xml = etree.XML(response.text)
+    body_xml = result_xml.find('{http://www.w3.org/2003/05/soap-envelope}Body')
+    local_authority_response_xml = body_xml.find('{http://information.gateway.ofsted.gov.uk/ispp}GetLocalAuthorityChildcareRegisterResponse')
+    local_authority_result_xml = local_authority_response_xml.find('{http://information.gateway.ofsted.gov.uk/ispp}GetLocalAuthorityChildcareRegisterResult')
+    local_authority_register_data_xml = local_authority_result_xml.find('{http://information.gateway.ofsted.gov.uk/ispp}RegisterData')
+    feed_xml = local_authority_register_data_xml.text
+    return feed_xml
 
 def get_feed():
 
@@ -316,8 +322,14 @@ def get_feed():
     #ET.tostring(feed, encoding='unicode').toprettyxml(indent="   ")
 
     #return Response(f"{response.status_code} -- {response.text}"), 200
-    #return "Fin." 
-    return Response(response.text, mimetype='text/xml'), response.status_code
+    #return "Fin."
+
+    feed_xml = extract_registration_from_xml_result(response)
+    print(feed_xml)
+    json_data = convert_xml_to_json(feed_xml)
+    print(json_data)
+
+    return Response(json_data, mimetype='application/json'), response.status_code
     # return Response(str(etree.tostring(envelope, encoding='unicode', pretty_print=True)), mimetype='text/xml'), 200
 
 
