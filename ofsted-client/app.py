@@ -68,10 +68,24 @@ def extract_registration_from_xml_result(response):
     result_xml = etree.XML(response.text)
     body_xml = result_xml.find('{http://www.w3.org/2003/05/soap-envelope}Body')
     local_authority_response_xml = body_xml.find('{http://information.gateway.ofsted.gov.uk/ispp}GetLocalAuthorityChildcareRegisterResponse')
-    local_authority_result_xml = local_authority_response_xml.find('{http://information.gateway.ofsted.gov.uk/ispp}GetLocalAuthorityChildcareRegisterResult')
-    local_authority_register_data_xml = local_authority_result_xml.find('{http://information.gateway.ofsted.gov.uk/ispp}RegisterData')
-    feed_xml = local_authority_register_data_xml.text
-    return feed_xml
+
+    print('Checking response envelope body')
+    if local_authority_response_xml is not None:
+        print('GetLocalAuthorityChildcareRegisterResponse exist in body')
+
+        local_authority_response_xml = body_xml.find('{http://information.gateway.ofsted.gov.uk/ispp}GetLocalAuthorityChildcareRegisterResponse')
+        local_authority_result_xml = local_authority_response_xml.find('{http://information.gateway.ofsted.gov.uk/ispp}GetLocalAuthorityChildcareRegisterResult')
+
+        local_authority_register_data_xml = local_authority_result_xml.find('{http://information.gateway.ofsted.gov.uk/ispp}RegisterData')
+
+        status_xml = local_authority_result_xml.find('{http://information.gateway.ofsted.gov.uk/ispp}Status')
+        status_code = status_xml.find('{http://information.gateway.ofsted.gov.uk/ispp}Code')
+        if (status_code.text == 'Success'):
+            feed_xml = local_authority_register_data_xml.text
+            return feed_xml
+
+#   If there is error just return full body as json
+    return etree.tostring(body_xml, encoding='UTF-8', method='xml')
 
 def get_feed():
 
