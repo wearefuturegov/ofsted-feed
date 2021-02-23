@@ -28,19 +28,32 @@ function_url = os.getenv('FUNCTION_URL')
 @app.route('/')
 def call():
     if verify():
-        print("Requesting feed")
-        return get_feed()
-
-@app.route('/mock')
-def mock():
-    if verify():
-        print("Requesting mock json")
-        with open("mock_data/feedoutputformatted.xml") as xml_file:
-            feed_xml = xml_file.read()
-            xml_file.close()
-
+        print("Requesting JSON feed")
+        response = get_feed()
+        feed_xml = extract_registration_from_xml_result(response)
+        print(feed_xml)
         json_data = convert_xml_to_json(feed_xml)
-        return json_data, 200
+        print(json_data)
+        return Response(json_data, mimetype='application/json'), response.status_code
+
+@app.route('/full3128045113xml3128045113')
+def full():
+    if verify():
+        print("Requesting full xml feed")
+        response = get_feed()
+        print(response.text)
+        return Response(response.text, mimetype='text/xml'), response.status_code
+
+# @app.route('/mock')
+# def mock():
+#     if verify():
+#         print("Requesting mock json")
+#         with open("mock_data/feedoutputformatted.xml") as xml_file:
+#             feed_xml = xml_file.read()
+#             xml_file.close()
+#
+#         json_data = convert_xml_to_json(feed_xml)
+#         return json_data, 200
 
 def verify():
     # Get the access token secret
@@ -337,13 +350,13 @@ def get_feed():
 
     #return Response(f"{response.status_code} -- {response.text}"), 200
     #return "Fin."
-
-    feed_xml = extract_registration_from_xml_result(response)
-    print(feed_xml)
-    json_data = convert_xml_to_json(feed_xml)
-    print(json_data)
-
-    return Response(json_data, mimetype='application/json'), response.status_code
+    return response
+#     feed_xml = extract_registration_from_xml_result(response)
+#     print(feed_xml)
+#     json_data = convert_xml_to_json(feed_xml)
+#     print(json_data)
+#
+#     return Response(json_data, mimetype='application/json'), response.status_code
     # return Response(str(etree.tostring(envelope, encoding='unicode', pretty_print=True)), mimetype='text/xml'), 200
 
 
