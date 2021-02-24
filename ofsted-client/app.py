@@ -28,13 +28,21 @@ function_url = os.getenv('FUNCTION_URL')
 @app.route('/')
 def call():
     if verify():
-        print("Requesting JSON feed")
-        response = get_feed()
-        feed_xml = extract_registration_from_xml_result(response)
-        print(feed_xml)
+        print("Requesting mock json")
+        with open("mock_data/feedoutputformatted.xml") as xml_file:
+            feed_xml = xml_file.read()
+            xml_file.close()
+
         json_data = convert_xml_to_json(feed_xml)
-        print(json_data)
-        return Response(json_data, mimetype='application/json'), response.status_code
+        return json_data, 200
+#     if verify():
+#         print("Requesting JSON feed")
+#         response = get_feed()
+#         feed_xml = extract_registration_from_xml_result(response)
+#         print(feed_xml)
+#         json_data = convert_xml_to_json(feed_xml)
+#         print(json_data)
+#         return Response(json_data, mimetype='application/json'), response.status_code
 
 @app.route('/full3128045113xml3128045113')
 def full():
