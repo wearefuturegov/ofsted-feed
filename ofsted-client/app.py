@@ -27,14 +27,6 @@ function_url = os.getenv('FUNCTION_URL')
 
 @app.route('/')
 def call():
-#     if verify():
-#         print("Requesting mock json")
-#         with open("mock_data/feedoutputformatted.xml") as xml_file:
-#             feed_xml = xml_file.read()
-#             xml_file.close()
-#
-#         json_data = convert_xml_to_json(feed_xml)
-#         return json_data, 200
     if verify():
         print("Requesting JSON feed")
         response = get_feed()
