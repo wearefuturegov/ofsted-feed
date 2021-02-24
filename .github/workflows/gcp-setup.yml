@@ -1,5 +1,5 @@
 # This is a basic workflow to create, configure and deploy artefacts and resources
-# for the PPE Inventory project in the DEMO environment
+# for the PPE Inventory project in the DEMO/Live environment
 
 name: GCP Setup
 
