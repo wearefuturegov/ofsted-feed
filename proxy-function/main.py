@@ -3,6 +3,8 @@ import requests
 # from requests import Request, Session
 import traceback
 
+# endpoint_service = "https://infogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc"
+# endpoint_wsdl = "https://infogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc?wsdl"
 endpoint_service = "https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc"
 endpoint_wsdl = "https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc?wsdl"
 
