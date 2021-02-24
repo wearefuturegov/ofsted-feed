@@ -7,7 +7,7 @@ on:
   push:
     branches: [ main ]
     paths: 
-    - '.github/workflows/setup.yml'
+    - '.github/workflows/gcp-setup.yml'
 
 jobs:
 
