@@ -31,10 +31,10 @@
     </wsdl:portType>
     <wsdl:service name="ISPPGatewayServices">
         <wsdl:port name="CustomMultiFactorBinding_ISPPGatewayServices" binding="i0:CustomMultiFactorBinding_ISPPGatewayServices">
-            <soap12:address location="https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc"/>
+            <soap12:address location="https://infogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc"/>
             <wsa10:EndpointReference>
                 <wsa10:Address>
-                    https://testinfogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc
+                    https://infogateway.ofsted.gov.uk/ISPPGateway/ISPPGatewayServices.svc
                 </wsa10:Address>
                 <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
                     <Dns>
