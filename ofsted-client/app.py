@@ -28,7 +28,7 @@ function_url = os.getenv('FUNCTION_URL')
 @app.route('/')
 def call():
     if verify():
-        print("Requesting JSON feed")
+        print("Requesting JSON feed.")
         response = get_feed()
         feed_xml = extract_registration_from_xml_result(response)
         print(feed_xml)
