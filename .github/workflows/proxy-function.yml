@@ -35,6 +35,7 @@ jobs:
             --vpc-connector ofsted-egress-vpcc \
             --egress-settings all \
             --timeout=540 \
+            --no-gen2 \
             --service-account=${project_number}-compute@developer.gserviceaccount.com \
             --set-env-vars PROJECT_ID=${project_id}
       - name: Permission to call the function
