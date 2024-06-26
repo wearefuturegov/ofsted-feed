@@ -23,11 +23,12 @@ jobs:
           project_id: ${{ secrets.PROJECT_ID }}
       # Deploy form function
       - name: Deploy proxy function
+        # ofsted_stub=$(gcloud run services describe ofsted-stub --platform=managed --region=europe-west1 --format="value(status.url)")
+        # ENDPOINT_SERVICE=${ofsted_stub},
         run: |
           cd proxy-function
           project_id=$(gcloud config get-value project)
           project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
-          ofsted_stub=$(gcloud run services describe ofsted-stub --platform=managed --region=europe-west1 --format="value(status.url)")
           gcloud functions deploy ofsted_feed_proxy \
             --runtime=python312 --region=europe-west2 --memory=256MB --trigger-http \
             --no-allow-unauthenticated \
@@ -35,7 +36,7 @@ jobs:
             --egress-settings all \
             --timeout=540 \
             --service-account=${project_number}-compute@developer.gserviceaccount.com \
-            --set-env-vars ENDPOINT_SERVICE=${ofsted_stub},PROJECT_ID=${project_id}
+            --set-env-vars PROJECT_ID=${project_id}
       - name: Permission to call the function
         run: |
           project_id=$(gcloud config get-value project)
