@@ -3,12 +3,13 @@
 
 name: Static IP address proxy function
 
-# on:
-#   push:
-#     branches: [main]
-#     paths:
-#       - "proxy-function/**"
-#       - ".github/workflows/proxy-function.yml"
+on:
+  push:
+    branches:
+      [OUTPOST-181-update-ofsted-feed-application-to-work-with-new-certificate]
+    paths:
+      - "proxy-function/**"
+      - ".github/workflows/proxy-function.yml"
 
 jobs:
   proxy-function:
