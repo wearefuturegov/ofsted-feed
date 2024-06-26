@@ -5,8 +5,7 @@ name: GCP Setup
 
 on:
   push:
-    branches:
-      [OUTPOST-181-update-ofsted-feed-application-to-work-with-new-certificate]
+    branches: [main]
     paths:
       - ".github/workflows/gcp-setup.yml"
 

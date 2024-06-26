@@ -5,8 +5,7 @@ name: Ofsted client container
 
 on:
   push:
-    branches:
-      [OUTPOST-181-update-ofsted-feed-application-to-work-with-new-certificate]
+    branches: [main]
     paths:
       - "ofsted-client/**"
       - ".github/workflows/ofsted-client.yml"
