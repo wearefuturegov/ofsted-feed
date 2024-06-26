@@ -5,26 +5,27 @@ name: GCP Setup
 
 on:
   push:
-    branches: [ main ]
-    paths: 
-    - '.github/workflows/gcp-setup.yml'
+    branches: [main]
+    paths:
+      - ".github/workflows/gcp-setup.yml"
 
 jobs:
-
   # These run in parallel because gcp-services and setup-networking only make changes on the first run.
   # Running in parallel speeds things up for normal runs (accepting you might get one or two errors for a new deployment)
 
   gcp-services:
-
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup gcloud CLI
-        uses: GoogleCloudPlatform/github-actions/@master
+      - uses: actions/checkout@v4
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
         with:
-          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
           project_id: ${{ secrets.PROJECT_ID }}
-          export_default_credentials: true
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v1
+
       # Enable the APIs for services we need
       - name: Enable APIs
         run: |
@@ -33,21 +34,23 @@ jobs:
           gcloud services enable sheets.googleapis.com
           gcloud services enable cloudbuild.googleapis.com
           gcloud services enable run.googleapis.com
+          gcloud services enable compute.googleapis.com
+          gcloud services enable vpcaccess.googleapis.com
+          gcloud services enable secretmanager.googleapis.com
+          gcloud services enable artifactregistry.googleapis.com
 
   egress-networking:
-
     # We need traffic to egress through a VPC so that it can have a static IP address
     # See: https://cloud.google.com/functions/docs/networking/network-settings#route-egress-to-vpc
 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup gcloud CLI
-        uses: GoogleCloudPlatform/github-actions/@master
+      - uses: actions/checkout@v4
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
         with:
-          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
           project_id: ${{ secrets.PROJECT_ID }}
-          export_default_credentials: true
       - name: Public IP address
         run: |
           gcloud compute addresses describe ofsted-egress-ip --region=europe-west2 || \
@@ -87,42 +90,34 @@ jobs:
               --role=roles/compute.networkUser
 
   secrets:
-    
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup gcloud CLI
-        uses: GoogleCloudPlatform/github-actions/@master
+      - uses: actions/checkout@v4
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
         with:
-          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
           project_id: ${{ secrets.PROJECT_ID }}
-          export_default_credentials: true
         env:
-          OFTSED_USERNAME: ${{ secrets.OFSTED_USERNAME }}
-          OFTSED_PASSWORD: ${{ secrets.OFTSED_PASSWORD }}
-          OFTSED_CERTIFICATE: ${{ secrets.OFTSED_CERTIFICATE }}
-          OFTSED_PRIVATE_KEY: ${{ secrets.OFTSED_PRIVATE_KEY }}
+          OFSTED_API_KEY: ${{ secrets.OFSTED_API_KEY }}
+          OFSTED_SERVICE_KEY: ${{ secrets.OFSTED_SERVICE_KEY }}
+          OFSTED_LOCAL_AUTHORITY_CODE: ${{ secrets.OFSTED_LOCAL_AUTHORITY_CODE }}
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      # Ofsted certificate, key and key password
       # see: https://cloud.google.com/sdk/gcloud/reference/secrets/create
       # see also: gcloud beta secrets locations list
       # NB Vaild locations are currently eurompe-west1 (Belgium) and europe-west4 (Netherlands) but not europe-west2 (London)
-      - name: username
+      - name: ofsted_api_key
         run: |
-          gcloud secrets describe username || \
-          echo $OFTSED_USERNAME | gcloud secrets create username --data-file=- --replication-policy=user-managed --locations=europe-west1,europe-west4
-      - name: password
+          gcloud secrets describe ofsted_api_key || \
+          echo $OFSTED_API_KEY | gcloud secrets create ofsted_api_key --data-file=- --replication-policy=user-managed --locations=europe-west1,europe-west4
+      - name: ofsted_service_key
         run: |
-          gcloud secrets describe password || \
-          echo $OFTSED_PASSWORD | gcloud secrets create password --data-file=- --replication-policy=user-managed --locations=europe-west1,europe-west4
-      - name: certificate
+          gcloud secrets describe ofsted_service_key || \
+          echo $OFSTED_SERVICE_KEY | gcloud secrets create ofsted_service_key --data-file=- --replication-policy=user-managed --locations=europe-west1,europe-west4
+      - name: ofsted_local_authority_code
         run: |
-          gcloud secrets describe certificate || \
-          echo $OFTSED_CERTIFICATE | gcloud secrets create certificate --data-file=- --replication-policy=user-managed --locations=europe-west1,europe-west4
-      - name: private_key
-        run: |
-          gcloud secrets describe private_key || \
-          echo $OFTSED_PRIVATE_KEY | gcloud secrets create private_key --data-file=- --replication-policy=user-managed --locations=europe-west1,europe-west4
+          gcloud secrets describe ofsted_local_authority_code || \
+          echo $OFSTED_LOCAL_AUTHORITY_CODE | gcloud secrets create ofsted_local_authority_code --data-file=- --replication-policy=user-managed --locations=europe-west1,europe-west4
       - name: access_token
         run: |
           gcloud secrets describe access_token || \

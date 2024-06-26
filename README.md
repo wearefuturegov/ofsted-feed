@@ -1,22 +1,73 @@
 # Ofsted Feed Client
-Client for the [Ofsted feed](https://docs.google.com/drawings/d/1H2PbfclwaD_IyS6-6kGQPtuJ2xxGeuLtD_rHhqxdkEY).
+
+Client for the [Ofsted feed](https://docs.google.com/drawings/d/1H2PbfclwaD_IyS6-6kGQPtuJ2xxGeuLtD_rHhqxdkEY). This project connects to the new ofsted endpoint, the one that returns json.
 
 ## Setup
 
 A few pointers for how this project is set up:
 
- * The feed runs servelessly in Google Cloud Platform using Cloud Functions and Cloud Run (container).
- * There's a bunch of network config here to route traffic out from Cloud Functions via a static IP so that the IP address can be whitelisted at Ofsted.
+- The feed runs servelessly in Google Cloud Platform using Cloud Functions and Cloud Run (container).
+- There's a bunch of network config here to route traffic out from Cloud Functions via a static IP so that the IP address can be whitelisted at Ofsted.
+
+**Setup google cloud**:
+
+- You will need a google cloud account with billing enabled.
+- Go to IAM and admin and create a new service account called `deploy` use the description `Github actions deployment account`
+- Grant `Owner` permissions
+
+You can also do it via the gcloud cli if you have it configured:
+
+```sh
+# create service account
+gcloud iam service-accounts create deploy --description="Github actions deployment account" --display-name="deploy"
+
+# copy the 'email' field for  your new service account
+gcloud iam service-accounts list
+
+project_id=$(gcloud config get-value project)
+
+# set service account permissions
+gcloud projects add-iam-policy-binding ${project_id} \
+    --member=serviceAccount:<EMAILHERE> \
+    --role=roles/owner
+
+# check its worked
+gcloud projects get-iam-policy ${project_id}  \
+--flatten="bindings[].members" \
+--format='table(bindings.role)' \
+--filter="bindings.members:<EMAILHERE>"
+
+
+# download IAM keys for GOOGLE_APPLICATION_CREDENTIALS
+gcloud iam service-accounts keys create ./${project_id}-service-account-keys.json --iam-account <EMAILHERE>
+
+cat ./${project_id}-service-account-keys.json | base64 > deploy-key.txt
+```
+
+**Setup github repo**:
+
+Go to settings > Secrets and variables > Actions
+
+See [secrets](#secrets) section below for more information
+
+You will need to have the following secrets in your repo:
+
+- `PROJECT_ID`
+- `OFSTED_API_KEY`
+- `OFSTED_SERVICE_KEY`
+- `OFSTED_LOCAL_AUTHORITY_CODE`
+- `ACCESS_TOKEN`
+- `GOOGLE_APPLICATION_CREDENTIALS` will be the output of deploy-key.txt above
 
 ## Deployment
 
 Deployment is done automatically from the Github repo whenever code is pushed using Github Actions and a GCP service sccount.
 
- * The deployment workflows are in [.github/workflows](.github/workflows)
- * Secrets, including the deployment service account key, are stored in [Github secrets](https://github.com/wearefuturegov/ofsted-feed/settings/secrets) in the settings area for this repo. The values can be updated, but can't be viewed.
- * NB the service accout key needs to be base-64 encoded as described in the [Setup-gcloud action documentation](https://github.com/GoogleCloudPlatform/github-actions/blob/master/setup-gcloud/README.md#inputs).
+- The deployment workflows are in [.github/workflows](.github/workflows)
+- Secrets, including the deployment service account key, are stored in [Github secrets](https://github.com/wearefuturegov/ofsted-feed/settings/secrets) in the settings area for this repo. **The values can be updated, but can't be viewed.**
+- NB the service accout key needs to be base-64 encoded as described in the [Setup-gcloud action documentation](https://github.com/GoogleCloudPlatform/github-actions/blob/master/setup-gcloud/README.md#inputs).
 
- In other words, the development workflow consists of editing and pushing code, followed by monitoring the deployment in this repo's [Actions tab](https://github.com/wearefuturegov/ofsted-feed/actions).
+In other words, the development workflow consists of editing and pushing code, followed by monitoring the deployment in this repo's [Actions tab](https://github.com/wearefuturegov/ofsted-feed/actions).
 
 ### Secrets
 
@@ -40,39 +91,32 @@ See also the [Setup-gcloud action documentation](https://github.com/GoogleCloudP
 
 The GCP project ID that you are deploying to. This is a string value such as `myproject-123456`
 
-#### OFTSED_USERNAME
+#### OFSTED_API_KEY
 
-The username provided to you by Ofsted
+The api_key provided to you by Ofsted
 
-#### OFTSED_PASSWORD
+#### OFSTED_SERVICE_KEY
 
-The password provided to you by Ofsted
+The service_key provided to you by Ofsted
 
-#### OFTSED_CERTIFICATE
+#### OFSTED_LOCAL_AUTHORITY_CODE
 
-The certificate, in pem format, provided to you by Ofsted, e.g.: 
+The service_key provided to you by Ofsted
 
-    -----BEGIN CERTIFICATE-----
-    ...base64...
-    ...base64...
-    ...base64...
-    -----END CERTIFICATE-----
+#### ACCESS_TOKEN
 
-#### OFTSED_PRIVATE_KEY
+Token passed though by Outpost to ensure correct authentication
 
-The private key, in pem format, of the certificate provided to you by Ofsted, e.g.: 
+`node secrets/generate_token.js && cat secrets/token.txt`
 
-    -----BEGIN RSA PRIVATE KEY-----
-    ...base64...
-    ...base64...
-    ...base64...
-    -----END RSA PRIVATE KEY-----
+## gcloud CLI
 
-## Notes
+This project works by running gcloud commands through github actions to setup and deploy the application. You can do the same actions locally on your machine using [gcloud CLI](https://cloud.google.com/sdk/gcloud)
 
-Both a Cloud Run container and a Cloud Function are used:
+```sh
+# list your configurations
+gcloud config configurations list
 
- * The cloud functions Python runtime does not contain the `libxmlsec1` system package so it's not possible to sign soap messages in GCF using Python (https://issuetracker.google.com/issues/158846273)
- * For this reason a Cloud Run container is used to generate the soap xml and this is then passed to a function, which acts as an egress proxy to send the message to Ofsted via the static IP.
- * Github disables the scheduled build of the base image after 60 days of no activity in the repo. You may need to navigate to the workflow and click to re-enable it: https://github.com/wearefuturegov/ofsted-feed/actions?query=workflow%3A%22Alpine+base+image+with+wheels%22
- 
+# list enabled services
+gcloud services list --enabled
+```

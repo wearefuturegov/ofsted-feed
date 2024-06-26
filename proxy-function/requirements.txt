@@ -1,2 +1,4 @@
 flask
 requests
+functions-framework==3.*
+google-cloud-secret-manager
