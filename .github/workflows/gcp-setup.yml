@@ -56,39 +56,39 @@ jobs:
         run: |
           gcloud compute addresses describe ofsted-egress-ip --region=europe-west2 || \
           gcloud compute addresses create ofsted-egress-ip --region=europe-west2
-      # - name: Network
-      #   run: |
-      #     gcloud compute networks describe ofsted-egress-network || \
-      #     gcloud compute networks create ofsted-egress-network --subnet-mode=custom
-      # - name: Router
-      #   run: |
-      #     gcloud compute routers describe ofsted-egress-router --region=europe-west2 || \
-      #     gcloud compute routers create ofsted-egress-router \
-      #         --network ofsted-egress-network \
-      #         --region=europe-west2
-      # - name: NAT
-      #   run: |
-      #     gcloud compute routers nats describe ofsted-egress-nat --router=ofsted-egress-router --region=europe-west2 || \
-      #     gcloud compute routers nats create ofsted-egress-nat \
-      #         --router=ofsted-egress-router \
-      #         --router-region=europe-west2 \
-      #         --nat-primary-subnet-ip-ranges \
-      #         --nat-external-ip-pool=ofsted-egress-ip
-      # - name: VPC connector for function traffic
-      #   run: |
-      #     project_id=$(gcloud config get-value project)
-      #     project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
-      #     gcloud compute networks vpc-access connectors describe ofsted-egress-vpcc --region europe-west2 || \
-      #     gcloud compute networks vpc-access connectors create ofsted-egress-vpcc \
-      #         --network=ofsted-egress-network \
-      #         --region=europe-west2 \
-      #         --range=10.0.0.16/28
-      #     gcloud projects add-iam-policy-binding $project_id \
-      #         --member=serviceAccount:service-${project_number}@gcf-admin-robot.iam.gserviceaccount.com \
-      #         --role=roles/viewer
-      #     gcloud projects add-iam-policy-binding $project_id \
-      #         --member=serviceAccount:service-${project_number}@gcf-admin-robot.iam.gserviceaccount.com \
-      #         --role=roles/compute.networkUser
+      - name: Network
+        run: |
+          gcloud compute networks describe ofsted-egress-network || \
+          gcloud compute networks create ofsted-egress-network --subnet-mode=custom
+      - name: Router
+        run: |
+          gcloud compute routers describe ofsted-egress-router --region=europe-west2 || \
+          gcloud compute routers create ofsted-egress-router \
+              --network ofsted-egress-network \
+              --region=europe-west2
+      - name: NAT
+        run: |
+          gcloud compute routers nats describe ofsted-egress-nat --router=ofsted-egress-router --region=europe-west2 || \
+          gcloud compute routers nats create ofsted-egress-nat \
+              --router=ofsted-egress-router \
+              --router-region=europe-west2 \
+              --nat-primary-subnet-ip-ranges \
+              --nat-external-ip-pool=ofsted-egress-ip
+      - name: VPC connector for function traffic
+        run: |
+          project_id=$(gcloud config get-value project)
+          project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
+          gcloud compute networks vpc-access connectors describe ofsted-egress-vpcc --region europe-west2 || \
+          gcloud compute networks vpc-access connectors create ofsted-egress-vpcc \
+              --network=ofsted-egress-network \
+              --region=europe-west2 \
+              --range=10.0.0.16/28
+          gcloud projects add-iam-policy-binding $project_id \
+              --member=serviceAccount:service-${project_number}@gcf-admin-robot.iam.gserviceaccount.com \
+              --role=roles/viewer
+          gcloud projects add-iam-policy-binding $project_id \
+              --member=serviceAccount:service-${project_number}@gcf-admin-robot.iam.gserviceaccount.com \
+              --role=roles/compute.networkUser
 
   secrets:
     runs-on: ubuntu-latest
