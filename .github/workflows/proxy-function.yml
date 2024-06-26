@@ -3,12 +3,12 @@
 
 name: Static IP address proxy function
 
-on:
-  push:
-    branches: [main]
-    paths:
-      - "proxy-function/**"
-      - ".github/workflows/proxy-function.yml"
+# on:
+#   push:
+#     branches: [main]
+#     paths:
+#       - "proxy-function/**"
+#       - ".github/workflows/proxy-function.yml"
 
 jobs:
   proxy-function:

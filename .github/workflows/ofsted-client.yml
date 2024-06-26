@@ -3,11 +3,11 @@
 
 name: Ofsted client container
 
-on:
-  push:
-    branches: [main]
-    paths:
-      - "ofsted-client/**"
+# on:
+#   push:
+#     branches: [main]
+#     paths:
+#       - "ofsted-client/**"
 
 jobs:
   ofsted-client:
