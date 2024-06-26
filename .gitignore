@@ -3,3 +3,7 @@ secrets
 .venv
 /.idea/
 /.python-version
+__pycache__
+.python-version
+env
+.DS_Store

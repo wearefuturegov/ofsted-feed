@@ -1,0 +1,474 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["OfstedChildcareRegisterLocalAuthorityExtract"],
+  "properties": {
+    "OfstedChildcareRegisterLocalAuthorityExtract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["Extract", "Registration"],
+      "properties": {
+        "Extract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["ExtractDateTime", "LocalAuthority"],
+          "properties": {
+            "ExtractDateTime": {
+              "type": "string"
+            },
+            "LocalAuthority": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["LocalAuthorityCode", "LocalAuthorityName"],
+              "properties": {
+                "LocalAuthorityCode": {
+                  "type": "string"
+                },
+                "LocalAuthorityName": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "Registration": {
+          "type": "array",
+          "additionalProperties": false,
+          "minItems": 1,
+          "maxItems": 50,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ReferenceNumber",
+              "ProvisionType",
+              "Provider",
+              "RegistrationStatus",
+              "RegistrationStatusHistoryList",
+              "RegistrationDate",
+              "ChildServicesRegisterList",
+              "RegistrationCertificate",
+              "ChildcarePeriodList",
+              "NoticeHistoryList",
+              "LastChangeDate",
+              "Setting",
+              "ChildcareAgeList",
+              "InspectionList",
+              "RPReferenceNumber",
+              "SecondaryProvisionType",
+              "SpecialConsiderations"
+            ],
+            "properties": {
+              "ReferenceNumber": {
+                "type": "string"
+              },
+              "ProvisionType": {
+                "type": "string"
+              },
+              "Provider": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "ProviderName",
+                  "ProviderAddress",
+                  "ProviderContact"
+                ],
+                "properties": {
+                  "ProviderName": {
+                    "type": "string"
+                  },
+                  "ProviderAddress": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "AddressLine1",
+                      "Town",
+                      "Postcode",
+                      "County",
+                      "AddressLine2"
+                    ],
+                    "properties": {
+                      "AddressLine1": {
+                        "type": "string"
+                      },
+                      "Town": {
+                        "type": "string"
+                      },
+                      "Postcode": {
+                        "type": "string"
+                      },
+                      "County": {
+                        "type": "string"
+                      },
+                      "AddressLine2": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "ProviderContact": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "MobileNumber",
+                      "EmailAddress",
+                      "TelephoneNumber",
+                      "WorkTelephoneNumber",
+                      "FaxNumber"
+                    ],
+                    "properties": {
+                      "MobileNumber": {
+                        "type": "string"
+                      },
+                      "EmailAddress": {
+                        "type": "string"
+                      },
+                      "TelephoneNumber": {
+                        "type": "string"
+                      },
+                      "WorkTelephoneNumber": {
+                        "type": "string"
+                      },
+                      "FaxNumber": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "RegistrationStatus": {
+                "type": "string"
+              },
+              "RegistrationStatusHistoryList": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["RegistrationStatusHistory"],
+                "properties": {
+                  "RegistrationStatusHistory": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "RegistrationStatus": {
+                          "type": "string"
+                        },
+                        "ChangeDate": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["RegistrationStatus", "ChangeDate"]
+                    },
+                    "required": ["RegistrationStatus", "ChangeDate"],
+                    "properties": {
+                      "RegistrationStatus": {
+                        "type": "string"
+                      },
+                      "ChangeDate": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "RegistrationDate": {
+                "type": "string"
+              },
+              "ChildServicesRegisterList": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["ChildServicesRegister"],
+                "properties": {
+                  "ChildServicesRegister": {
+                    "type": "array",
+                    "additionalProperties": false,
+                    "required": ["Register", "Status", "StartDate"],
+                    "properties": {
+                      "Register": {
+                        "type": "string"
+                      },
+                      "Status": {
+                        "type": "string"
+                      },
+                      "StartDate": {
+                        "type": "string"
+                      }
+                    },
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "Register": {
+                          "type": "string"
+                        },
+                        "Status": {
+                          "type": "string"
+                        },
+                        "StartDate": {
+                          "type": "string"
+                        },
+                        "EndDate": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["Register", "Status", "StartDate", "EndDate"]
+                    }
+                  }
+                }
+              },
+              "RegistrationCertificate": {
+                "type": "null"
+              },
+              "ChildcarePeriodList": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["ChildcarePeriod"],
+                "properties": {
+                  "ChildcarePeriod": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "NoticeHistoryList": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["NoticeHistory"],
+                "properties": {
+                  "NoticeHistory": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "Type": {
+                          "type": "string"
+                        },
+                        "SubType": {
+                          "type": "string"
+                        },
+                        "Status": {
+                          "type": "string"
+                        },
+                        "NOIDate": {
+                          "type": "string"
+                        },
+                        "NODDate": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "Type",
+                        "SubType",
+                        "Status",
+                        "NOIDate",
+                        "NODDate"
+                      ]
+                    },
+                    "required": [
+                      "Type",
+                      "SubType",
+                      "Status",
+                      "NOIDate",
+                      "NODDate"
+                    ],
+                    "properties": {
+                      "Type": {
+                        "type": "string"
+                      },
+                      "SubType": {
+                        "type": "string"
+                      },
+                      "Status": {
+                        "type": "string"
+                      },
+                      "NOIDate": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "LastChangeDate": {
+                "type": "string"
+              },
+              "Setting": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["SettingName", "SettingAddress", "SettingContact"],
+                "properties": {
+                  "SettingName": {
+                    "type": "string"
+                  },
+                  "SettingAddress": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "AddressLine1",
+                      "Town",
+                      "County",
+                      "Postcode",
+                      "AddressLine2"
+                    ],
+                    "properties": {
+                      "AddressLine1": {
+                        "type": "string"
+                      },
+                      "Town": {
+                        "type": "string"
+                      },
+                      "County": {
+                        "type": "string"
+                      },
+                      "Postcode": {
+                        "type": "string"
+                      },
+                      "AddressLine2": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "SettingContact": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "TelephoneNumber",
+                      "EmailAddress",
+                      "FaxNumber"
+                    ],
+                    "properties": {
+                      "TelephoneNumber": {
+                        "type": "string"
+                      },
+                      "EmailAddress": {
+                        "type": "string"
+                      },
+                      "FaxNumber": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "ChildcareAgeList": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["ChildcareAge"],
+                "properties": {
+                  "ChildcareAge": {
+                    "type": "array",
+                    "additionalProperties": false,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "AgeFrom": {
+                          "type": "string"
+                        },
+                        "AgeTo": {
+                          "type": "string"
+                        },
+                        "MaximumNumber": {
+                          "type": "string"
+                        },
+                        "Register": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "AgeFrom",
+                        "AgeTo",
+                        "MaximumNumber",
+                        "Register"
+                      ]
+                    },
+                    "required": [
+                      "AgeFrom",
+                      "AgeTo",
+                      "MaximumNumber",
+                      "Register"
+                    ],
+                    "properties": {
+                      "AgeFrom": {
+                        "type": "string"
+                      },
+                      "AgeTo": {
+                        "type": "string"
+                      },
+                      "MaximumNumber": {
+                        "type": "string"
+                      },
+                      "Register": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "InspectionList": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["Inspection"],
+                "properties": {
+                  "Inspection": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "InspectionType": {
+                          "type": "string"
+                        },
+                        "InspectionDate": {
+                          "type": "string"
+                        },
+                        "InspectionOverallJudgement": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "InspectionType",
+                        "InspectionDate",
+                        "InspectionOverallJudgement"
+                      ]
+                    },
+                    "required": [
+                      "InspectionType",
+                      "InspectionDate",
+                      "InspectionOverallJudgement"
+                    ],
+                    "properties": {
+                      "InspectionType": {
+                        "type": "string"
+                      },
+                      "InspectionDate": {
+                        "type": "string"
+                      },
+                      "InspectionOverallJudgement": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "RPReferenceNumber": {
+                "type": "string"
+              },
+              "SecondaryProvisionType": {
+                "type": "string"
+              },
+              "SpecialConsiderations": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

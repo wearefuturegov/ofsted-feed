@@ -5,23 +5,20 @@ name: Ofsted client container
 
 on:
   push:
-    branches: [ main ]
-    paths: 
-    - 'ofsted-client/**'
+    branches: [main]
+    paths:
+      - "ofsted-client/**"
 
 jobs:
-
   ofsted-client:
-    
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup gcloud CLI
-        uses: GoogleCloudPlatform/github-actions/@master
+      - uses: actions/checkout@v4
+      - id: "auth"
+        uses: "google-github-actions/auth@v1"
         with:
-          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+          credentials_json: "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}"
           project_id: ${{ secrets.PROJECT_ID }}
-          export_default_credentials: true
       # Deploy the container
       # see: https://cloud.google.com/run/docs/locations
       # NB Cloud Run is currently available in eurompe-west1 (Belgium) and europe-west2 (Netherlands) but not europe-west2 (London)
@@ -29,12 +26,12 @@ jobs:
         run: |
           cd ofsted-client
           project_id=$(gcloud config get-value project)
-          gcloud builds submit --tag gcr.io/${project_id}/ofsted-client --timeout 15m
+          gcloud builds submit --tag gcr.io/${project_id}/ofsted-feed-client --timeout 15m
       - name: Deploy feed-client container
         run: |
           project_id=$(gcloud config get-value project)
           project_number=$(gcloud projects describe $project_id --format="value(projectNumber)")
-          function_url=https://europe-west2-${project_id}.cloudfunctions.net/proxy
-          gcloud run deploy ofsted-client --image=gcr.io/${project_id}/ofsted-client \
+          function_url=https://europe-west2-${project_id}.cloudfunctions.net/ofsted_feed_proxy
+          gcloud run deploy ofsted-feed-client --image=gcr.io/${project_id}/ofsted-feed-client \
             --platform=managed --region=europe-west1 --allow-unauthenticated \
-            --update-env-vars=FUNCTION_URL=${function_url},PROJECT_NUMBER=${project_number},WSDL=./wsdl.xml
+            --update-env-vars=FUNCTION_URL=${function_url},PROJECT_ID=${project_id}

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<OfstedChildcareRegisterLocalAuthorityExtract xmlns:xs="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.ofsted.gov.uk/Childcare/Registration/LocalAuthority">
+  <Extract>
+    <ExtractDateTime>2024-01-30T05:30:46</ExtractDateTime>
+    <LocalAuthority>
+      <LocalAuthorityCode>825</LocalAuthorityCode>
+      <LocalAuthorityName>Buckinghamshire</LocalAuthorityName>
+    </LocalAuthority>
+  </Extract>
+  <Registration>
+    <ReferenceNumber>EY12345</ReferenceNumber>
+    <ProvisionType>CMR</ProvisionType>
+    <Provider>
+      <ProviderName>Not a real name</ProviderName>
+      <ProviderAddress>
+        <AddressLine1>Not a real</AddressLine1>
+        <AddressLine2>Address</AddressLine2>
+        <Town>Imaginary town</Town>
+        <County>County of nowhere</County>
+        <Postcode>AB12 3CD</Postcode>
+      </ProviderAddress>
+      <ProviderContact>
+        <TelephoneNumber>3423423</TelephoneNumber>
+        <MobileNumber>234234</MobileNumber>
+        <WorkTelephoneNumber>234234</WorkTelephoneNumber>
+        <EmailAddress>fg-dev@tpximpact.com</EmailAddress>
+      </ProviderContact>
+    </Provider>
+    <Setting>
+      <SettingName>Not a real name</SettingName>
+      <SettingAddress>
+        <AddressLine1>Not a real</AddressLine1>
+        <Town>Imaginary town</Town>
+        <County>County of nowhere</County>
+        <Postcode>AB12 3CD</Postcode>
+      </SettingAddress>
+    </Setting>
+    <RegistrationStatus>ACTV</RegistrationStatus>
+    <RegistrationStatusHistoryList>
+      <RegistrationStatusHistory>
+        <RegistrationStatus>ACTV</RegistrationStatus>
+        <ChangeDate>2012-03-16</ChangeDate>
+      </RegistrationStatusHistory>
+    </RegistrationStatusHistoryList>
+    <RegistrationDate>2012-03-16</RegistrationDate>
+    <ChildServicesRegisterList>
+      <ChildServicesRegister>
+        <Register>EYR</Register>
+        <Status>REGD</Status>
+        <StartDate>2012-03-16</StartDate>
+      </ChildServicesRegister>
+      <ChildServicesRegister>
+        <Register>CCR</Register>
+        <Status>REGD</Status>
+        <StartDate>2012-03-16</StartDate>
+      </ChildServicesRegister>
+      <ChildServicesRegister>
+        <Register>VCR</Register>
+        <Status>REGD</Status>
+        <StartDate>2012-03-16</StartDate>
+      </ChildServicesRegister>
+    </ChildServicesRegisterList>
+    <RegistrationCertificate />
+    <ChildcarePeriodList>
+      <ChildcarePeriod>ALYR</ChildcarePeriod>
+      <ChildcarePeriod>4HPD</ChildcarePeriod>
+      <ChildcarePeriod>5DWK</ChildcarePeriod>
+      <ChildcarePeriod>45WY</ChildcarePeriod>
+      <ChildcarePeriod>WDAL</ChildcarePeriod>
+    </ChildcarePeriodList>
+    <ChildcareAgeList>
+      <ChildcareAge>
+        <AgeFrom>0</AgeFrom>
+        <AgeTo>5</AgeTo>
+        <MaximumNumber>6</MaximumNumber>
+        <Register>EYR</Register>
+      </ChildcareAge>
+      <ChildcareAge>
+        <AgeFrom>5</AgeFrom>
+        <AgeTo>8</AgeTo>
+        <MaximumNumber>6</MaximumNumber>
+        <Register>CCR</Register>
+      </ChildcareAge>
+    </ChildcareAgeList>
+    <InspectionList>
+      <Inspection>
+        <InspectionType>Inspection (Early Years Register)</InspectionType>
+        <InspectionDate>2012-09-05</InspectionDate>
+        <InspectionOverallJudgement>Good</InspectionOverallJudgement>
+      </Inspection>
+      <Inspection>
+        <InspectionType>Inspection (Early Years Register)</InspectionType>
+        <InspectionDate>2017-02-02</InspectionDate>
+        <InspectionOverallJudgement>Good</InspectionOverallJudgement>
+      </Inspection>
+      <Inspection>
+        <InspectionType>Inspection (Early Years Register)</InspectionType>
+        <InspectionDate>2022-05-12</InspectionDate>
+        <InspectionOverallJudgement>Good</InspectionOverallJudgement>
+      </Inspection>
+    </InspectionList>
+    <NoticeHistoryList />
+    <LastChangeDate>2022-06-17</LastChangeDate>
+  </Registration>
+  <Registration>
+    <ReferenceNumber>EY12345</ReferenceNumber>
+    <ProvisionType>CMR</ProvisionType>
+    <Provider>
+      <ProviderName>Not a real name</ProviderName>
+      <ProviderAddress>
+        <AddressLine1>Not a real</AddressLine1>
+        <AddressLine2>Address</AddressLine2>
+        <Town>Imaginary town</Town>
+        <County>County of nowhere</County>
+        <Postcode>AB12 3CD</Postcode>
+      </ProviderAddress>
+      <ProviderContact>
+        <TelephoneNumber>3423423</TelephoneNumber>
+        <MobileNumber>234234</MobileNumber>
+        <WorkTelephoneNumber>234234</WorkTelephoneNumber>
+        <EmailAddress>fg-dev@tpximpact.com</EmailAddress>
+      </ProviderContact>
+    </Provider>
+    <Setting>
+      <SettingName>Not a real name</SettingName>
+      <SettingAddress>
+        <AddressLine1>Not a real</AddressLine1>
+        <Town>Imaginary town</Town>
+        <County>County of nowhere</County>
+        <Postcode>AB12 3CD</Postcode>
+      </SettingAddress>
+    </Setting>
+    <RegistrationStatus>ACTV</RegistrationStatus>
+    <RegistrationStatusHistoryList>
+      <RegistrationStatusHistory>
+        <RegistrationStatus>ACTV</RegistrationStatus>
+        <ChangeDate>2012-03-16</ChangeDate>
+      </RegistrationStatusHistory>
+    </RegistrationStatusHistoryList>
+    <RegistrationDate>2012-03-16</RegistrationDate>
+    <ChildServicesRegisterList>
+      <ChildServicesRegister>
+        <Register>EYR</Register>
+        <Status>REGD</Status>
+        <StartDate>2012-03-16</StartDate>
+      </ChildServicesRegister>
+      <ChildServicesRegister>
+        <Register>CCR</Register>
+        <Status>REGD</Status>
+        <StartDate>2012-03-16</StartDate>
+      </ChildServicesRegister>
+      <ChildServicesRegister>
+        <Register>VCR</Register>
+        <Status>REGD</Status>
+        <StartDate>2012-03-16</StartDate>
+      </ChildServicesRegister>
+    </ChildServicesRegisterList>
+    <RegistrationCertificate />
+    <ChildcarePeriodList>
+      <ChildcarePeriod>ALYR</ChildcarePeriod>
+      <ChildcarePeriod>4HPD</ChildcarePeriod>
+      <ChildcarePeriod>5DWK</ChildcarePeriod>
+      <ChildcarePeriod>45WY</ChildcarePeriod>
+      <ChildcarePeriod>WDAL</ChildcarePeriod>
+    </ChildcarePeriodList>
+    <ChildcareAgeList>
+      <ChildcareAge>
+        <AgeFrom>0</AgeFrom>
+        <AgeTo>5</AgeTo>
+        <MaximumNumber>6</MaximumNumber>
+        <Register>EYR</Register>
+      </ChildcareAge>
+      <ChildcareAge>
+        <AgeFrom>5</AgeFrom>
+        <AgeTo>8</AgeTo>
+        <MaximumNumber>6</MaximumNumber>
+        <Register>CCR</Register>
+      </ChildcareAge>
+    </ChildcareAgeList>
+    <InspectionList>
+      <Inspection>
+        <InspectionType>Inspection (Early Years Register)</InspectionType>
+        <InspectionDate>2012-09-05</InspectionDate>
+        <InspectionOverallJudgement>Good</InspectionOverallJudgement>
+      </Inspection>
+      <Inspection>
+        <InspectionType>Inspection (Early Years Register)</InspectionType>
+        <InspectionDate>2017-02-02</InspectionDate>
+        <InspectionOverallJudgement>Good</InspectionOverallJudgement>
+      </Inspection>
+      <Inspection>
+        <InspectionType>Inspection (Early Years Register)</InspectionType>
+        <InspectionDate>2022-05-12</InspectionDate>
+        <InspectionOverallJudgement>Good</InspectionOverallJudgement>
+      </Inspection>
+    </InspectionList>
+    <NoticeHistoryList />
+    <LastChangeDate>2022-06-17</LastChangeDate>
+  </Registration>
+</OfstedChildcareRegisterLocalAuthorityExtract>
