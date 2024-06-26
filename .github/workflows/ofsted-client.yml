@@ -9,6 +9,7 @@ on:
       [OUTPOST-181-update-ofsted-feed-application-to-work-with-new-certificate]
     paths:
       - "ofsted-client/**"
+      - ".github/workflows/ofsted-client.yml"
 
 jobs:
   ofsted-client:
